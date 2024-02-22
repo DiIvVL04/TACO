@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CocinaMesas</title>
+    <style> 
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        .container_navbar{
+          background-color: #D32F87;
+          height: 50px;
+          width: auto;
+          padding: 40px;
+        }
+        nav {
+          background-color: #181818;
+          color: #fff;
+          padding: 10px;
+          border-radius: 10px;
+          margin-top: 10px;
+          display: flex;
+        }
+        nav ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          text-align: center;
+        }
+        nav ul li {
+          display: inline;
+          padding: 90px;
+        }
+        nav ul li a {
+          color: #fff;
+          text-decoration: none;
+          font-size: 20px;
+          font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        } 
+        nav ul li button {
+          background-color: #181818;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 20px;
+          cursor: pointer;
+        }
+        nav ul li button:hover {
+          background-color: #501F39;
+        }
+        .logo{
+            width: 80px;
+            height: 80px;
+            top: 2%;
+            padding: 10px;
+            margin: 0;
+            left: 43%;
+            align-items: center;
+            position: absolute;
+            background-color: #181818;
+            border-radius: 200px;
+            display: flex; 
+            justify-content: center; 
+            justify-self: center;
+        }
+        .logo img {
+          width: 90px;
+          height: 90px;
+          object-fit: contain;
+        }
+        .container{
+          margin-top: 30px;
+          display: flex;
+        }
+        .container_mesas{
+          height: 450px;
+          width: 900px;
+          background-color: rgb(212, 212, 212);
+          margin-left: 30px;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .container_pedido{
+          height: 450px;
+          width: 400px;
+          background-color: rgb(218, 218, 218);
+          margin-left: 20px;
+          display: flex;
+        }
+        .mesa_container{
+          height: 200px;
+          width: 200px;
+          background-color: white;
+          justify-content: center;
+          align-items: center;
+          margin: 10px;
+          margin-left: 60px;
+          box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+          display: flex;
+          flex-direction: column;
+        }
+        .mesa_container p{
+          font-size: 24px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          margin: 0;
+        }
+        .mesa_container img{
+          width: 100px;
+          height: 100px;
+        }
+        .mesa_container_botones{
+          display: flex; 
+          flex-direction: row;
+          margin: 20px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .orden{
+          background-color: #F59456;
+          color: #000000;
+          border: none;
+          padding: 5px;
+          border-radius: 20px;
+          cursor: pointer;
+          width: 80px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-size: 14px;
+        }
+        .entrega{
+          background-color: #D32F87;
+          color: #000000;
+          border: none;
+          padding: 5px;
+          border-radius: 20px;
+          cursor: pointer;
+          margin-left: 20px;
+          width: 80px;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+          font-size: 14px;
+        }
+        
+    </style>
+</head>
+<body>
+  <div class="container_navbar">
+    <nav id="navbar">
+      <div class="logo">
+          <img src="../assets/LogoTACO.png">
+        </div>
+      <ul>
+        <li><button><a href="mesas.html">Mesas</a></button></li>
+        <li><button><a href="insumos.html">Insumos</a></button></li>
+        <li><button><a href="configuracion.html">Configuración</a></button></li>
+        <li><button><a href="../principal/login.html">Cerrar Sesión</a></button></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="container">
+    <div class="container_mesas">
+      <div class="mesa_container">
+        <p> Mesa 1</p>
+        <img src="../assets/mesa.png"/>
+        <div class="mesa_container_botones">
+          <button class="orden">Orden</button>
+          <button class="entrega">Entrega</button>
+        </div>  
+      </div>
+      <div class="mesa_container">
+
+      </div>
+      <div class="mesa_container">
+
+      </div>
+      <div class="mesa_container">
+
+      </div>
+      <div class="mesa_container">
+
+      </div>
+      
+    </div>
+    <div class="container_pedido">
+
+    </div>
+  </div>
+</body>
+</html>
