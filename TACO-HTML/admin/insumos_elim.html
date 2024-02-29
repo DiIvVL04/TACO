@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminInsumos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container_navbar{
+            background-color: #FF3636;
+            height: 50px;
+            width: auto;
+            padding: 40px;
+        }
+        nav {
+            background-color: #181818;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: block;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+            padding: 80px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        nav ul li button {
+            background-color: #181818;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        nav ul li button:hover {
+            background-color: #5D2121;
+        }
+        .logo{
+            width: 80px;
+            height: 80px;
+            top: 2%;
+            padding: 10px;
+            margin: 0;
+            left: 45%;
+            align-items: center;
+            position: absolute;
+            background-color: #181818;
+            border-radius: 200px;
+            display: flex;
+            justify-content: center;
+            justify-self: center;
+        }
+        .logo img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+        }
+        .container{
+            display: flex;
+            background-color: #F7A599;
+            border-radius: 20px;
+            margin: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container p{
+            color: #000000;
+            font-size: 30px;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-weight: bold;
+        }
+        table {
+            width: 95%;
+            border-collapse: collapse;
+            background-color: #FA7971;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+            color: #fff;
+        }
+        th:first-child {
+            font-weight: bolder;
+        }
+        td img{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .titulo{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .botones{
+            display: flex;
+            align-items:end;
+            flex-grow: 1;
+            justify-content: flex-end;
+            margin-left: 10px;
+        }
+
+        .modificar-button{
+            background-color: #635959;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container_navbar">
+    <nav id="navbar">
+        <div class="logo">
+            <img src="../assets/LogoTACO.png">
+        </div>
+        <ul>
+            <li><button><a href="mesas.html">Mesas</a></button></li>
+            <li><button><a href="insumos.html">Insumos</a></button></li>
+            <li><button><a href="configuracion.html">Configuración</a></button></li>
+            <li><button><a href="../principal/login.html">Cerrar Sesión</a></button></li>
+        </ul>
+    </nav>
+</div>
+<div class="container">
+    <div class="titulo">
+        <p> Leguminosas</p>
+        <div class="botones">
+            <button class="modificar-button"><a href="insumos_main.html">Agregar</a></button>
+            <button class="modificar-button"><a href="insumos_modi.html">Modificar</a></button>
+            <button class="modificar-button"><a href="insumos_elim.html">Eliminar</a></button>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+        </tr>
+        <tr>
+            <td>Frijoles negros</td>
+            <td>2kg</td>
+            <td><button class="modificar-button"><a href="configuracion.html">Eliminar</a></button></td>
+        </tr>
+        <tr>
+            <td>Granos de maíz</td>
+            <td>0kg</td>
+            <td><button class="modificar-button"><a href="configuracion.html">Eliminar</a></button></td>
+        </tr>
+    </table>
+    <br>
+</div>
+</body>
+</html>
