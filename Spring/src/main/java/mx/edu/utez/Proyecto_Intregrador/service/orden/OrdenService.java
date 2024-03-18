@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import mx.edu.utez.Proyecto_Intregrador.config.ApiResponse;
 import mx.edu.utez.Proyecto_Intregrador.model.orden.OrdenBean;
 import mx.edu.utez.Proyecto_Intregrador.model.orden.OrdenRepository;
+import mx.edu.utez.Proyecto_Intregrador.model.personal.PersonalBean;
+import mx.edu.utez.Proyecto_Intregrador.model.personal.PersonalRepository;
+import mx.edu.utez.Proyecto_Intregrador.model.platillo.PlatilloRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OrdenService {
     private final OrdenRepository repository;
+    private final PersonalRepository personalRepository;
+    private final PlatilloRepository platilloRepository;
     
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse> getAll(){
@@ -31,6 +36,43 @@ public class OrdenService {
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Orden No Encontrada"), HttpStatus.BAD_REQUEST);
 
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public  ResponseEntity<ApiResponse> save(OrdenBean product){
+        Optional<OrdenBean> foundProduct = repository.findById(product.getIdOrdenes());
+        if (foundProduct.isPresent()){
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Registro duplicado"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (product.getPersonalBean() == null) {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado al personal de la orden"), HttpStatus.BAD_REQUEST);
+        }if (product.getPlatilloBean() == null){
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado platillo"), HttpStatus.BAD_REQUEST);
+            }
+
+        return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(product),HttpStatus.OK, "Guardado exitosamente"), HttpStatus.OK);
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public  ResponseEntity<ApiResponse> update(OrdenBean product){
+        Optional<OrdenBean> foundProduct = repository.findById(product.getIdOrdenes());
+        if (!foundProduct.isPresent()){
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se encuentar la orden"), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(product),HttpStatus.OK, "Acualizado exitozamente"), HttpStatus.OK);
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public ResponseEntity<ApiResponse> delete(OrdenBean product){
+        Optional<OrdenBean> foundProduct = repository.findById(product.getIdOrdenes());
+        if(foundProduct.isPresent()) {
+            repository.delete(product);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, true, "Orden Eliminada Correctamente"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Orden No Encontrada"), HttpStatus.BAD_REQUEST);
+
+        }
     }
 
 

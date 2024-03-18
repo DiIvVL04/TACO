@@ -1,5 +1,6 @@
 package mx.edu.utez.Proyecto_Intregrador.model.personal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +34,11 @@ public class PersonalBean {
     @Column(nullable = false, length = 45)
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "personalBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrdenBean> ordenBeans;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "personalBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PedidoBean> pedidoBeans;
 

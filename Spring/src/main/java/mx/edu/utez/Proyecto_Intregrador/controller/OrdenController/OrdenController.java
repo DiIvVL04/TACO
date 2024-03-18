@@ -23,4 +23,18 @@ public class OrdenController {
     public ResponseEntity<ApiResponse> visualizarId(@RequestBody OrdenDto dto){
         return service.obtenerId(dto.toEntity2());
     }
+    @PostMapping("/guardar")
+    public ResponseEntity<ApiResponse> guardarUno(@RequestBody OrdenDto dto){
+        return service.save(dto.toEntity());
+    }
+
+    @PutMapping("/actualizar")
+    public ResponseEntity<ApiResponse> update(@RequestBody OrdenDto dto){
+        return service.update(dto.toEntity());
+    }
+
+    @DeleteMapping("/borrar")
+    public ResponseEntity<ApiResponse> delete(@RequestBody OrdenDto dto){
+        return service.delete(dto.toEntity2());
+    }
 }

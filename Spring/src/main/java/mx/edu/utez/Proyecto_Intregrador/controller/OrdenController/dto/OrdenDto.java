@@ -9,17 +9,17 @@ import mx.edu.utez.Proyecto_Intregrador.model.platillo.PlatilloBean;
 @NoArgsConstructor
 @Data
 public class OrdenDto {
-    private Long idOrden;
+    private Long idOrdenes;
     private PersonalBean personalBean;
     private PlatilloBean platilloBean;
     private boolean status;
 
     public OrdenBean toEntity(){
-        return new OrdenBean(status, platilloBean , personalBean);
+        return new OrdenBean(idOrdenes,status, platilloBean , personalBean);
     }
 
     public OrdenBean toEntity2(){
-        return new OrdenBean(idOrden);
+        return new OrdenBean(idOrdenes);
     }
 }
 
