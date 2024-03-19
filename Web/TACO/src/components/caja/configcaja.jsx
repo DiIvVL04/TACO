@@ -1,11 +1,10 @@
 import LogoTACO from "../../assets/imgs/LogoTACO.png"
 import { Login } from "../principal/login";
-import '../cocina/css/config.css'
-import { InsumosC } from "./insumosC";
-import { MesasC } from "./mesasC";
+import {Index} from "../caja/index.jsx";
+import '../caja/css/cajaconfig.css'
 import User from "../../assets/imgs/user.png"
 
-export const Configuracion = () => {
+export const ConfigCaja = () => {
 
     return (
         <>
@@ -16,10 +15,10 @@ export const Configuracion = () => {
                     <img src={LogoTACO} alt="LogoTACO" />
                 </div>
                 <div className="nav-buttons">
-                    <button onClick={() => { window.location='/Mesas'}}>Mesas</button>
-                    <button onClick={() => { window.location='/Insumos'}}>Insumos</button>
-                    <button onClick={() => { window.location='/Configuracion'}}>Configuración</button>
+                    <button onClick={() => { window.location='/Index'}}>Inicio</button>
+                    <button onClick={() => { window.location='/ConfigCaja'}}>Configuración</button>
                     <button onClick={() => { window.location='/Login'}}>Cerrar Sesión</button>
+                    
                 </div>
             </nav>
         </div>
