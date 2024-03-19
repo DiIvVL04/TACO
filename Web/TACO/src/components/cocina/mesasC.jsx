@@ -1,55 +1,55 @@
 import LogoTACO from "../../assets/imgs/LogoTACO.png"
+import Mesa from "../../assets/imgs/mesa.png"
 import { Login } from "../principal/login"
 import { Configuracion } from "./configuracion"
 import { InsumosC } from "./insumosC"
+import '../cocina/css/mesas.css'
 
 export const MesasC = () => {
 
-    reutrn (
-        <>
-            <div class="container_navbar">
-    <nav id="navbar">
-      <div class="logo">
-          <img src={LogoTACO}/>
+  return (
+    <>
+    <div className="mesasconf">
+      <div className="container_navbarmes">
+            <nav className="navbarmes">
+                <div className="logomes">
+                    <img src={LogoTACO} alt="LogoTACO" />
+                </div>
+                <div className="nav-buttons">
+                    <button onClick={() => { window.location='/MesasC'}}>Mesas</button>
+                    <button onClick={() => { window.location='/Insumos'}}>Insumos</button>
+                    <button onClick={() => { window.location='/Configuracion'}}>Configuración</button>
+                    <button onClick={() => { window.location='/Login'}}>Cerrar Sesión</button>
+                </div>
+            </nav>
         </div>
-      <ul>
-        <li><button onClick={() => MesasC()}><a>Mesas</a></button></li>
-        <li><button onClick={() => InsumosC()}><a>Insumos</a></button></li>
-          <li><button onClick={() => Configuracion()}><a>Configuración</a></button></li>
-        <li><button onClick={() => Login()}><a>Cerrar Sesión</a></button></li>
-      </ul>
-    </nav>
-  </div>
-  
-  <div class="container">
-    <div class="container_mesas">
-      <div class="mesa_container">
-        <p> Mesa 1</p>
-        <img src="../assets/mesa.png"/>
-        <div class="mesa_container_botones">
-          <button class="orden">Orden</button>
-          <button class="entrega">Entrega</button>
-        </div>  
-      </div>
-      <div class="mesa_container">
+      <div className="container_mesas1">
+        <div className="container_mesas">
+          <div className="mesa_container">
+            <p> Mesa 1</p>
+            <img src={Mesa}/>
+            <div className="mesa_container_botones">
+              <button className="orden">Orden</button>
+              <button className="entrega">Entrega</button>
+            </div>
+          </div>
+          <div className="mesa_container">
 
-      </div>
-      <div class="mesa_container">
+          </div>
+          <div className="mesa_container">
 
-      </div>
-      <div class="mesa_container">
+          </div>
+          <div className="mesa_container">
 
-      </div>
-      <div class="mesa_container">
+          </div>
 
-      </div>
-      
-    </div>
-    <div class="container_pedido">
+        </div>
+        <div className="container_pedido">
 
-    </div>
-  </div>
-        </>
-    )
+        </div>
+      </div>
+      </div>
+    </>
+  )
 
 }

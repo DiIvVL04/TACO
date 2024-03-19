@@ -1,4 +1,4 @@
-import './css/index2.css'
+import '../principal/css/index2.css'
 import fondo from "../../assets/imgs/fondo.mp4"
 import LogoTACO from "../../assets/imgs/LogoTACO.png"
 import Swal from 'sweetalert2'
@@ -20,9 +20,9 @@ export const Login = () => {
         <video className="video" autoPlay muted loop >
             <source src={fondo} type="video/mp4"/>
         </video>
-    <div className='body'>
-        <div className="container">
-            <div className="logo"> 
+    <div className='bodylog'>
+        <div className="container1">
+            <div className="logolog"> 
                 <img src={LogoTACO}/>
             </div> <br/>
             <form>

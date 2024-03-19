@@ -2,17 +2,14 @@
     background-color: black;
 }
 
-.body{
-    width: 99%;
-    height: 97vh;
-    background-color: transparent;
+.bodylog{
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    height: 99hv;
 }
 
-.logo{
+.logolog{
     width: 150px;
     height: 150px;
     position: absolute;
@@ -22,7 +19,7 @@
     display: flex;
     margin: 0;
 }
-.container{
+.container1{
    align-self: center;
     position: relative;
     display: flex;
@@ -31,6 +28,7 @@
     align-items: center;
     justify-content: center;
     margin-left: 10vh;
+    background-color: transparent;
 }
 .container::before {
     content: '';
