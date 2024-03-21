@@ -1,6 +1,5 @@
 package mx.edu.utez.Proyecto_Intregrador.model.orden;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,19 +34,10 @@ public class OrdenBean {
     @JoinColumn(name = "personal_fk", nullable = false)
     private PersonalBean personalBean;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "ordenBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CajaBean> cajaBean;
 
     public OrdenBean(boolean status, PlatilloBean platilloBean, PersonalBean personalBean) {
-        this.status = status;
-        this.platilloBean = platilloBean;
-        this.personalBean = personalBean;
-    }
-
-
-    public OrdenBean(Long idOrdenes, boolean status, PlatilloBean platilloBean, PersonalBean personalBean) {
-        this.idOrdenes = idOrdenes;
         this.status = status;
         this.platilloBean = platilloBean;
         this.personalBean = personalBean;

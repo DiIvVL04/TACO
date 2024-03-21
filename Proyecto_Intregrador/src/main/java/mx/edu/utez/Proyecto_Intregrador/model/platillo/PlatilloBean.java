@@ -1,6 +1,5 @@
 package mx.edu.utez.Proyecto_Intregrador.model.platillo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +29,6 @@ public class PlatilloBean {
     @Column(nullable = false)
     private Double precio;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "platilloBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrdenBean> ordenBeans;
 
