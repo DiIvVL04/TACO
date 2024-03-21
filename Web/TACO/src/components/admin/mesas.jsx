@@ -11,7 +11,7 @@ export const Mesas = () => {
                     <nav className="navadm">
                         <div className="logo">
                         <img src={LogoTACO} alt="LogoTACO" />
-                        </div>-
+                        </div>
                         <div className="nav-buttons">
                     <button onClick={() => { window.location='/Mesas'}}>Mesas</button>
                     <button onClick={() => { window.location='/Insumos'}}>Insumos</button>

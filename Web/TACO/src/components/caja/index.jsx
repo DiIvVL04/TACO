@@ -9,7 +9,7 @@ export const Index = () => {
   return (
     <>
     <div className="mesasconf">
-      <div className="container_navbarmes">
+      <div className="container_navbarcaja">
             <nav className="nav">
                 <div className="logomes">
                     <img src={LogoTACO} alt="LogoTACO" />

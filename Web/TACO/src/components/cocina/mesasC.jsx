@@ -10,12 +10,12 @@ export const MesasC = () => {
   return (
     <>
     <div className="mesasconf">
-      <div className="container_navbarmes">
+      <div className="container_nav">
             <nav className="navbarmes">
                 <div className="logomes">
                     <img src={LogoTACO} alt="LogoTACO" />
                 </div>
-                <div className="nav-buttons">
+                <div className="nav-buttonscocina">
                     <button onClick={() => { window.location='/MesasC'}}>Mesas</button>
                     <button onClick={() => { window.location='/Insumos'}}>Insumos</button>
                     <button onClick={() => { window.location='/Configuracion'}}>Configuración</button>
@@ -44,9 +44,9 @@ export const MesasC = () => {
           </div>
 
         </div>
-        <div className="container_pedido">
-
-        </div>
+        {/*<div className="container_pedidococin">
+            falta acomodar
+        </div>*/}
       </div>
       </div>
     </>
