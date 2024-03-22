@@ -26,9 +26,9 @@ public class MesaService {
 
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> obtenerId(MesaBean mesa){
-        Optional<MesaBean> foundMesa = repository.findById(mesa.getIdMesas());
+        Optional<MesaBean> foundMesa = repository.findById(mesa.getId_mesas());
         if(foundMesa.isPresent())
-            return new ResponseEntity<>(new ApiResponse(repository.findById(mesa.getIdMesas()), HttpStatus.OK, "Todo Bien"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse(repository.findById(mesa.getId_mesas()), HttpStatus.OK, "Todo Bien"), HttpStatus.OK);
 
         return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Mesa No Encontrada"), HttpStatus.BAD_REQUEST);
     }
@@ -44,7 +44,7 @@ public class MesaService {
 
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> update (MesaBean mesa){
-        Optional<MesaBean> foundMesa = repository.findById(mesa.getIdMesas());
+        Optional<MesaBean> foundMesa = repository.findById(mesa.getId_mesas());
         if(foundMesa.isPresent())
             return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(mesa), HttpStatus.OK, "Mesa Actualziada"), HttpStatus.OK);
 
@@ -53,7 +53,7 @@ public class MesaService {
 
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> delete (MesaBean mesa){
-        Optional<MesaBean> founMesa = repository.findById(mesa.getIdMesas());
+        Optional<MesaBean> founMesa = repository.findById(mesa.getId_mesas());
         if(founMesa.isPresent()) {
             repository.delete(mesa);
             return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, true, "Mesa Eliminada Con Exito"), HttpStatus.OK);

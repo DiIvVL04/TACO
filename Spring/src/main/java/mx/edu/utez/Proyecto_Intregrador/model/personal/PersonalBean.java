@@ -39,7 +39,7 @@ public class PersonalBean {
     private Set<OrdenBean> ordenBeans;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "personalBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personalBean")
     private Set<PedidoBean> pedidoBeans;
 
     public PersonalBean(String nombre, String apellido_pat, String apellido_mat, String email, String username, String password) {

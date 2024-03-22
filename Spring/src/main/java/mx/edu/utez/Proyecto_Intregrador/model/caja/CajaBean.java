@@ -14,7 +14,6 @@ import mx.edu.utez.Proyecto_Intregrador.model.pedido.PedidoBean;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CajaBean {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +27,9 @@ public class CajaBean {
     @JoinColumn(name = "pedidos_fk", nullable = false)
     private PedidoBean pedidoBean;
 
+    public CajaBean(Long idCaja, OrdenBean ordenBean, PedidoBean pedidoBean) {
+        this.idCaja = idCaja;
+        this.ordenBean = ordenBean;
+        this.pedidoBean = pedidoBean;
+    }
 }

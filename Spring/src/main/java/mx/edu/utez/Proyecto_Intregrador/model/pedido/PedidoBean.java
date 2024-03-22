@@ -23,15 +23,20 @@ public class PedidoBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedidos;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mesas_fk", nullable = false)
     private MesaBean mesaBean;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "personal_fk", nullable = false)
     private PersonalBean personalBean;
 
-    @OneToMany(mappedBy = "pedidoBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedidoBean")
     private Set<CajaBean> cajaBeans;
 
+    public PedidoBean(Long idPedidos, MesaBean mesaBean, PersonalBean personalBean) {
+        this.idPedidos = idPedidos;
+        this.mesaBean = mesaBean;
+        this.personalBean = personalBean;
+    }
 }

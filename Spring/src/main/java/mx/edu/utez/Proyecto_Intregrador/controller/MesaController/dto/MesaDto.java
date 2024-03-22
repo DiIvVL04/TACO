@@ -7,7 +7,7 @@ import mx.edu.utez.Proyecto_Intregrador.model.mesa.MesaBean;
 @NoArgsConstructor
 @Data
 public class MesaDto {
-    private Long idMesa;
+    private Long id_mesas;
     private int numero;
     private boolean estado;
 
@@ -16,10 +16,10 @@ public class MesaDto {
     }
 
     public MesaBean toEntity2(){
-        return new MesaBean(idMesa);
+        return new MesaBean(id_mesas);
     }
 
     public MesaBean toEntity3(){
-        return new MesaBean(idMesa, numero, estado);
+        return new MesaBean(id_mesas, numero, estado);
     }
 }

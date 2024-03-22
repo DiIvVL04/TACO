@@ -24,17 +24,17 @@ public class PlatilloController {
         return service.obtenerId(dto.toEntity2());
     }
 
-    @PostMapping("/")
+    @PostMapping("/guardar")
     public ResponseEntity<ApiResponse> register(@RequestBody PlatilloDto dto){
         return service.save(dto.toEntity());
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/actualizar")
     public ResponseEntity<ApiResponse> actualizar (@RequestBody PlatilloDto dto){
         return service.update(dto.toEntity3());
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/borrar")
     public ResponseEntity<ApiResponse> delete (@RequestBody PlatilloDto dto){
         return  service.delete(dto.toEntity2());
     }
