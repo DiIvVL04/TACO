@@ -1,0 +1,77 @@
+.container-table-admin{
+    display: flex;
+    background-color: #ff9282;
+    border-radius: 20px;
+    margin: 112px auto;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 87vw;
+    align-self: center;
+  }
+  .container p{
+    color: #000000;
+    font-size: 30px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+  }
+  .tabla-admin {
+    width: 95%; 
+    border-collapse: collapse; 
+    background-color: #FA7971;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  th, td {
+    border: 1px solid white; 
+    padding: 8px; 
+    text-align: center;
+    color: #fff;
+  }
+  th:first-child {
+    font-weight: bolder; 
+  }
+  td img{
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+  .titulo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .botones{
+    display: flex;
+    align-items:end;
+    flex-grow: 1;
+    justify-content: flex-end;
+    margin-left: 10px;
+  }
+  .agregar {
+    background-color: #18C875;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .modificar {
+    background-color: #446A7C;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .eliminar {
+    background-color: #E21B1B;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
