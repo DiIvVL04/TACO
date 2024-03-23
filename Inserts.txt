@@ -1,0 +1,25 @@
+use taco;
+
+INSERT INTO personal (id_personal, apellido_mat, apellido_pat, password, username, email, nombre) VALUES ('1', 'Martines', 'Joohn', '654321', 'CarmenIris', 'talvez@gmail.com', 'Carmen');
+
+INSERT INTO personal (id_personal, apellido_mat, apellido_pat, password, username, email, nombre) VALUES ('2', 'Ortiz', 'Carmelos', 'Siono', 'Ignacio143', 'talvezno@gmail.com', 'Ignacio');
+
+INSERT INTO platillos (precio, id_platillos, tipo, nombre, descripcion) VALUES ('85.5', '1', 'Postre', 'Pastel', 'Pastel de chocolate');
+
+INSERT INTO platillos (precio, id_platillos, tipo, nombre, descripcion) VALUES ('175', '2', 'Comida', 'Enchiladas', 'Enchiladas suizas con queso');
+
+INSERT INTO mesas (estado, numero, id_mesas) VALUES (1, 8, 1);
+
+INSERT INTO mesas (estado, numero, id_mesas) VALUES (0, 2, 2);
+
+INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (1, 2, 2);
+
+INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (2, 1, 1);
+
+INSERT INTO ordenes (status, id_ordenes,personal_fk,platillos_fk) VALUES (0, 1, 1, 2);
+
+INSERT INTO ordenes (status, id_ordenes,personal_fk,platillos_fk) VALUES (1, 2, 1, 1);
+
+INSERT INTO caja (id_caja, ordenes_fk, pedidos_fk) VALUES (1, 1, 1);
+
+
