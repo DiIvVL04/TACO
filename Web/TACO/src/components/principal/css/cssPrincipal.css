@@ -1,88 +1,91 @@
-body{
+body { /*Este body afecta todas las paginas*/
     margin: auto;
     height: 100vh;
     justify-content: center;
-    background-color: #000000;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
-.logo{
-    width: 450px;
-    height: 450px;
-    top: 5%;
+  .body-princ {
+    height: 100vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .logo-princ {
+    width: 150px;
+    height: 150px;
+    top: 2%;
     justify-content: center;
     padding: 10px;
     display: flex;
-    margin: 0;
     margin-left: 20px;
     position: absolute;
-}
-.container{
-    position:relative;
+  }
+  
+  .container-princ {
+    position: relative;
     display: flex;
-    width: 600px;
-    height: 550px;
-    margin-top: 10px;
+    width: 40vw;
+    height: 85vh;
     align-items: center;
     justify-content: center;
-    margin-left: 10px;
     flex-direction: column;
-}
-.container::before {
+  }
+  
+  .container-princ::before {
     content: '';
     position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    filter: blur(1px); 
-    z-index: -1; 
-}
-.content {
-    color: rgb(0, 0, 0); 
-}
-.video {
-    position: relative;
+    filter: blur(1px);
     z-index: -1;
-    object-fit: cover;
+  }
+  
+  .video-princ {
+    z-index: -1;
     filter: blur(10px);
-    background-color: #000000;
-}
-.boton{
+  }
+  
+  .boton-princ {
     text-align: center;
     font-size: 20px;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: black;
     position: absolute;
-    margin: 10px;
-    bottom: 15%;
     margin-top: 40px;
     background-color: #D9D6B8;
     border-radius: 10px;
     height: 50px;
-    width: 200px;
-}
-.chi{
+    width: 15vw;
+  }
+  
+  .chi-princ {
     font-size: 20px;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: white;
-    margin-top: 20px;
+    margin-top: 30px;
     align-self: baseline;
     display: block;
-}
-input{
+  }
+  
+  .input-princ {
     font-size: 26px;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: black;
     display: block;
     border-radius: 10px;
     border: none;
     padding: 10px;
+    margin-top: 10px;
     width: 300px;
-}
+  }
+  

@@ -10,6 +10,7 @@ import { ConfiguracionCocina } from './components/cocina/configuracion';
 import { InsumosCocina } from './components/cocina/insumos';
 import { ConfigCaja } from './components/caja/config';
 import { MesasCaja } from './components/caja/mesas';
+import { Orden } from './components/cocina/orden';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>

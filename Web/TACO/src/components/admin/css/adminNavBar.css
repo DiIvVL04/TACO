@@ -1,75 +1,91 @@
-  body{
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-  }
-  .container_navbar_adm{
-    background-color: #FF3636;
-    height: 50px;
-    width: 100vw;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  nav {
-    background-color: #181818;
-    color: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 10px;
-    width: 90vw; 
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-  }
-  .botoncito {
-    background-color: #181818;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    width: 20%; 
-    text-align: center; 
+#root {
+  width: 100%;
+  height: auto;
 }
+
+.container_navbar_adm {
+  background-color: #FF3636;
+  height: 17vh;
+  width: 100%;
+  padding: 2%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-adm {
+  background-color: #181818;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  width: 94%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-adm ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.botoncito-adm {
+  background-color: #181818;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.bt-hover-adm {
+  background-color: #181818;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-adm:hover {
+  background-color: #5D2121;
+}
+
+.logo-adm {
+  width: 80px;
+  height: 80px;
+  top: 2%;
+  padding: 10px;
+  margin: 0;
+  left: 47%;
+  align-items: center;
+  position: absolute;
+  background-color: #181818;
+  border-radius: 200px;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
+
+.logo-adm img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.container-adm {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
   
-  .botoncito:hover {
-    background-color: #5D2121;
-  }
-  
-  .logo {
-    width: 80px;
-    height: 80px;
-    background-color: #181818;
-    border-radius: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .logo img {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-  }
-  .container{
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-  }

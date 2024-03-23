@@ -14,28 +14,31 @@ const iniciarSesion = () => {
 
     return(
        <>
-          <video className="video" width="100%" height="100%" autoPlay muted loop style={{ position: 'fixed', zIndex: '-1', top: '0', left: '0', objectFit: 'cover' }}>
+       <div className='body-princ'>
+          <video className="video-princ" width="100%" height="100%" autoPlay muted loop style={{ position: 'fixed', zIndex: '-1', top: '0', left: '0', objectFit: 'cover' }}>
             <source src={fondo} type="video/mp4" />
           </video>
-        <div>
-          <div className="container">
-            <div className="logo">
-              <img src={LogoTACO} alt="Logo" />
+          <div>
+            <div className="container-princ">
+              <div className="logo-princ">
+                <img src={LogoTACO} alt="Logo" />
+              </div>
+              <br />
+              <form>
+                <div>
+                  <label className="chi-princ">Correo electrónico</label>
+                  <input className='input-princ' id="email" name="email" placeholder="Correo electrónico" type="email" />
+                </div>
+                <div>
+                  <label className="chi-princ">Contraseña</label>
+                  <input className='input-princ' id="password" name="password" placeholder="Contraseña" type="password" />
+                </div>
+                <button type="submit" className="boton-princ" onClick={() => iniciarSesion()}>INICIAR SESIÓN</button>
+              </form>
             </div>
-            <br />
-            <form>
-              <div>
-                <label htmlFor="email" className="chi">Correo electrónico</label>
-                <input id="email" name="email" placeholder="Correo electrónico" type="email" />
-              </div>
-              <div>
-                <label htmlFor="password" className="chi">Contraseña</label>
-                <input id="password" name="password" placeholder="Contraseña" type="password" />
-              </div>
-              <button type="submit" className="boton" onClick={() => iniciarSesion()}>INICIAR SESIÓN</button>
-            </form>
           </div>
-        </div>
+       </div>
+          
        
     </>
   );

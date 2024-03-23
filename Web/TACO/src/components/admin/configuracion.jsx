@@ -1,5 +1,5 @@
 import './css/adminNavBar.css'
-import './css/adminConfig.css'
+import './css/adminBody.css'
 import React from 'react'
 
 import User from '../../../public/assets/imgs/user.png'
@@ -8,23 +8,23 @@ export const ConfiguracionAdmin=()=>{
     return(
         <>
             <NavBarAdmin/>
-            <div className="container-user">
-                <div className="container_imagen">
+            <div className="container-user-adm">
+                <div className="container_imagen-adm">
                 <img src={User} alt="User" />
                 </div>
-                <div className="container_formulario">
+                <div className="container_formulario-adm">
                 <form>
                     <div>
-                    <label htmlFor="usuario" className="usuario">Usuario</label>
-                    <input id="usuario-ad" name="usuario" placeholder="Usuario" />
+                    <label className="label-adm">Usuario</label>
+                    <input id="usuario-adm" name="usuario" placeholder="Usuario" />
                     </div>
                     <div>
-                    <label htmlFor="email" className="email">Correo electrónico</label>
-                    <input id="email-ad" name="email" placeholder="Correo electrónico" type="email" />
+                    <labe className="label-adm">Correo electrónico</labe>
+                    <input id="email-adm" name="email" placeholder="Correo electrónico" type="email" />
                     </div>
                     <div>
-                    <label htmlFor="password" className="password">Contraseña</label>
-                    <input id="password-ad" name="password" placeholder="Contraseña" type="password" />
+                    <label className="label-adm">Contraseña</label>
+                    <input id="password-adm" name="password" placeholder="Contraseña" type="password" />
                     </div>
                     <button type="submit" className="boton-adm">Guardar</button>
                 </form>

@@ -5,14 +5,16 @@ export const NavBarCaja=()=>{
     return(
         <>
             <div className="container_navbar_caja">
-                <nav>
-                <div className="logo">
+                <nav className='nav-caja'>
+                <div className="logo-caja">
                     <img src={LogoTACO} alt="Logo" />
                 </div>
                 <ul>
-                    <button className='botoncito' onClick={() => { window.location='/MesasCaja'}}>Mesas</button>
-                    <button className='botoncito' onClick={() => { window.location='/ConfigCaja'}}>Configuración</button>
-                    <button className='botoncito' onClick={() => { window.location='/'}}>Cerrar Sesión</button>
+                    <button className='botoncito-caja' onClick={() => { window.location='/MesasCaja'}}>Mesas</button>
+                    <button className="bt-hover-caja" ></button>
+                    <button className="bt-hover-caja" ></button>
+                    <button className='botoncito-caja' onClick={() => { window.location='/ConfigCaja'}}>Configuración</button>
+                    <button className='botoncito-caja' onClick={() => { window.location='/'}}>Cerrar Sesión</button>
                 </ul>
                 </nav>
             </div>

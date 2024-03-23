@@ -1,0 +1,228 @@
+
+/*MESAS*/
+
+.container_mesas-adm {
+  min-height: 450px;
+  height: auto;
+  width: 80vw;
+  background-color: rgb(212, 212, 212);
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mesa_container-adm {
+  height: 200px;
+  width: 200px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.mesa_container-adm p {
+  font-size: 24px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin: 0;
+}
+
+.mesa_container-adm img {
+  width: 100px;
+  height: 100px;
+}
+
+.mesa_container_botones-adm {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.administrar-adm {
+  background-color: #FFDAB8;
+  color: #000000;
+  border: none;
+  padding: 4px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 80px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 14px;
+}
+
+.container_pedido-adm{
+  height: 450px;
+  width: 400px;
+  background-color: rgb(218, 218, 218);
+  margin-left: 20px;
+  display: flex;
+}
+.container-para-mesas-adm {
+  height: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+/*INSUMOS*/
+
+.main-adm {
+  width: 100%;
+}
+
+.container-table-admin-adm {
+  display: flex;
+  background-color: #ff9282;
+  border-radius: 20px;
+  margin: 15px auto;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 87vw;
+  align-self: center;
+}
+
+.container-adm p {
+  color: #000000;
+  font-size: 30px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-weight: bold;
+}
+
+.tabla-admin-adm {
+  width: 95%;
+  border-collapse: collapse;
+  background-color: #FA7971;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.th-adm, .td-adm {
+  border: 1px solid white;
+  padding: 8px;
+  text-align: center;
+  color: #fff;
+}
+
+.th-adm:first-child {
+  font-weight: bolder;
+}
+
+.td-adm img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.titulo-adm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.botones-adm {
+  display: flex;
+  align-items: end;
+  flex-grow: 1;
+  justify-content: flex-end;
+  margin-left: 10px;
+}
+
+.agregar-adm {
+  background-color: #18C875;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.modificar-adm {
+  background-color: #446A7C;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.eliminar-adm {
+  background-color: #E21B1B;
+  color: #fff;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/*CONFIG*/
+
+.container-user-adm {
+  margin-top: 20px;
+  height: 81vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.container_imagen-adm {
+  height: 450px;
+  width: 45%;
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container_imagen-adm img {
+  width: 300px;
+  height: 300px;
+}
+
+.container_formulario-adm {
+  height: 450px;
+  width: 45%;
+  margin-left: 20px;
+  display: flex;
+  padding-left: 40px;
+}
+
+#password-adm, #usuario-adm, #email-adm {
+  font-size: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  display: block;
+  background-color: #F5B8AA;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  width: 300px;
+}
+
+.label-adm {
+  font-size: 20px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(0, 0, 0);
+  margin-top: 20px;
+  align-self: baseline;
+  display: block;
+  margin-bottom: 10px;
+}
+.boton-adm{
+  text-align: center;
+  font-size: 20px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  position: absolute;
+  margin: 10px;
+  margin-top: 40px;
+  background-color: #ff9f89; 
+  border-radius: 10px;
+  height: 50px;
+  width: 200px;
+}
+  

@@ -1,46 +1,41 @@
-body {
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
+#root {
+  width: 100%;
+  height: auto;
 }
 
 .container_navbar_cocina {
   background-color: #D32F87;
-  height: 50px;
-  width: 100vw;
-  padding: 40px;
+  height: 17vh;
+  width: 100%;
+  padding: 2%;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
-nav {
+.nav_cocina-coc {
   background-color: #181818;
   color: #fff;
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
-  width: 90vw;
+  width: 94%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-nav ul {
+.nav_cocina-coc ul {
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: center;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   width: 100%;
 }
 
-.botoncito {
+.botoncito-coc {
   background-color: #181818;
   color: #fff;
   border: none;
@@ -51,17 +46,27 @@ nav ul {
   text-align: center;
 }
 
-.botoncito:hover {
+.bt-hover-coc {
+  background-color: #181818;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-coc:hover {
   background-color: #501F39;
 }
 
-.logo {
+.logo-coc {
   width: 80px;
   height: 80px;
   top: 2%;
   padding: 10px;
   margin: 0;
-  left: 43%;
+  left: 47%;
   align-items: center;
   position: absolute;
   background-color: #181818;
@@ -71,14 +76,16 @@ nav ul {
   justify-self: center;
 }
 
-.logo img {
-  width: 90px;
-  height: 90px;
+.logo-coc img {
+  width: 80px;
+  height: 80px;
   object-fit: contain;
 }
 
-.container {
+.container-coc {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
+
+  

@@ -1,37 +1,65 @@
 import React from "react";
 import './css/cocinaNavBar.css'
-import './css/cocinaInsumos.css'
+import './css/cocinaBody.css'
 import Check from "../../../public/assets/imgs/check.png";
 import Cross from "../../../public/assets/imgs/cross.png";
 import { CocinaNavBar } from "./navBar";
 export const InsumosCocina=()=>{
     return (
         <>
+        <div className="mai-coc">
           <CocinaNavBar/>
-          <div className="container-table">
-            <p> Leguminosas</p>
-            <table>
+          <div className="container-table-cocina-coc">
+            <div className="titulo-coc">
+              <p> Leguminosas</p>
+              
+            </div>
+            <table className='tabla-cocina-coc'>
               <thead>
                 <tr>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Estado</th>
+                  <th className="th-coc">Producto</th>
+                  <th className="th-coc">Cantidad</th>
+                  <th className="th-coc">Estado</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Frijoles negros</td>
-                  <td>2kg</td>
-                  <td><img src={Check} alt="check" /></td>
+                  <td className="td-coc">Frijoles negros</td>
+                  <td className="td-coc">2kg</td>
+                  <td className="td-coc"><img src={Check} alt="check" /></td>
                 </tr>
                 <tr>
-                  <td>Granos de maíz</td>
-                  <td>0kg</td>
-                  <td><img src={Cross} alt="cross" /></td>
+                  <td className="td-coc">Granos de maíz</td>
+                  <td className="td-coc">0kg</td>
+                  <td className="td-coc"><img src={Cross} alt="cross" /></td>
                 </tr>
+                <tr>
+                  <td className="td-coc">Granos de maíz</td>
+                  <td className="td-coc">0kg</td>
+                  <td className="td-coc"><img src={Cross} alt="cross" /></td>
+                </tr>
+                <tr>
+                  <td className="td-coc">Granos de maíz</td>
+                  <td className="td-coc">0kg</td>
+                  <td className="td-coc"><img src={Cross} alt="cross" /></td>
+                </tr>
+                <tr>
+                  <td className="td-coc">Granos de maíz</td>
+                  <td className="td-coc">0kg</td>
+                  <td className="td-coc"><img src={Cross} alt="cross" /></td>
+                </tr>
+                <tr>
+                  <td className="td-coc">Granos de maíz</td>
+                  <td className="td-coc">0kg</td>
+                  <td className="td-coc"><img src={Cross} alt="cross" /></td>
+                </tr>
+                
               </tbody>
             </table>
+            <br />
           </div>
+        </div>
+          
         </>
       );
 }
