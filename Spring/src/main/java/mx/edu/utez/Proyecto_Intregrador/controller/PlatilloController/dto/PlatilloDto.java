@@ -7,22 +7,24 @@ import mx.edu.utez.Proyecto_Intregrador.model.platillo.PlatilloBean;
 @NoArgsConstructor
 @Data
 public class PlatilloDto {
-    private Long idPlatillo;
+    private Long idPlatillos;
     private String nombre;
     private String descripcion;
+    private int stock;
     private String tipo;
     private double precio;
+    private boolean status;
 
     public PlatilloBean toEntity(){
-        return new PlatilloBean(nombre, descripcion, tipo, precio);
+        return new PlatilloBean(nombre, descripcion,stock, tipo, precio,status);
     }
 
     public PlatilloBean toEntity2(){
-        return new PlatilloBean(idPlatillo);
+        return new PlatilloBean(idPlatillos);
     }
 
     public PlatilloBean toEntity3(){
-        return new PlatilloBean(idPlatillo, nombre, descripcion, tipo, precio);
+        return new PlatilloBean(idPlatillos,nombre, descripcion,stock, tipo, precio,status);
     }
 
 

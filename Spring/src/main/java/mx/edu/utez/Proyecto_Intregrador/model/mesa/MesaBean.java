@@ -25,7 +25,7 @@ public class MesaBean {
     @Column(nullable = false)
     private boolean estado;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "mesaBean")
     private Set<PedidoBean> pedidoBean;
 

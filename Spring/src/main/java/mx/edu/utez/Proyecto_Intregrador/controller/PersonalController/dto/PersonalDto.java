@@ -12,11 +12,12 @@ public class PersonalDto {
     private String apellido_pat;
     private String apellido_mat;
     private String email;
+    private String rol;
     private String username;
     private String password;
 
     public PersonalBean toEntity(){
-        return new PersonalBean(nombre, apellido_pat, apellido_mat, email, username, password);
+        return new PersonalBean(nombre, apellido_pat, apellido_mat, email,rol, username, password);
     }
 
     public PersonalBean toEntity2(){
@@ -24,7 +25,7 @@ public class PersonalDto {
     }
 
     public PersonalBean toEntity3(){
-        return new PersonalBean(idPersonal, nombre, apellido_pat, apellido_mat, email, username, password);
+        return new PersonalBean(idPersonal, nombre, apellido_pat, apellido_mat, email,rol, username, password);
     }
 
 }

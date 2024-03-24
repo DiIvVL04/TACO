@@ -29,6 +29,8 @@ public class PersonalBean {
     private String apellido_mat;
     @Column(nullable = false, length = 100)
     private String email;
+    @Column(nullable = false, length = 15)
+    private String rol;
     @Column(nullable = false, length = 45)
     private String username;
     @Column(nullable = false, length = 45)
@@ -38,15 +40,16 @@ public class PersonalBean {
     @OneToMany(mappedBy = "personalBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrdenBean> ordenBeans;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "personalBean")
     private Set<PedidoBean> pedidoBeans;
 
-    public PersonalBean(String nombre, String apellido_pat, String apellido_mat, String email, String username, String password) {
+    public PersonalBean(String nombre, String apellido_pat, String apellido_mat, String email, String rol, String username, String password) {
         this.nombre = nombre;
         this.apellido_pat = apellido_pat;
         this.apellido_mat = apellido_mat;
         this.email = email;
+        this.rol = rol;
         this.username = username;
         this.password = password;
     }
@@ -55,12 +58,13 @@ public class PersonalBean {
         this.idPersonal = idPersonal;
     }
 
-    public PersonalBean(Long idPersonal, String nombre, String apellido_pat, String apellido_mat, String email, String username, String password) {
+    public PersonalBean(Long idPersonal, String nombre, String apellido_pat, String apellido_mat, String email, String rol, String username, String password) {
         this.idPersonal = idPersonal;
         this.nombre = nombre;
         this.apellido_pat = apellido_pat;
         this.apellido_mat = apellido_mat;
         this.email = email;
+        this.rol = rol;
         this.username = username;
         this.password = password;
     }
