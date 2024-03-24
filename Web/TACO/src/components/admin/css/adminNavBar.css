@@ -5,7 +5,7 @@
 
 .container_navbar_adm {
   background-color: #FF3636;
-  height: 17vh;
+  height: 13vh;
   width: 100%;
   padding: 2%;
   display: flex;
@@ -14,8 +14,9 @@
 
 .nav-adm {
   background-color: #181818;
+  border: 1px solid grey;
   color: #fff;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
   width: 94%;
@@ -39,6 +40,19 @@
   background-color: #181818;
   color: #fff;
   border: none;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-adm2 {
+  background-color: #5D2121;
+  color: #fff;
+  border: none;
+  font-size: 20px;
   padding: 10px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -58,13 +72,14 @@
 
 .botoncito-adm:hover {
   background-color: #5D2121;
+  border: 1px solid red;
 }
 
 .logo-adm {
-  width: 80px;
-  height: 80px;
-  top: 2%;
-  padding: 10px;
+  width: 100px;
+  height: 100px;
+  top: 1.6%;
+  padding: .8%;
   margin: 0;
   left: 47%;
   align-items: center;
@@ -74,6 +89,7 @@
   display: flex;
   justify-content: center;
   justify-self: center;
+  border: 2px solid grey;
 }
 
 .logo-adm img {

@@ -6,7 +6,7 @@ import { CocinaNavBar } from "./navBar";
 export const ConfiguracionCocina=()=>{
     return (
         <>
-        <CocinaNavBar/>
+        <CocinaNavBar selected={3}/>
           <div className="container-user-coc">
             <div className="container_imagen-coc">
               <img src={User} alt="User" />

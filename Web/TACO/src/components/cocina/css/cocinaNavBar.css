@@ -3,9 +3,9 @@
   height: auto;
 }
 
-.container_navbar_cocina {
+.container_navbar_cocina { 
   background-color: #D32F87;
-  height: 17vh;
+  height: 6vh;
   width: 100%;
   padding: 2%;
   display: flex;
@@ -14,8 +14,9 @@
 
 .nav_cocina-coc {
   background-color: #181818;
+  border: 1px solid grey;
   color: #fff;
-  padding: 10px;
+  padding: 15px;
   border-radius: 10px;
   margin-top: 10px;
   width: 94%;
@@ -39,6 +40,19 @@
   background-color: #181818;
   color: #fff;
   border: none;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-coc2 {
+  background-color: #501F39;
+  color: #fff;
+  border: none;
+  font-size: 20px;
   padding: 10px 20px;
   border-radius: 20px;
   cursor: pointer;
@@ -58,6 +72,7 @@
 
 .botoncito-coc:hover {
   background-color: #501F39;
+  border: 1px solid pink;
 }
 
 .logo-coc {
@@ -70,6 +85,7 @@
   align-items: center;
   position: absolute;
   background-color: #181818;
+  border: 2px solid grey;
   border-radius: 200px;
   display: flex;
   justify-content: center;

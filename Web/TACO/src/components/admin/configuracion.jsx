@@ -7,7 +7,7 @@ import { NavBarAdmin } from './navbar'
 export const ConfiguracionAdmin=()=>{
     return(
         <>
-            <NavBarAdmin/>
+            <NavBarAdmin selected={3}/>
             <div className="container-user-adm">
                 <div className="container_imagen-adm">
                 <img src={User} alt="User" />

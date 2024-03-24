@@ -8,7 +8,7 @@ export const InsumosCocina=()=>{
     return (
         <>
         <div className="mai-coc">
-          <CocinaNavBar/>
+          <CocinaNavBar selected={2}/>
           <div className="container-table-cocina-coc">
             <div className="titulo-coc">
               <p> Leguminosas</p>
