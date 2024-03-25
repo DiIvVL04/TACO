@@ -1,0 +1,32 @@
+
+.container-pedido{
+    background-color: white;
+    min-height: 350px;
+    width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.platillos{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 0;
+    font-size: 18px;
+}
+
+.num-orden{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.precio{
+    font-weight: bold;
+}

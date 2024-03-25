@@ -26,8 +26,7 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    borderWidth: 2,
-    borderColor: 'blue',
+    borderWidth: 0,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -112,7 +111,6 @@ export const InsumosAdmin=()=>{
     setStock(0);
     setTipo('');
     setPrecio(0);
-
     setIsOpen(true);
   }
 
@@ -145,7 +143,7 @@ export const InsumosAdmin=()=>{
     <NavBarAdmin selected={2}/>
       <div className="container-table-admin-adm">
         <div className="titulo-adm">
-          <p> Leguminosas</p>
+          <span> Platillos disponibles</span>
           <div className="botones-adm">
             <button className="agregar-adm" onClick={openModal}>Agregar</button>
           </div>
@@ -184,57 +182,78 @@ export const InsumosAdmin=()=>{
             ))}                
           </tbody>
         </table>
-        <br />
+        <br/>
       </div>
+      
     </div>
       
     <Modal
-    isOpen={modalIsOpen}
-    onAfterOpen={afterOpenModal}
-    onRequestClose={closeModal}
-    style={customStyles}
-    contentLabel="Login Modal"
-    >
-      <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{color: 'black', fontSize: 35}}>Agregar Platillo</h2>
+      isOpen={modalIsOpen}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Nuevo Platillo Modal"
+      >
+      <h2 style={{color: 'black', fontSize: 35}}>Agregar Platillo</h2>
       <form style={{
-        width: '90%',
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center'}}>
-          Nombre: <input required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} />
-          Descripcion: <input required type='text' placeholder='Descripcion' onChange={(e) => setDescripcion(e.target.value)} />
-          Stock: <input required type='text' placeholder='Stock' onChange={(e) => setStock(e.target.value)} />
-          Tipo: <input required type='text' placeholder='Tipo' onChange={(e) => setTipo(e.target.value)} />
-          Precio: <input required type='text' placeholder='Precio' onChange={(e) => setPrecio(e.target.value)} />
-
-          <button onClick={() => validar('POST')}>Guardar Cambios</button>
-          <button onClick={closeModal}>Cancelar</button>
-      </form>
+          width: '90%',
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          }}>
+          <span className='inputs-modal'>Nombre: <input style={{width:"60%"}} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
+          <span className='inputs-modal'>Descripcion: <input style={{width:"60%"}} required type='text' placeholder='Descripcion' onChange={(e) => setDescripcion(e.target.value)} /></span> 
+          <span className='inputs-modal'>Stock: <input style={{width:"60%"}} required type='number' placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span> 
+          <span className='inputs-modal'>Tipo de platillo: 
+          <select style={{width:"60%", height:'30px'}} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
+              <option disabled value="">Sin clasificación</option>
+              <option value="Postre">Postre</option>
+              <option value="Fuerte">Fuerte</option>
+              <option value="Entrada">Entrada</option>
+              <option value="Bebida">Bebida</option>
+          </select></span> 
+          <span className='inputs-modal'>Precio: <input style={{width:"60%"}} required type='number' placeholder='Precio' onChange={(e) => setPrecio(e.target.value)}  /></span> 
+          <div className='container-botones-modal'>
+            <button className='boton-aceptar' onClick={() => validar('POST')}>Guardar Cambios</button>
+          <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
+          </div>
+          
+        </form>
     </Modal>
 
     <Modal
-    isOpen={modalEdit}
-    onAfterOpen={afterOpenModal}
-    onRequestClose={closeModalEdit}
-    style={customStyles}
-    contentLabel="Modal Edit"
+      isOpen={modalEdit}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModalEdit}
+      style={customStyles}
+      contentLabel="Editar Platillo Modal"
     >
-      <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{color: 'black', fontSize: 35}}>Editar Platillo</h2>
+      <h2 style={{ color: 'black', fontSize: 35 }}>Editar Platillo</h2>
       <form style={{
         width: '90%',
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center'}}>
-          Nombre: <input required type='text' placeholder='Nombre' value={nombre} onChange={(e) => setNombre(e.target.value)} />
-          Descripcion: <input required type='text' placeholder='Descripcion' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
-          Stock: <input required type='text' placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} />
-          Tipo: <input required type='text' placeholder='Tipo' value={tipo} onChange={(e) => setTipo(e.target.value)} />
-          Precio: <input required type='text' placeholder='Precio' value={precio} onChange={(e) => setPrecio(e.target.value)} />
-
-          <button onClick={() => validar('PUT')}>Guardar Cambios</button>
-          <button onClick={closeModal}>Cancelar</button>
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <span className='inputs-modal'>Nombre: <input style={{ width: "60%" }} required type='text' placeholder='Nombre' value={nombre} onChange={(e) => setNombre(e.target.value)} /></span>
+        <span className='inputs-modal'>Descripcion: <input style={{ width: "60%" }} required type='text' placeholder='Descripcion' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} /></span>
+        <span className='inputs-modal'>Stock: <input style={{ width: "60%" }} required type='number' placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
+        <span className='inputs-modal'>Tipo de platillo: 
+        <select style={{ width: "60%", height:'30px' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
+          <option disabled value="">Seleccionar tipo</option>
+          <option value="Postre">Postre</option>
+          <option value="Fuerte">Fuerte</option>
+          <option value="Entrada">Entrada</option>
+          <option value="Bebida">Bebida</option>
+        </select></span>
+        <span className='inputs-modal'>Precio: <input style={{ width: "60%" }} required type='number' placeholder='Precio' value={precio} onChange={(e) => setPrecio(e.target.value)} /></span>
+        <div className='container-botones-modal'>
+          <button className='boton-aceptar' onClick={() => validar('PUT')}>Guardar Cambios</button>
+          <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
+        </div>
       </form>
     </Modal>
+
       
     </>
   )

@@ -69,7 +69,7 @@
 
 /*INSUMOS*/
 
-.main-adm {
+.main-adm { 
   width: 100%;
 }
 
@@ -122,15 +122,17 @@
 .titulo-adm {
   display: flex;
   align-items: center;
+  flex-direction: row;
   justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
 }
 
 .botones-adm {
   display: flex;
   align-items: end;
-  flex-grow: 1;
   justify-content: flex-end;
-  margin-left: 10px;
 }
 
 .agregar-adm {
@@ -138,8 +140,14 @@
   color: #fff;
   border: none;
   padding: 5px;
+  margin: 10px;
   border-radius: 20px;
+  justify-content: center;
+  align-self: flex-end;
+  display: flex;
   cursor: pointer;
+  font-size: 16px;
+  width: 80px;
 }
 
 .modificar-adm {
@@ -164,34 +172,79 @@
 
 .container-user-adm {
   margin-top: 20px;
-  height: 81vh;
+  height: auto;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 12%;
+}
+/*.container-tabla-user-adm {
+  margin-top: 20px;
+  height: auto;
+  width: 50%;
   display: flex;
   flex-direction: row;
+}*/
+
+.container-users {
+  background-color: rgb(252, 157, 157);
+  border-radius: 30px;
+  margin-top: 20px;
+  margin-right: 1%;
+  height: auto;
+  width: 50%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.listaUser {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 1%;
+  width: 70%;
+  margin-top: 1%;
+  align-self: center;
+}
+
+.listaUser:hover {
+  border: 2px solid red;
+  background-color: #F5B8AA;
+}
+
+.info-user-list {
+  font-size: 18px;
+}
+
+.input-form-2 {/******************************************************/
+  display: flex;
+  flex-flow: row;
+  width: auto;
 }
 
 .container_imagen-adm {
-  height: 450px;
-  width: 45%;
-  margin-left: 30px;
+  height: auto;
+  width: 50%;
+  margin-left: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .container_imagen-adm img {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 .container_formulario-adm {
   height: 450px;
-  width: 45%;
-  margin-left: 20px;
+  width: 35%;
   display: flex;
-  padding-left: 40px;
 }
 
-#password-adm, #usuario-adm, #email-adm {
+#password-adm, #usuario-adm, #email-adm,#paterno-adm,#materno-adm,#rol-adm,#nombre-adm {
   font-size: 20px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
@@ -217,7 +270,6 @@
   font-size: 20px;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
-  position: absolute;
   margin: 10px;
   margin-top: 40px;
   background-color: #ff9f89; 
@@ -225,4 +277,35 @@
   height: 50px;
   width: 200px;
 }
-  
+.container-general-config{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/*MODAL PLATILLO*/
+
+.boton-aceptar{
+  background-color: #18C875;
+  margin-right: 40px;
+}
+.boton-cancelar{
+  background-color: #E21B1B;
+  margin-left: 40px;
+}
+
+.container-botones-modal{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5%;
+}
+
+.inputs-modal{
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
