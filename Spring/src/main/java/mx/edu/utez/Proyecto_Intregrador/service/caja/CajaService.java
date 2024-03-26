@@ -37,9 +37,7 @@ public class CajaService {
         Optional<CajaBean> foundMesa = repository.findById(caja.getIdCaja());
         if(foundMesa.isPresent())
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Mesa Duplicada"), HttpStatus.BAD_REQUEST);
-        if (caja.getOrdenBean() == null) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado la orden"), HttpStatus.BAD_REQUEST);
-        }if (caja.getPedidoBean() == null){
+        if (caja.getPedidoBean() == null){
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado el pedido"), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(caja), HttpStatus.OK, "Mesa Registarda Correctamente"), HttpStatus.OK);

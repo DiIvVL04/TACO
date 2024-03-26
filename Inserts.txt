@@ -1,18 +1,38 @@
+#create database taco;
 use taco;
+#drop database taco;
+
+DELIMITER $$
+Create trigger Validar_estado_platillo_insertar before insert on platillos
+for each row
+begin
+If NEW.stock=0 THEN
+Set NEW.status=0;
+END if;
+end;$$
+
+DELIMITER $$
+Create trigger Validar_estado_platillo_actualizar before update on platillos
+for each row
+begin
+If NEW.stock=0 THEN
+Set NEW.status=0;
+END if;
+end;$$
+
+
 
 INSERT INTO personal (id_personal, rol, apellido_mat, apellido_pat, password, username, email, nombre) VALUES (1, 'Admin', 'Garcia', 'Ortiz', '123115', 'Angelo7', 'si@gmail.com', 'Angelo');
 
 INSERT INTO personal (id_personal, rol, apellido_mat, apellido_pat, password, username, email, nombre) VALUES (2,'Mesero', 'Martines', 'Joohn', '654321', 'CarmenIris', 'talvez@gmail.com', 'Carmen');
 
-INSERT INTO personal (id_personal, rol, apellido_mat, apellido_pat, password, username, email, nombre) VALUES (3, 'Cajero', 'Flores', 'Spin', '84s48s1', 'Edu82', 'no@gmail.com', 'Eduardo');
+INSERT INTO personal (id_personal, rol, apellido_mat, apellido_pat, password, username, email, nombre) VALUES (3, 'Caja', 'Flores', 'Spin', '84s48s1', 'Edu82', 'no@gmail.com', 'Eduardo');
 
 INSERT INTO personal (id_personal, rol, apellido_mat, apellido_pat, password, username, email, nombre) VALUES (4,'Cocina', 'Valle', 'Flores', '88d4sd', 'Agri78', 'talvezno@gmail.com', 'Agripino');
 
-INSERT INTO personal (id_personal, apellido_mat, apellido_pat, password, username, email, nombre) VALUES ('2', 'Ortiz', 'Carmelos', 'Siono', 'Ignacio143', 'talvezno@gmail.com','Admin', 'Ignacio');
+INSERT INTO platillos (precio, status,stock, id_platillos, tipo, nombre, descripcion) VALUES ('85.5',1,0, '1', 'Postre', 'Pastel', 'Pastel de chocolate');
 
-INSERT INTO platillos (precio, status,stock, id_platillos, tipo, nombre, descripcion) VALUES ('85.5',0,0, '1', 'Postre', 'Pastel', 'Pastel de chocolate');
-
-INSERT INTO platillos (precio,status,stock, id_platillos, tipo, nombre, descripcion) VALUES ('175',1,777, '2', 'Comida', 'Enchiladas', 'Enchiladas suizas con queso');
+INSERT INTO platillos (precio,status,stock, id_platillos, tipo, nombre, descripcion) VALUES ('175',1,77, '2', 'Comida', 'Enchiladas', 'Enchiladas suizas con queso');
 
 INSERT INTO platillos (precio, status,stock, id_platillos, tipo, nombre, descripcion) VALUES ('135',1,12, '3', 'Entrada', 'Papas a la fransesa', 'Pus papas normales que mas');
 
@@ -26,11 +46,14 @@ INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (1, 2, 2);
 
 INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (2, 1, 1);
 
-INSERT INTO ordenes (status, id_ordenes,personal_fk,platillos_fk) VALUES (0, 1, 1, 2);
+INSERT INTO ordenes (status, id_ordenes,pedidos_fk,platillos_fk) VALUES (0, 1, 2, 2);
 
-INSERT INTO ordenes (status, id_ordenes,personal_fk,platillos_fk) VALUES (1, 2, 1, 1);
+INSERT INTO ordenes (status, id_ordenes,pedidos_fk,platillos_fk) VALUES (1, 2, 2, 1);
 
-INSERT INTO caja (id_caja, ordenes_fk, pedidos_fk) VALUES (1, 1, 1);
+INSERT INTO caja (id_caja, status_de_pago, pedidos_fk) VALUES (1, 0, 2);
 
-select * from caja inner join ordenes on caja.ordenes_fk = ordenes.id_ordenes inner join platillos on ordenes.platillos_fk = platillos.id_platillos;
+select * from ordenes inner join pedidos on ordenes.pedidos_fk = pedidos.id_pedidos where pedidos_fk=2;
+
+SELECT * from ordenes inner join pedidos on ordenes.pedidos_fk = pedidos.id_pedidos where pedidos_fk=2
+
 

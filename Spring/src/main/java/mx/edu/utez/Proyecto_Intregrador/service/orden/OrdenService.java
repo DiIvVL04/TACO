@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,14 +40,24 @@ public class OrdenService {
     }
 
     @Transactional(rollbackFor = {SQLException.class})
+    public ResponseEntity<ApiResponse> obtenerPedidos(OrdenBean orden){
+        List<OrdenBean> founOrden = repository.getPedidos(orden.getPedidoBean().getIdPedidos());
+        if(!founOrden.isEmpty())
+            return new ResponseEntity<>(new ApiResponse(repository.getPedidos(orden.getPedidoBean().getIdPedidos()), HttpStatus.OK, "Todo Bien"), HttpStatus.OK);
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Pedido no encontrado"), HttpStatus.BAD_REQUEST);
+
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
     public  ResponseEntity<ApiResponse> save(OrdenBean product){
         Optional<OrdenBean> foundProduct = repository.findById(product.getIdOrdenes());
         if (foundProduct.isPresent()){
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Registro duplicado"), HttpStatus.BAD_REQUEST);
         }
 
-        if (product.getPersonalBean() == null) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado al personal de la orden"), HttpStatus.BAD_REQUEST);
+        if (product.getPedidoBean() == null) {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a Relacionado a ningun pedido"), HttpStatus.BAD_REQUEST);
         }if (product.getPlatilloBean() == null){
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado platillo"), HttpStatus.BAD_REQUEST);
             }

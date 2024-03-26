@@ -1,5 +1,6 @@
 package mx.edu.utez.Proyecto_Intregrador.model.pedido;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.edu.utez.Proyecto_Intregrador.model.caja.CajaBean;
 import mx.edu.utez.Proyecto_Intregrador.model.mesa.MesaBean;
+import mx.edu.utez.Proyecto_Intregrador.model.orden.OrdenBean;
 import mx.edu.utez.Proyecto_Intregrador.model.personal.PersonalBean;
 
 import java.util.Set;
@@ -31,8 +33,13 @@ public class PedidoBean {
     @JoinColumn(name = "personal_fk", nullable = false)
     private PersonalBean personalBean;
 
-    @OneToMany(mappedBy = "pedidoBean")
+    @JsonIgnore
+    @OneToMany(mappedBy = "pedidoBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CajaBean> cajaBeans;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "pedidoBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<OrdenBean> ordenBean;
 
     public PedidoBean(Long idPedidos, MesaBean mesaBean, PersonalBean personalBean) {
         this.idPedidos = idPedidos;

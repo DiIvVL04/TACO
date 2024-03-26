@@ -6,8 +6,7 @@ import mx.edu.utez.Proyecto_Intregrador.model.pedido.PedidoBean;
 
 public class CajaDto {
     private Long idCaja;
-    private OrdenBean ordenBean;
     private PedidoBean pedidoBean;
 
-    public CajaBean toEntity(){return new CajaBean(idCaja,ordenBean,pedidoBean);}
+    public CajaBean toEntity(){return new CajaBean(idCaja,pedidoBean);}
 }

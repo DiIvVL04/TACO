@@ -39,5 +39,10 @@ public class PersonalController {
         return service.delete(dto.toEntity2());
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> login(@RequestBody PersonalDto dto){
+        return service.loginUsuario(dto.toEntity());
+    }
+
 
 }

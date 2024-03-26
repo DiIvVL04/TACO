@@ -19,17 +19,16 @@ public class CajaBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCaja;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ordenes_fk", nullable = false)
-    private OrdenBean ordenBean;
+    @Column(nullable = false)
+    private boolean status_de_Pago;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pedidos_fk", nullable = false)
     private PedidoBean pedidoBean;
 
-    public CajaBean(Long idCaja, OrdenBean ordenBean, PedidoBean pedidoBean) {
+    public CajaBean(Long idCaja, PedidoBean pedidoBean) {
         this.idCaja = idCaja;
-        this.ordenBean = ordenBean;
         this.pedidoBean = pedidoBean;
     }
 }

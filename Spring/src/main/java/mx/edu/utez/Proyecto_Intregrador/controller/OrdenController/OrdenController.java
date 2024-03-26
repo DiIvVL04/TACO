@@ -37,4 +37,9 @@ public class OrdenController {
     public ResponseEntity<ApiResponse> delete(@RequestBody OrdenDto dto){
         return service.delete(dto.toEntity2());
     }
+
+    @PostMapping("/pedidos")
+    public  ResponseEntity<ApiResponse>obtenerPedidos(@RequestBody OrdenDto dto){
+        return service.obtenerPedidos(dto.toEntity());
+    }
 }

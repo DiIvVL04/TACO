@@ -36,11 +36,8 @@ public class PersonalBean {
     @Column(nullable = false, length = 45)
     private String password;
 
+
     @JsonIgnore
-    @OneToMany(mappedBy = "personalBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrdenBean> ordenBeans;
-
-
     @OneToMany(mappedBy = "personalBean")
     private Set<PedidoBean> pedidoBeans;
 

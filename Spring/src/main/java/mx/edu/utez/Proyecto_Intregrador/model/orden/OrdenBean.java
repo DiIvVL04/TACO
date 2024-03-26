@@ -18,12 +18,12 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class OrdenBean {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrdenes;
+
     @Column(nullable = false)
     private boolean status;
 
@@ -32,25 +32,20 @@ public class OrdenBean {
     private PlatilloBean platilloBean;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "personal_fk", nullable = false)
-    private PersonalBean personalBean;
+    @JoinColumn(name = "pedidos_fk", nullable = false)
+    private PedidoBean pedidoBean;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "ordenBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<CajaBean> cajaBean;
-
-    public OrdenBean(boolean status, PlatilloBean platilloBean, PersonalBean personalBean) {
+    public OrdenBean(boolean status, PlatilloBean platilloBean, PedidoBean pedidoBean) {
         this.status = status;
         this.platilloBean = platilloBean;
-        this.personalBean = personalBean;
+        this.pedidoBean = pedidoBean;
     }
 
-
-    public OrdenBean(Long idOrdenes, boolean status, PlatilloBean platilloBean, PersonalBean personalBean) {
+    public OrdenBean(Long idOrdenes, boolean status, PlatilloBean platilloBean, PedidoBean pedidoBean) {
         this.idOrdenes = idOrdenes;
         this.status = status;
         this.platilloBean = platilloBean;
-        this.personalBean = personalBean;
+        this.pedidoBean = pedidoBean;
     }
 
     public OrdenBean(Long idOrdenes) {

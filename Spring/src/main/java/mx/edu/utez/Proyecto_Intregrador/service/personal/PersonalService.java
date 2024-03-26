@@ -43,6 +43,16 @@ public class PersonalService {
     }
 
     @Transactional(rollbackFor = {SQLException.class})
+    public ResponseEntity<ApiResponse> loginUsuario(PersonalBean personal){
+        Optional<PersonalBean> foundPersonal = repository.findByUsernameAndAndPassword(personal.getUsername(), personal.getPassword());
+        if(foundPersonal.isPresent())
+            return new ResponseEntity<>(new ApiResponse(repository.findByUsernameAndAndPassword(personal.getUsername(), personal.getPassword()), HttpStatus.OK, "Bienvenido"), HttpStatus.OK);
+
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Error al iniciar sesion"), HttpStatus.BAD_REQUEST);
+
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> update(PersonalBean personal){
         Optional<PersonalBean> foundPersonal = repository.findById(personal.getIdPersonal());
         if(foundPersonal.isPresent())
