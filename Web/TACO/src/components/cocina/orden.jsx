@@ -14,19 +14,21 @@ export const Orden =({Pedido, numMesa}) => {
     
     const getOrdenes= async ()=>{
         const response = await axios.get(urlOrdenes);
+        console.log("ORDEN");
         console.log(response.data.data)
         setOrdenes(response.data.data);
     }
     return(
         <>
             <div  className="container-pedido">
-                {ordenes != undefined ? 
-                    ordenes.map((orden, i) => (
-                <div>
                 <div className="num-orden">
-                    <span>Orden #{orden.idCaja}</span>
+                    <span>Orden #</span>
                     <p>Mesa {numMesa}</p>
                 </div>
+                {ordenes != undefined ? 
+                    ordenes.map((orden, i) => (
+                <div key={i}>
+                
                         <div>
                             <p key={orden.idCaja}></p>
 

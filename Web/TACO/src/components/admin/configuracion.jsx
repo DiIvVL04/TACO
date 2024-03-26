@@ -237,6 +237,7 @@ export const ConfiguracionAdmin=()=>{
                     <span className='inputs-modal'>Apellido Materno: <input style={{width:"60%"}} required type='text' placeholder='Apellido Materno' onChange={(e) => setApellidoMat(e.target.value)} /></span> 
                     <span className='inputs-modal'>Rol: 
                     <select style={{width:"60%", height:'30px'}} value={rol} onChange={(e) => setRol(e.target.value)} required>
+                        <option></option>
                         <option value="Mesero">Mesero</option>
                         <option value="Caja">Cajero</option>
                         <option value="Cocina">Cocinero</option>

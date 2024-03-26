@@ -21,7 +21,7 @@ export const MesasCocina=()=>{
   const getMesas = async () => {
     const respuesta = await axios.get(urlMesas);
     setMesas(respuesta.data.data);
-    console.log(mesas);
+    console.log(respuesta.data.data);
   }
 
   const asignarPedido = async (mesa, x) => {

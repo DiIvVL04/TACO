@@ -9,8 +9,7 @@ import { NavBarAdmin } from './navbar';
 import axios from 'axios';
 
 export const MesasAdmin=()=>{
-  const urlMesas = 'http://localhost:8081/api/Proyecto_Integrador/mesa/obtener';
-  const urlMesasAgg = 'http://localhost:8081/api/Proyecto_Integrador/mesa/guardar';
+  const urlMesas = 'http://localhost:8081/api/Proyecto_Integrador/mesa/';
   const [ mesas, setMesas ] = useState([]);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export const MesasAdmin=()=>{
   }, []);
 
   const getMesas = async () => {
-    const respuesta = await axios.get(urlMesas);
+    const respuesta = await axios.get(urlMesas+'obtener');
     setMesas(respuesta.data.data);
   }
 
@@ -26,10 +25,31 @@ export const MesasAdmin=()=>{
     let number = mesas.length + 1;
     await axios({
       method: 'POST',
-      url: urlMesasAgg,
+      url: urlMesas+'guardar',
       data: {
         numero: number,
         estado: true
+      }
+    }).then(function (respuesta) {
+      console.log(respuesta);
+      console.log(respuesta.status);
+      //Aquí por si quieren poner alertas de si se hizo o no
+    })
+    .catch(function (error) {
+      show_alerta('Error en la Solicitud', 'error');
+      console.log(error);
+    });
+
+    getMesas();
+  }
+
+  const eliminarMesa = async (id) => {
+
+    await axios({
+      method: 'DELETE',
+      url: urlMesas+'borrar',
+      data: {
+        id_mesas: id
       }
     }).then(function (respuesta) {
       console.log(respuesta);
@@ -54,7 +74,7 @@ export const MesasAdmin=()=>{
                 <p> Mesa {(i+1)} </p>
                 <img src={MesaImg} alt="Mesa" />
                 <div className="mesa_container_botones-adm">
-                <button className="administrar-adm">Administrar</button>
+                <button className="administrar-adm" onClick={() => eliminarMesa(mesa.id_mesas)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -65,9 +85,7 @@ export const MesasAdmin=()=>{
             </div>  
 
             </div>
-            <div className="container_pedido-adm">
-
-            </div>
+            
           </div>
         </>
       )
