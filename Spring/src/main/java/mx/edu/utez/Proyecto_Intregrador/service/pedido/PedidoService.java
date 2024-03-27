@@ -38,9 +38,9 @@ public class PedidoService {
     public ResponseEntity<ApiResponse> save(PedidoBean pedido){
         Optional<PedidoBean> foundMesa = repository.findById(pedido.getIdPedidos());
         if(foundMesa.isPresent())
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Mesa Duplicada"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Pedido Duplicado"), HttpStatus.BAD_REQUEST);
         if (pedido.getMesaBean() == null) {
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado la mesa"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado el pedido"), HttpStatus.BAD_REQUEST);
         }if (pedido.getPersonalBean() == null){
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado el mesero"), HttpStatus.BAD_REQUEST);
         }

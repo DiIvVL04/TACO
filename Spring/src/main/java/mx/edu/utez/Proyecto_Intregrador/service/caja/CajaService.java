@@ -29,18 +29,18 @@ public class CajaService {
         if(foundMesa.isPresent())
             return new ResponseEntity<>(new ApiResponse(repository.findById(caja.getIdCaja()), HttpStatus.OK, "Todo Bien"), HttpStatus.OK);
 
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Mesa No Encontrada"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Caja No Encontrada"), HttpStatus.BAD_REQUEST);
     }
 
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> save(CajaBean caja){
         Optional<CajaBean> foundMesa = repository.findById(caja.getIdCaja());
         if(foundMesa.isPresent())
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Mesa Duplicada"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Caja Duplicada"), HttpStatus.BAD_REQUEST);
         if (caja.getPedidoBean() == null){
-            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado el pedido"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "No se a encontrado la caja"), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(caja), HttpStatus.OK, "Mesa Registarda Correctamente"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(caja), HttpStatus.OK, "caja Registarda Correctamente"), HttpStatus.OK);
     }
 
     @Transactional(rollbackFor = {SQLException.class})

@@ -25,6 +25,9 @@ public class PedidoBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedidos;
 
+    @Column(nullable = false)
+    private boolean status;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mesas_fk", nullable = false)
     private MesaBean mesaBean;
@@ -41,9 +44,12 @@ public class PedidoBean {
     @OneToMany(mappedBy = "pedidoBean", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrdenBean> ordenBean;
 
-    public PedidoBean(Long idPedidos, MesaBean mesaBean, PersonalBean personalBean) {
+    public PedidoBean(Long idPedidos, boolean status, MesaBean mesaBean, PersonalBean personalBean) {
         this.idPedidos = idPedidos;
+        this.status = status;
         this.mesaBean = mesaBean;
         this.personalBean = personalBean;
     }
+
+
 }

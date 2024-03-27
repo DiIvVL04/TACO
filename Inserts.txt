@@ -42,18 +42,13 @@ INSERT INTO mesas (estado, numero, id_mesas) VALUES (1, 8, 1);
 
 INSERT INTO mesas (estado, numero, id_mesas) VALUES (0, 2, 2);
 
-INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (1, 2, 2);
+INSERT INTO pedidos (status,id_pedidos, mesas_fk, personal_fk) VALUES (0,1, 2, 2);
 
-INSERT INTO pedidos (id_pedidos, mesas_fk, personal_fk) VALUES (2, 1, 1);
+INSERT INTO pedidos (status,id_pedidos, mesas_fk, personal_fk) VALUES (0,2, 1, 1);
 
 INSERT INTO ordenes (status, id_ordenes,pedidos_fk,platillos_fk) VALUES (0, 1, 2, 2);
 
 INSERT INTO ordenes (status, id_ordenes,pedidos_fk,platillos_fk) VALUES (1, 2, 2, 1);
 
 INSERT INTO caja (id_caja, status_de_pago, pedidos_fk) VALUES (1, 0, 2);
-
-select * from ordenes inner join pedidos on ordenes.pedidos_fk = pedidos.id_pedidos where pedidos_fk=2;
-
-SELECT * from ordenes inner join pedidos on ordenes.pedidos_fk = pedidos.id_pedidos where pedidos_fk=2
-
 

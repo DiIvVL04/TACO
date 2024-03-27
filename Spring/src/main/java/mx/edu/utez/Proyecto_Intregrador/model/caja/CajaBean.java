@@ -27,8 +27,9 @@ public class CajaBean {
     @JoinColumn(name = "pedidos_fk", nullable = false)
     private PedidoBean pedidoBean;
 
-    public CajaBean(Long idCaja, PedidoBean pedidoBean) {
+    public CajaBean(Long idCaja, boolean status_de_Pago, PedidoBean pedidoBean) {
         this.idCaja = idCaja;
+        this.status_de_Pago = status_de_Pago;
         this.pedidoBean = pedidoBean;
     }
 }
