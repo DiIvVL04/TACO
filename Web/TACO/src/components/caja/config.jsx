@@ -6,7 +6,7 @@ import { NavBarCaja } from './navbar'
 export const ConfigCaja=()=>{
     return(
         <>
-            <NavBarCaja/>
+            <NavBarCaja selected={2} />
             <div className="container-user-caja">
                 <div className="container_imagen-caja">
                 <img src={User} alt="User" />

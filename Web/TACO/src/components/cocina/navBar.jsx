@@ -34,7 +34,7 @@ export const CocinaNavBar=({selected})=>{
       
       <ul>
           <button className={ selectedItem == 1 ? 'botoncito-coc2': 'botoncito-coc'} style={ selectedItem == 1 ? {border: '1px solid pink'} : {}} onClick={() => { window.location='/MesasCocina'}}>Mesas</button>
-          <button className={ selectedItem == 2 ? 'botoncito-coc2': 'botoncito-coc'} style={ selectedItem == 2 ? {border: '1px solid pink'} : {}} onClick={() => { window.location='/InsumosCocina'}}>Insumos</button>
+          <button className={ selectedItem == 2 ? 'botoncito-coc2': 'botoncito-coc'} style={ selectedItem == 2 ? {border: '1px solid pink'} : {}} onClick={() => { window.location='/InsumosCocina'}}>Platillos</button>
           <button className="bt-hover-adm" >
             <div className="logo-coc">
               <img src={LogoTACO} alt="Logo" />

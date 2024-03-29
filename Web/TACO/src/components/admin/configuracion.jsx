@@ -11,6 +11,7 @@ import mas from '../../../public/assets/imgs/anadir.png';
 import { NavBarAdmin } from './navbar'
 import borrar from "../../../public/assets/imgs/borrar.png";
 import editar from "../../../public/assets/imgs/editar.png";
+import Swal from 'sweetalert2';
 Modal.setAppElement('#root');
 
 
@@ -35,7 +36,7 @@ const customStyles = {
 export const ConfiguracionAdmin=()=>{
     const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/';
     const [personal, setPersonal]= useState([])
-    const [personalSelec, setPersonalSelec] = useState([]);
+    const [personalSelec, setPersonalSelec] = useState(false);
     const [ rol, setRol ] = useState('');
     const [ idPersonal, setIdPersonal ] = useState(0);
     const [ apellidoMat, setApellidoMat ] = useState('');
@@ -53,6 +54,55 @@ export const ConfiguracionAdmin=()=>{
         const respuesta = await axios.get(urlPersonal+'obtener');
         setPersonal(respuesta.data.data);
         console.log(respuesta.data.data);
+    }
+
+
+    const alertCreateUser=(event,metodo)=>{
+        event.preventDefault()
+        Swal.fire({
+            title: "Crear empleado",
+            text: "Verifique que todos los datos estén correctos.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#00FF51",
+            cancelButtonColor: "#9B9B9B",
+            cancelButtonText:"Cancelar",
+            confirmButtonText: "Agregar"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Empleado creado",
+                text: "Se ha añadido un nuevo empleado",
+                icon: "success"
+              }).then(() => {
+                validar(metodo);
+                window.location.reload();
+              });
+            }
+          });
+    }
+
+    const alertUpdateUser=(event,metodo)=>{
+        event.preventDefault()
+        Swal.fire({
+            title: "Actualizar empleado",
+            text: "Verifique que todos los datos estén correctos.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#FFE22C",
+            cancelButtonColor: "#9B9B9B",
+            cancelButtonText:"Cancelar",
+            confirmButtonText: "Actualizar"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Empleado actualizado",
+                text: "Se ha actualizado el empleado",
+                icon: "success"
+              });
+              validar(metodo);
+            }
+          });
     }
 
     const validar = (metodo) => {
@@ -74,6 +124,28 @@ export const ConfiguracionAdmin=()=>{
         enviar(metodo, parametros, url);
     }
 
+
+    const alertDeleteUser=()=> {
+        Swal.fire({
+          title: "Eliminar empleado",
+          text: "¿Está seguro de eliminar a este empleado?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#C20000",
+          cancelButtonColor: "#9B9B9B",
+          cancelButtonText:"Cancelar",
+          confirmButtonText: "Eliminar"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Empleado eliminado",
+              text: "Se ha eliminado al empleado",
+              icon: "success"
+            });
+            deleteUser();
+          }
+        });
+      }
     const deleteUser = async () => {
 
         let parametros = {
@@ -129,6 +201,7 @@ export const ConfiguracionAdmin=()=>{
 
     const verEmpleado = (usuario) => {
         console.log(usuario.rol);
+        setPersonalSelec(true);
         setNombre(usuario.nombre);
         setIdPersonal(usuario.idPersonal);
         setRol(usuario.rol);
@@ -138,6 +211,19 @@ export const ConfiguracionAdmin=()=>{
         setUsername(usuario.username);
         setEmail(usuario.email);
     };
+
+    const limpiarCampos = () => {
+        setPersonalSelec(false);
+        setIdPersonal(null);
+        setRol('');
+        setApellidoMat('');
+        setApellidoPat('');
+        setPassword('');
+        setUsername('');
+        setEmail('');
+        setNombre('');
+    };
+
     return(
         <>
             <NavBarAdmin selected={3}/>
@@ -152,33 +238,33 @@ export const ConfiguracionAdmin=()=>{
                         <div className='input-form-2'>
                             <div>
                                 <label className="label-adm">Nombre</label>
-                                <input id="nombre-adm" name="nombre" value={nombre} onChange={(e) => {setNombre(e.target.value)}} placeholder="Nombre" required/>
+                                <input id="nombre-adm" name="nombre" value={nombre} onChange={(e) => {setNombre(e.target.value)}} placeholder="Nombre" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Apellido paterno</label>
-                                <input id="paterno-adm" name="paterno" value={apellidoPat} onChange={(e) => {setApellidoPat(e.target.value)}} placeholder="Apellido paterno" required/>
+                                <input id="paterno-adm" name="paterno" value={apellidoPat} onChange={(e) => {setApellidoPat(e.target.value)}} placeholder="Apellido paterno" required disabled={!personalSelec}/>
                             </div>
                         </div>
                         
                         <div className='input-form-2'>
                             <div>
                                 <label className="label-adm">Apellido materno</label>
-                                <input id="materno-adm" name="materno" value={apellidoMat} onChange={(e) => {setApellidoMat(e.target.value)}} placeholder="Apellido materno" required/>
+                                <input id="materno-adm" name="materno" value={apellidoMat} onChange={(e) => {setApellidoMat(e.target.value)}} placeholder="Apellido materno" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Usuario</label>
-                                <input id="usuario-adm" name="usuario" value={username} onChange={(e) => {setUsername(e.target.value)}} placeholder="Usuario" required/>
+                                <input id="usuario-adm" name="usuario" value={username} onChange={(e) => {setUsername(e.target.value)}} placeholder="Usuario" required disabled={!personalSelec}/>
                             </div>
                         </div>
 
                         <div className='input-form-2'>
                             <div>
                                 <label className="label-adm">Correo electrónico</label>
-                                <input id="email-adm" name="email" value={email} placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required/>
+                                <input id="email-adm" name="email" value={email} placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Contraseña</label>
-                                <input id="password-adm" name="password" value={password} placeholder="Contraseña" onChange={(e) => {setPassword(e.target.value)}} type="text" required/>
+                                <input id="password-adm" name="password" value={password} placeholder="Contraseña" onChange={(e) => {setPassword(e.target.value)}} type="text" required disabled={!personalSelec}/>
                             </div>
                         </div>
 
@@ -186,7 +272,7 @@ export const ConfiguracionAdmin=()=>{
                         <div>
                         <span className='label-adm'>Rol: 
                         
-                        <select id='rol-adm' style={{width:"100%", height:'50px'}} onChange={(e) => setRol(e.target.value)} required>
+                        <select id='rol-adm' style={{width:"100%", height:'50px'}} onChange={(e) => setRol(e.target.value)} required disabled={!personalSelec}>
                             {rol=="Mesero" ? (<option value="Mesero" selected>Mesero</option>) : (<option value="Mesero">Mesero</option>)}
                             {rol=="Cajero" ? (<option value="Cajero" selected>Cajero</option>) : (<option value="Caja">Cajero</option>)}
                             {rol=="Cocina" ? (<option value="Cocina" selected>Cocinero</option>) : (<option value="Cocina">Cocinero</option>)}                               
@@ -197,8 +283,8 @@ export const ConfiguracionAdmin=()=>{
                         
 
                         <div className='input-form-2'>
-                            <button type="submit" className="boton-adm" onClick={() => validar('PUT')}>Actualizar</button>
-                            {rol=="Admin" ? (<></>): (<button className='boton-adm' onClick={() => deleteUser()}>Eliminar</button> )}
+                            <button type="submit" className="boton-adm" onClick={(e) => alertUpdateUser(e,'PUT')}>Actualizar</button>
+                            {rol=="Admin" ? (<></>): (<button className='boton-adm' onClick={() => alertDeleteUser()}>Eliminar</button> )}
                         </div> 
 
                         
@@ -226,7 +312,7 @@ export const ConfiguracionAdmin=()=>{
                 contentLabel="Nuevo empleado Modal"
                 >
                 <h2 style={{color: 'black', fontSize: 35}}>Agregar Empleado</h2>
-                <form style={{
+                <form onSubmit={(e) =>alertCreateUser(e,'POST')} style={{
                     width: '90%',
                     display: 'flex', 
                     flexDirection: 'column', 
@@ -246,8 +332,8 @@ export const ConfiguracionAdmin=()=>{
                     <span className='inputs-modal'>Correo electrónico: <input style={{width:"60%"}} required type='email' placeholder='example@example.com' onChange={(e) => setEmail(e.target.value)}  /></span> 
                     <span className='inputs-modal'>Contraseña: <input style={{width:"60%"}} required type='text' placeholder='Contraseña' onChange={(e) => setPassword(e.target.value)}  /></span> 
                     <div className='container-botones-modal'>
-                        <button className='boton-aceptar' onClick={() => validar('POST')}>Agregar Empleado</button>
-                    <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
+                        <button className='boton-aceptar' type='submit'>Agregar Empleado</button>
+                        <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
                     </div>
                     
                     </form>

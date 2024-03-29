@@ -17,7 +17,7 @@ export const InsumosCocina=()=>{
     setPlatillos(respuesta.data.data);
     console.log(respuesta.data.data);
   }
-    return (
+    return ( 
         <>
         <div className="main-coc">
           <CocinaNavBar selected={2}/>

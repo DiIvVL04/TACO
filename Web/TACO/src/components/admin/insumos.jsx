@@ -13,6 +13,7 @@ import borrar from "../../../public/assets/imgs/borrar.png";
 import editar from "../../../public/assets/imgs/editar.png";
 
 import { NavBarAdmin } from './navbar';
+import Swal from 'sweetalert2';
 
 Modal.setAppElement('#root');
 
@@ -54,11 +55,15 @@ export const InsumosAdmin=()=>{
     console.log(respuesta.data.data);
   }
 
-  const validar = async (metodo) => {
+  const validar = async (metodo, accion) => {
     let url = '';
-    metodo == 'POST' ? url='guardar' : url='actualizar'
-
-    //idPlatillos,nombre, descripcion,stock, tipo, precio,status
+  
+    if (accion === 'crear') {
+      url = 'guardar';
+    } else if (accion === 'editar') {
+      url = 'actualizar';
+    }
+  
     let parametros = {
       idPlatillos: idPlatillo,
       nombre: nombre,
@@ -68,8 +73,32 @@ export const InsumosAdmin=()=>{
       precio: precio,
       status: true
     }
-
+  
     enviar(metodo, parametros, url);
+  }
+  
+
+  const alertDeletePlatillo=(idPlatillo)=>{
+    Swal.fire({
+      title: "Eliminar platillo",
+      text: "¿Está seguro de eliminar este platillo?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#C20000",
+      cancelButtonColor: "#9B9B9B",
+      cancelButtonText:"Cancelar",
+      confirmButtonText: "Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Platillo eliminado",
+          text: "Se ha eliminado el platillo",
+          icon: "success"
+        }).then(() => {
+          deletePlatillo(idPlatillo);
+        });
+      }
+    });
   }
 
   const deletePlatillo = async (idPlatillo) => {
@@ -81,24 +110,79 @@ export const InsumosAdmin=()=>{
     enviar('DELETE', parametros, 'borrar');
   }
 
+
+  const alertCreatePlatillo=(event,metodo, accion)=>{
+    event.preventDefault()
+    Swal.fire({
+      title: "Crear platillo",
+      text: "¿Está seguro de crear un nuevo platillo?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#00FF51",
+      cancelButtonColor: "#9B9B9B",
+      cancelButtonText:"Cancelar",
+      confirmButtonText: "Agregar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Platillo creado",
+          text: "Se ha añadido un nuevo platillo",
+          icon: "success"
+        }).then(() => {
+          validar(metodo, accion);
+          window.location.reload();
+        });
+      }
+    });
+  }
+
+  const alertUpdatePlatillo=(event,metodo, accion)=>{
+    event.preventDefault()
+    Swal.fire({
+      title: "Actualizar platillo",
+      text: "¿Está seguro de actualizar el platillo actual?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#FFE22C",
+      cancelButtonColor: "#9B9B9B",
+      cancelButtonText:"Cancelar",
+      confirmButtonText: "Actualizar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Platillo actualizado",
+          text: "Se ha actualizado el platillo",
+          icon: "success"
+        }).then(() => {
+          validar(metodo, accion);
+          window.location.reload();
+        });
+      }
+    });
+  }
+
   const enviar = async (metodo, parametros, url) => {
     console.log("Entro con "+metodo+" y "+url);
-    await axios({
-      method: metodo,
-      url: urlPlatillos+url,
-      data: parametros
-    }).then(function (respuesta) {
-      //Si quieren añadir acciones después de enviar peticion
-      console.log("Solicitud envida");
-      console.log(respuesta);
-    })
-    .catch(function (error) {
-      show_alerta('Error en la Solicitud', 'error');
+    try {
+      const respuesta = await axios({
+        method: metodo,
+        url: urlPlatillos + url,
+        data: parametros
+      });
+      
+      if (respuesta.status === 200) {
+        console.log("Solicitud enviada");
+        console.log(respuesta);
+      } else {
+        throw new Error("Error en la solicitud");
+      }
+    } catch (error) {
       console.log(error);
-    });
-
+    }
+  
     getPlatillos();
   }
+  
 
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -176,7 +260,7 @@ export const InsumosAdmin=()=>{
                     openModalEdit(platillo.idPlatillos, platillo.nombre, platillo.descripcion, platillo.stock, platillo.tipo, platillo.precio);
                   }} alt="check" />
                   &nbsp;
-                  <img src={borrar} onClick={() => deletePlatillo(platillo.idPlatillos)} alt="check" />
+                  <img src={borrar} onClick={() => alertDeletePlatillo(platillo.idPlatillos)} alt="check" />
                 </td>
               </tr>
             ))}                
@@ -193,33 +277,34 @@ export const InsumosAdmin=()=>{
       onRequestClose={closeModal}
       style={customStyles}
       contentLabel="Nuevo Platillo Modal"
-      >
+    >
       <h2 style={{color: 'black', fontSize: 35}}>Agregar Platillo</h2>
-      <form style={{
-          width: '90%',
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center',
-          }}>
-          <span className='inputs-modal'>Nombre: <input style={{width:"60%"}} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
-          <span className='inputs-modal'>Descripcion: <input style={{width:"60%"}} required type='text' placeholder='Descripcion' onChange={(e) => setDescripcion(e.target.value)} /></span> 
-          <span className='inputs-modal'>Stock: <input style={{width:"60%"}} required type='number' placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span> 
-          <span className='inputs-modal'>Tipo de platillo: 
+      <form onSubmit={(e) => alertCreatePlatillo(e, 'POST', 'crear')} style={{
+        width: '90%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
+        <span className='inputs-modal'>Nombre: <input style={{width:"60%"}} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
+        <span className='inputs-modal'>Descripcion: <input style={{width:"60%"}} required type='text' placeholder='Descripcion' onChange={(e) => setDescripcion(e.target.value)} /></span>
+        <span className='inputs-modal'>Stock: <input style={{width:"60%"}} required type='number' placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
+        <span className='inputs-modal'>Tipo de platillo: 
           <select style={{width:"60%", height:'30px'}} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
-              <option disabled value="">Sin clasificación</option>
-              <option value="Postre">Postre</option>
-              <option value="Fuerte">Fuerte</option>
-              <option value="Entrada">Entrada</option>
-              <option value="Bebida">Bebida</option>
-          </select></span> 
-          <span className='inputs-modal'>Precio: <input style={{width:"60%"}} required type='number' placeholder='Precio' onChange={(e) => setPrecio(e.target.value)}  /></span> 
-          <div className='container-botones-modal'>
-            <button className='boton-aceptar' onClick={() => validar('POST')}>Guardar Cambios</button>
+            <option disabled value="">Sin clasificación</option>
+            <option value="Postre">Postre</option>
+            <option value="Fuerte">Fuerte</option>
+            <option value="Entrada">Entrada</option>
+            <option value="Bebida">Bebida</option>
+          </select>
+        </span>
+        <span className='inputs-modal'>Precio: <input style={{width:"60%"}} required type='number' placeholder='Precio' onChange={(e) => setPrecio(e.target.value)} /></span>
+        <div className='container-botones-modal'>
+          <button type="submit" className='boton-aceptar'>Guardar Cambios</button>
           <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
-          </div>
-          
-        </form>
+        </div>
+      </form>
     </Modal>
+
 
     <Modal
       isOpen={modalEdit}
@@ -229,7 +314,7 @@ export const InsumosAdmin=()=>{
       contentLabel="Editar Platillo Modal"
     >
       <h2 style={{ color: 'black', fontSize: 35 }}>Editar Platillo</h2>
-      <form style={{
+      <form onSubmit={(e) => alertUpdatePlatillo(e, 'PUT', 'editar')} style={{
         width: '90%',
         display: 'flex',
         flexDirection: 'column',
@@ -248,13 +333,12 @@ export const InsumosAdmin=()=>{
         </select></span>
         <span className='inputs-modal'>Precio: <input style={{ width: "60%" }} required type='number' placeholder='Precio' value={precio} onChange={(e) => setPrecio(e.target.value)} /></span>
         <div className='container-botones-modal'>
-          <button className='boton-aceptar' onClick={() => validar('PUT')}>Guardar Cambios</button>
-          <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
+          <button type="submit" className='boton-aceptar'>Guardar Cambios</button>
+          <button className='boton-cancelar' onClick={closeModalEdit}>Cancelar</button>
         </div>
+        
       </form>
     </Modal>
-
-      
     </>
   )
 }

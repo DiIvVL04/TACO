@@ -5,7 +5,7 @@
 
 .container_navbar_caja{
   background-color: #2A2E98;
-  height: 17vh;
+  height: 13vh;
   width: 100%;
   padding: 2%;
   display: flex;
@@ -14,8 +14,9 @@
 
 .nav-caja {
   background-color: #181818;
+  border: 1px solid grey;
   color: #fff;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
   width: 94%;
@@ -38,6 +39,19 @@
 .botoncito-caja {
   background-color: #181818;
   color: #fff;
+  font-size: 20px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-caja2 {
+  background-color: #1D1F3F;
+  color: #fff;
+  font-size: 20px;
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -54,17 +68,18 @@
   border-radius: 20px;
   width: 20%;
   text-align: center;
-}
+} 
 
 .botoncito-caja:hover {
   background-color: #1D1F3F;
+  border: 1px solid rgb(101, 101, 255);
 }
 
 .logo-caja {
-  width: 80px;
-  height: 80px;
-  top: 2%;
-  padding: 10px;
+  width: 100px;
+  height: 100px;
+  top: 1.6%;
+  padding: .8%;
   margin: 0;
   left: 47%;
   align-items: center;
@@ -74,6 +89,7 @@
   display: flex;
   justify-content: center;
   justify-self: center;
+  border: 2px solid grey;
 }
 
 .logo-caja img {

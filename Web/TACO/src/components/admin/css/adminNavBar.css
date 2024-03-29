@@ -2,7 +2,7 @@
   width: 100%;
   height: auto;
 }
-
+ 
 .container_navbar_adm {
   background-color: #FF3636;
   height: 13vh;
@@ -89,10 +89,10 @@
   display: flex;
   justify-content: center;
   justify-self: center;
-  border: 2px solid grey;
+  border: 2px solid grey; 
 }
 
-.logo-adm img {
+.logo-adm img { 
   width: 80px;
   height: 80px;
   object-fit: contain;

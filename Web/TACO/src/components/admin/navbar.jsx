@@ -5,7 +5,7 @@ import LogoTACO from "../../../public/assets/imgs/LogoTACO.png"
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-export const NavBarAdmin=({selected})=>{
+export const NavBarAdmin=({selected})=>{ 
     const [ selectedItem, setSelectedItem ] = useState(selected);
 
     const cerrarSesion = (id_, name, validar) => {

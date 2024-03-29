@@ -1,90 +1,95 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import axios from 'axios';
 
 const Menu = () => {
-    // Datos de ejemplo
-    const categorias = {
-        Entradas: [
-            { nombre: 'Guacamole', precio: '$50' },
-            { nombre: 'Quesadillas', precio: '$45' },
-        ],
-        Guisados: [
-            { nombre: 'Mole con pollo', precio: '$70' },
-            { nombre: 'Cochinita Pibil', precio: '$75' },
-        ],
-        Bebidas: [
-            { nombre: 'Agua de horchata', precio: '$30' },
-            { nombre: 'Cerveza', precio: '$40' },
-        ],
-        Postres: [
-            { nombre: 'Flan', precio: '$50' },
-            { nombre: 'Arroz con leche', precio: '$45' },
-        ],
+    const [categorias, setCategorias] = useState({});
+
+    const fetchCategoriasConPlatos = async () => {
+        try {
+            const response = await axios.get('http://10.0.2.2:8080/api/Proyecto_Integrador/platillo/obtener');
+            const platosAgrupados = agruparPlatosPorCategoria(response.data.data);
+            setCategorias(platosAgrupados);
+        } catch (error) {
+            console.error("Error al obtener las categorías y platos:", error);
+        }
     };
 
+    const agruparPlatosPorCategoria = (platos) => {
+        return platos.reduce((acc, plato) => {
+            const { tipo, nombre, precio } = plato;
+            if (!acc[tipo]) {
+                acc[tipo] = [];
+            }
+            acc[tipo].push({ nombre, precio });
+            return acc;
+        }, {});
+    };
+
+    useEffect(() => {
+        fetchCategoriasConPlatos();
+    }, []);
+
     return (
-        <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.menuContainer}>
-                <View style={styles.card}>
-                    {Object.entries(categorias).map(([categoria, platos]) => (
-                        <View key={categoria} style={styles.categoriaContainer}>
-                            <Text style={styles.categoriaTitulo}>{categoria}</Text>
-                            {platos.map((plato) => (
-                                <View key={plato.nombre} style={styles.platoContainer}>
-                                    <Text style={styles.platoNombre}>{plato.nombre}</Text>
-                                    <Text style={styles.platoPrecio}>{plato.precio}</Text>
-                                </View>
-                            ))}
+        <ScrollView style={styles.container}>
+            {Object.entries(categorias).map(([categoria, platos]) => (
+                <View key={categoria} style={styles.categoriaContainer}>
+                    <Text style={styles.categoriaTitulo}>{categoria}</Text>
+                    {platos.map((plato, index) => (
+                        <View key={index} style={styles.platoContainer}>
+                            <Text style={styles.platoNombre}>{plato.nombre}</Text>
+                            <Text style={styles.platoPrecio}>${plato.precio}</Text>
                         </View>
                     ))}
                 </View>
-            </ScrollView>
-        </View>
+            ))}
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F0F0', 
-    },
-    menuContainer: {
-        marginTop:20,
-        padding: 20,
-        paddingBottom: 30,
-    },
-    card: {
-        backgroundColor: 'orange', 
-        borderRadius: 10,
-        padding: 20,
-        marginBottom: 20,
-        borderColor: 'black', 
-        borderWidth: 2,
+        backgroundColor: '#F1EFDB', 
     },
     categoriaContainer: {
-        marginBottom: 20,
+        marginVertical: 15,
+        paddingHorizontal: 15,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 8,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
     },
     categoriaTitulo: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'white', 
-        marginBottom: 10,
-        textDecorationLine: 'underline', 
+        fontSize: 20,
+        fontWeight: '600', 
+        color: '#333',
+        marginTop: 10,
+        marginBottom: 15,
+        textAlign: 'center', 
     },
     platoContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 5,
-        borderBottomWidth: 1, 
-        borderBottomColor: '#FF4500', 
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#D32F87', 
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     },
     platoNombre: {
-        fontSize: 18,
-        color: '#000000', 
+        fontSize: 16,
+        color: '#333', 
     },
     platoPrecio: {
-        fontSize: 18,
-        color: '#000000',
+        fontSize: 16,
+        color: '#333',
     },
 });
 

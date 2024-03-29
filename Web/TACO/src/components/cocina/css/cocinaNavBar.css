@@ -16,7 +16,7 @@
   background-color: #181818;
   border: 1px solid grey;
   color: #fff;
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
   width: 94%;
@@ -76,10 +76,10 @@
 }
 
 .logo-coc {
-  width: 80px;
-  height: 80px;
-  top: 2%;
-  padding: 10px;
+  width: 100px;
+  height: 100px;
+  top: 1.6%;
+  padding: .8px;
   margin: 0;
   left: 47%;
   align-items: center;
