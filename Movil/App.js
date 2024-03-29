@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='mesas'>
+      <Stack.Navigator initialRouteName='splash'>
 
 
         <Stack.Screen options={{ headerShown: false }}
