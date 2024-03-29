@@ -19,8 +19,9 @@ export default function TabNav() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialIcons name='table-restaurant' size={size} color={color} />
                     ),
-                    tabBarActiveTintColor: '#D32F87',
-                    tabBarInactiveTintColor: '#009574',
+                    tabBarActiveTintColor: 'white',
+                    tabBarInactiveTintColor: 'black',
+                    tabBarActiveBackgroundColor:'#F59456',
                     tabBarLabelStyle: { fontSize: 10 }
                 }} />
 
@@ -31,8 +32,9 @@ export default function TabNav() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialIcons name='restaurant-menu' size={size} color={color} />
                     ),
-                    tabBarActiveTintColor: '#D32F87',
-                    tabBarInactiveTintColor: '#009574',
+                    tabBarActiveTintColor: 'white',
+                    tabBarInactiveTintColor: 'black',
+                    tabBarActiveBackgroundColor:'#F59456',
                     tabBarLabelStyle: { fontSize: 10 }
                 }} />
 
@@ -43,8 +45,9 @@ export default function TabNav() {
                     tabBarIcon: ({ color, size }) => (
                         <Entypo name='user' size={size} color={color} />
                     ),
-                    tabBarActiveTintColor: '#D32F87',
-                    tabBarInactiveTintColor: '#009574',
+                    tabBarActiveTintColor: 'white',
+                    tabBarInactiveTintColor: 'black',
+                    tabBarActiveBackgroundColor:'#F59456',
                     tabBarLabelStyle: { fontSize: 10 }
                 }} />
 
@@ -55,8 +58,9 @@ export default function TabNav() {
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name='qrcode' size={size} color={color} />
                     ),
-                    tabBarActiveTintColor: '#D32F87',
-                    tabBarInactiveTintColor: '#009574',
+                    tabBarActiveTintColor: 'white',
+                    tabBarInactiveTintColor: 'black',
+                    tabBarActiveBackgroundColor:'#F59456',
                     tabBarLabelStyle: { fontSize: 10 }
                 }} />
         </Tab.Navigator>
