@@ -122,7 +122,15 @@ export const InsumosAdmin=()=>{
 
 
   const alertCreatePlatillo=(event,metodo, accion)=>{
-    event.preventDefault()
+    event.preventDefault();
+    if (stock<0){
+      Swal.fire({
+        title: "Error",
+        text: "El stock no puede ser negativo",
+        icon: "error"
+      });
+      return;
+    }
     Swal.fire({
       title: "Crear platillo",
       text: "¿Está seguro de crear un nuevo platillo?",
@@ -245,12 +253,12 @@ export const InsumosAdmin=()=>{
         <table className='tabla-admin-adm'>
         <thead>
             <tr>
-              <th className="th-adm">Platillo</th>
-              <th className="th-adm">Tipo</th>
-              <th className="th-adm">Precio</th>
-              <th className="th-adm">Stock</th>
-              <th className="th-adm">Estado</th>
-              <th className="th-adm">Acciones</th>          
+              <th className="th-adm">Platillo:</th>
+              <th className="th-adm">Tipo:</th>
+              <th className="th-adm">Precio:</th>
+              <th className="th-adm">Stock:</th>
+              <th className="th-adm">Estado:</th>
+              <th className="th-adm">Acciones:</th>          
             </tr>
           </thead>
           <tbody>
@@ -290,7 +298,7 @@ export const InsumosAdmin=()=>{
     ...customStyles,
     content: {
       ...customStyles.content,
-      height: '80vh', // Ajusta la altura del modal
+      height: '90vh', // Ajusta la altura del modal
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center', // Centra verticalmente los elementos
@@ -304,7 +312,7 @@ export const InsumosAdmin=()=>{
   <h2 style={{ color: 'black', fontSize: 35, marginBottom: '40px', textAlign: 'center' }}>Agregar Platillo</h2>
   <form onSubmit={(e) => alertCreatePlatillo(e, 'POST', 'crear')} style={{ width: '90%', maxWidth: '400px' }}>
     <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
-    <span className='inputs-modal'>Descripcion: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripcion' onChange={(e) => setDescripcion(e.target.value)} /></span>
+    <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' onChange={(e) => setDescripcion(e.target.value)} /></span>
     <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
     <span className='inputs-modal'>Tipo de platillo: 
       <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
@@ -350,7 +358,7 @@ export const InsumosAdmin=()=>{
   <h2 style={{ color: 'black', fontSize: 35 }}>Editar Platillo</h2>
   <form onSubmit={(e) => alertUpdatePlatillo(e, 'PUT', 'editar')} style={{ width: '90%', maxWidth: '400px' }}>
     <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' value={nombre} onChange={(e) => setNombre(e.target.value)} /></span>
-    <span className='inputs-modal'>Descripcion: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripcion' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} /></span>
+    <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} /></span>
     <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
     <span className='inputs-modal'>Tipo de platillo: 
       <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>

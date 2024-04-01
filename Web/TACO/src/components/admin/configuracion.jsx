@@ -248,33 +248,33 @@ export const ConfiguracionAdmin=()=>{
                         <div>
                         <div className='input-form-2'>
                             <div>
-                                <label className="label-adm">Nombre</label>
+                                <label className="label-adm">Nombre:</label>
                                 <input id="nombre-adm" name="nombre" value={nombre} onChange={(e) => {setNombre(e.target.value)}} placeholder="Nombre" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                                <label className="label-adm">Apellido paterno</label>
+                                <label className="label-adm">Apellido paterno:</label>
                                 <input id="paterno-adm" name="paterno" value={apellidoPat} onChange={(e) => {setApellidoPat(e.target.value)}} placeholder="Apellido paterno" required disabled={!personalSelec}/>
                             </div>
                         </div>
                         
                         <div className='input-form-2'>
                             <div>
-                                <label className="label-adm">Apellido materno</label>
+                                <label className="label-adm">Apellido materno:</label>
                                 <input id="materno-adm" name="materno" value={apellidoMat} onChange={(e) => {setApellidoMat(e.target.value)}} placeholder="Apellido materno" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                                <label className="label-adm">Usuario</label>
+                                <label className="label-adm">Usuario:</label>
                                 <input id="usuario-adm" name="usuario" value={username} onChange={(e) => {setUsername(e.target.value)}} placeholder="Usuario" required disabled={!personalSelec}/>
                             </div>
                         </div>
 
                         <div className='input-form-2'>
                             <div>
-                                <label className="label-adm">Correo electrónico</label>
+                                <label className="label-adm">Correo electrónico:</label>
                                 <input id="email-adm" name="email" value={email} placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
-                                <label className="label-adm">Contraseña</label>
+                                <label className="label-adm">Contraseña:</label>
                                 <input id="password-adm" name="password" value={password} placeholder="Contraseña" onChange={(e) => {setPassword(e.target.value)}} type="text" required disabled={!personalSelec}/>
                             </div>
                         </div>

@@ -14,15 +14,15 @@ export const ConfigCaja=()=>{
                 <div className="container_formulario-caja">
                 <form>
                     <div>
-                    <label className="label-caja">Usuario</label>
+                    <label className="label-caja">Usuario:</label>
                     <input id="usuario-caja" name="usuario" placeholder="Usuario" />
                     </div>
                     <div>
-                    <label className="label-caja">Correo electrónico</label>
+                    <label className="label-caja">Correo electrónico:</label>
                     <input id="email-caja" name="email" placeholder="Correo electrónico" type="email" />
                     </div>
                     <div>
-                    <label className="label-caja">Contraseña</label>
+                    <label className="label-caja">Contraseña:</label>
                     <input id="password-caja" name="password" placeholder="Contraseña" type="password" />
                     </div>
                     <button type="submit" className="boton-caja">Guardar</button>

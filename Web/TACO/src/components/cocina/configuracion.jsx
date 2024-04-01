@@ -14,15 +14,15 @@ export const ConfiguracionCocina=()=>{
             <div className="container_formulario-coc">
               <form>
                 <div>
-                  <label className="label-coc">Usuario</label>
+                  <label className="label-coc">Usuario:</label>
                   <input id="usuario-coc" name="usuario" placeholder="Usuario" />
                 </div>
                 <div>
-                  <label className="label-coc">Correo electrónico</label>
+                  <label className="label-coc">Correo electrónico:</label>
                   <input id="email-coc" name="email" placeholder="Correo electrónico" type="email" />
                 </div>
                 <div>
-                  <label className="label-coc">Contraseña</label>
+                  <label className="label-coc">Contraseña:</label>
                   <input id="password-coc" name="password" placeholder="Contraseña" type="password" />
                 </div>
                 <button type="submit" className="boton-coc">Guardar</button>

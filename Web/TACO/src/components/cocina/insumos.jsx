@@ -23,16 +23,16 @@ export const InsumosCocina=()=>{
           <CocinaNavBar selected={2}/>
           <div className="container-table-cocina-coc">
             <div className="titulo-coc">
-              <span> Platillos disponibles</span>
+              <span> Platillos disponibles:</span>
 
             </div>
             <table className='tabla-cocina-coc'>
             <thead>
                 <tr>
-                  <th className="th-coc">Platillo</th>
-                  <th className="th-coc">Tipo</th>
-                  <th className="th-coc">Stock</th>
-                  <th className="th-coc">Estado</th>      
+                  <th className="th-coc">Platillo:</th>
+                  <th className="th-coc">Tipo:</th>
+                  <th className="th-coc">Stock:</th>
+                  <th className="th-coc">Estado:</th>      
                 </tr>
               </thead>
               <tbody>
