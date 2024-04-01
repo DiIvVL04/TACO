@@ -286,23 +286,29 @@
 }
 
 /*MODAL PLATILLO*/
+.boton-aceptar, .boton-cancelar {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
 
-.boton-aceptar{
+.boton-aceptar {
   background-color: #18C875;
+  color: white;
   margin-right: 40px;
 }
-.boton-cancelar{
+
+.boton-cancelar {
   background-color: #E21B1B;
-  margin-left: 40px;
+  color: white;
 }
 
-.container-botones-modal{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5%;
+.boton-aceptar:hover, .boton-cancelar:hover {
+  opacity: 0.4;
 }
+
 
 .inputs-modal{
   display: flex;

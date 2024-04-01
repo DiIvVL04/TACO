@@ -18,7 +18,8 @@ Modal.setAppElement('#root');
 const customStyles = {
     content: {
       width: '45%',
-      height: '61vh',
+      minHeight: '80vh', // Establece una altura mínima del 80% del alto de la ventana
+      maxHeight: '90vh', // Establece una altura máxima del 90% del alto de la ventana
       top: '50%',
       left: '50%',
       right: 'auto',
@@ -32,6 +33,16 @@ const customStyles = {
       justifyContent: 'center'
     },
   };
+  
+  
+
+  const inputStyles = {
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '8px',
+    marginBottom: '10px',
+};
+
 
 export const ConfiguracionAdmin=()=>{
     const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/';
@@ -305,39 +316,47 @@ export const ConfiguracionAdmin=()=>{
             </div>
             
             <Modal
-                isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Nuevo empleado Modal"
-                >
-                <h2 style={{color: 'black', fontSize: 35}}>Agregar Empleado</h2>
-                <form onSubmit={(e) =>alertCreateUser(e,'POST')} style={{
-                    width: '90%',
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center',
-                    }}>
-                    <span className='inputs-modal'>Nombre: <input style={{width:"60%"}} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
-                    <span className='inputs-modal'>Apellido Paterno: <input style={{width:"60%"}} required type='text' placeholder='Apellido Paterno' onChange={(e) => setApellidoPat(e.target.value)} /></span>
-                    <span className='inputs-modal'>Apellido Materno: <input style={{width:"60%"}} required type='text' placeholder='Apellido Materno' onChange={(e) => setApellidoMat(e.target.value)} /></span> 
-                    <span className='inputs-modal'>Rol: 
-                    <select style={{width:"60%", height:'30px'}} value={rol} onChange={(e) => setRol(e.target.value)} required>
-                        <option></option>
-                        <option value="Mesero">Mesero</option>
-                        <option value="Caja">Cajero</option>
-                        <option value="Cocina">Cocinero</option>
-                    </select></span> 
-                    <span className='inputs-modal'>Username: <input style={{width:"60%"}} required type='text' placeholder='Username' onChange={(e) => setUsername(e.target.value)}  /></span> 
-                    <span className='inputs-modal'>Correo electrónico: <input style={{width:"60%"}} required type='email' placeholder='example@example.com' onChange={(e) => setEmail(e.target.value)}  /></span> 
-                    <span className='inputs-modal'>Contraseña: <input style={{width:"60%"}} required type='text' placeholder='Contraseña' onChange={(e) => setPassword(e.target.value)}  /></span> 
-                    <div className='container-botones-modal'>
-                        <button className='boton-aceptar' type='submit'>Agregar Empleado</button>
-                        <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
-                    </div>
-                    
-                    </form>
-            </Modal>
+    isOpen={modalIsOpen}
+    onAfterOpen={afterOpenModal}
+    onRequestClose={closeModal}
+    style={{
+        ...customStyles,
+        content: {
+            ...customStyles.content,
+            height: '80vh', // Ajusta la altura del modal
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center', // Centra verticalmente los elementos
+            alignItems: 'center', // Centra horizontalmente los elementos
+            padding: '20px', // Agrega un relleno para suavizar los bordes
+            border: 'none', // Elimina el borde para evitar bordes irregulares
+        },
+    }}
+    contentLabel="Nuevo empleado Modal"
+>
+    <h2 style={{ color: 'black', fontSize: 35, marginBottom: '40px', textAlign: 'center' }}>Agregar Empleado</h2>
+    <form onSubmit={(e) => alertCreateUser(e, 'POST')} style={{ width: '90%', maxWidth: '400px' }}>
+        <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
+        <span className='inputs-modal'>Apellido Paterno: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Apellido Paterno' onChange={(e) => setApellidoPat(e.target.value)} /></span>
+        <span className='inputs-modal'>Apellido Materno: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Apellido Materno' onChange={(e) => setApellidoMat(e.target.value)} /></span>
+        <span className='inputs-modal'>Rol:
+            <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={rol} onChange={(e) => setRol(e.target.value)} required>
+                <option disabled value="">Seleccionar Rol</option>
+                <option value="Mesero">Mesero</option>
+                <option value="Cajero">Cajero</option>
+                <option value="Cocinero">Cocinero</option>
+            </select>
+        </span>
+        <span className='inputs-modal'>Username: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Username' onChange={(e) => setUsername(e.target.value)} /></span>
+        <span className='inputs-modal'>Correo electrónico: <input style={{ ...inputStyles, width: "100%" }} required type='email' placeholder='Correo electrónico' onChange={(e) => setEmail(e.target.value)} /></span>
+        <span className='inputs-modal'>Contraseña: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Contraseña' onChange={(e) => setPassword(e.target.value)} /></span>
+        <div className='container-botones-modal' style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <button type="submit" className='boton-aceptar'>Agregar Empleado</button>
+            <button className='boton-cancelar' onClick={closeModal}>Cancelar</button>
+        </div>
+    </form>
+</Modal>
+
     </>
     )
 }
