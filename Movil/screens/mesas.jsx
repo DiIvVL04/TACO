@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Modal, StyleSheet, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Button, Card, Avatar, ListItem, Image } from '@rneui/themed';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +8,7 @@ const Mesas = () => {
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
     const [mesas, setMesas] = useState([]);
+    const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
     const [menu, setMenu] = useState([]);
 
     useEffect(() => {
@@ -17,7 +18,7 @@ const Mesas = () => {
 
     const fetchPlatillos = async () => {
         try {
-            const response = await fetch('http://10.0.2.2:8080/api/Proyecto_Integrador/platillo/obtener');
+            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/platillo/obtener');
             const data = await response.json();
             if (data.status === "OK") {
                 let gruposPorTipo = {};
@@ -43,7 +44,6 @@ const Mesas = () => {
     };
 
     const cerrarYResetear = () => {
-
         const menuReset = { ...menu };
         Object.keys(menuReset).forEach(tipo => {
             menuReset[tipo] = menuReset[tipo].map(item => {
@@ -54,34 +54,34 @@ const Mesas = () => {
         setModalVisible(false);
     };
 
-    
-//  POR PROBAR ////////////////////////////////////////////
+
+    //  POR PROBAR ////////////////////////////////////////////
     const enviarPedido = async () => {
-        const idMesa = mesaSeleccionada?.idMesas; 
+        const idMesa = mesaSeleccionada?.idMesas;
         const pedido = Object.keys(menu).flatMap(tipo =>
             menu[tipo].filter(item => item.cantidad > 0).map(item => ({
-                idPlatillo: item.id, 
+                idPlatillo: item.id,
                 cantidad: item.cantidad,
             }))
         );
-    
+
         const dataParaEnviar = {
             idMesa,
             platillos: pedido,
         };
-    
+
         try {
-            const respuesta = await fetch('URL_DEL_ENDPOINT', {
+            const respuesta = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/orden/guardar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dataParaEnviar),
             });
-    
+
             if (respuesta.ok) {
                 console.log('Pedido enviado con éxito');
-                setModalVisible(false);
+                cerrarYResetear(); 
             } else {
                 const errorData = await respuesta.json();
                 console.error('Error al enviar el pedido:', errorData.message);
@@ -90,13 +90,14 @@ const Mesas = () => {
             console.error('Error al enviar el pedido', error);
         }
     };
-//////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////
 
 
 
     const fetchMesas = async () => {
         try {
-            const response = await fetch('http://10.0.2.2:8080/api/Proyecto_Integrador/mesa/obtener');
+            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/mesa/obtener');
             const data = await response.json();
             if (!data.error) {
                 setMesas(data.data);
@@ -109,18 +110,18 @@ const Mesas = () => {
     };
 
 
-    const aumentarCantidad = (id) => {
-        const nuevoMenu = Object.entries(menu).reduce((acc, [tipo, platillos]) => {
-            acc[tipo] = platillos.map(platillo => {
-                if (platillo.id === id) {
-                    return { ...platillo, cantidad: platillo.cantidad + 1 };
-                }
-                return platillo;
-            });
-            return acc;
-        }, {});
-
-        setMenu(nuevoMenu);
+    const aumentarCantidad = (idPlatillo) => {
+        setMenu(prevMenu => {
+            return Object.keys(prevMenu).reduce((acc, tipo) => {
+                acc[tipo] = prevMenu[tipo].map(item => {
+                    if (item.id === idPlatillo) {
+                        return { ...item, cantidad: item.cantidad + 1 };
+                    }
+                    return item;
+                });
+                return acc;
+            }, {});
+        });
     };
 
     const disminuirCantidad = (id) => {
@@ -169,21 +170,32 @@ const Mesas = () => {
 
             <ScrollView style={styles.mesasContainer}>
                 {mesas.map((mesa) => (
-                    <Card key={mesa.idMesas} containerStyle={styles.mesacard}>
-                        <View style={styles.imgName}>
-                            <Image source={require('../assets/mesa.png')} style={styles.imageStyle} />
-                            <Text marginLeft={20} style={styles.mesaText}>MESA {mesa.numero}</Text>
+                    <Card
+                        key={mesa.idMesas}
+                        containerStyle={mesa.estado ? styles.mesacard : styles.mesacardDisabled}
+                    >
+                        <View>
+                            <View style={styles.imgName}>
+                                <Image source={require('../assets/mesa.png')} style={styles.imageStyle} />
+                                <Text marginLeft={20} style={styles.mesaText}>MESA {mesa.numero}</Text>
+                            </View>
+                            {mesa.estado && (
+                                <Button
+                                    color={'orange'}
+                                    onPress={() => {
+                                        setMesaSeleccionada(mesa);
+                                        setModalVisible(true);
+                                    }}
+                                    containerStyle={styles.buttonContainer}
+                                >
+                                    ORDEN
+                                    <Octicons name="list-unordered" size={15} color="black" />
+                                </Button>
+                            )}
                         </View>
-                        <Button
-                            color={'orange'}
-                            onPress={() => setModalVisible(true)}
-                            containerStyle={styles.buttonContainer}
-                        >
-                            ORDEN
-                            <Octicons name="list-unordered" size={15} color="black" />
-                        </Button>
                     </Card>
                 ))}
+
             </ScrollView>
 
 
@@ -273,6 +285,12 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    mesacardDisabled: {
+        backgroundColor: '#D3D3D3',
+        opacity: 0.5,
+        padding: 15,
+        marginBottom: 10,
     },
     orderButton: {
         marginTop: 10,

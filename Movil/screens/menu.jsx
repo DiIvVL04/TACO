@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
     },
     categoriaContainer: {
         marginVertical: 15,
+        alignSelf: "center",
+        maxHeight: '80%',
+        width: '90%',
         paddingHorizontal: 15,
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
