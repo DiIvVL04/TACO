@@ -1,27 +1,29 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {Login} from "./components/principal/login.jsx";
-import {InsumosC} from "./components/cocina/insumosC.jsx";
-import {MesasC} from "./components/cocina/mesasC.jsx";
-import { Configuracion } from './components/cocina/configuracion.jsx';
-import {Index} from './components/caja/index.jsx';
-import {ConfigCaja} from './components/caja/configcaja.jsx';
-import {Mesas} from './components/admin/mesas.jsx';
-import {Configuracionadm} from './components/admin/configuracion.jsx'
+import { Login } from './components/principal/login';
+import { MesasAdmin } from './components/admin/mesas';
+import { ConfiguracionAdmin } from './components/admin/configuracion';
+import { InsumosAdmin } from './components/admin/insumos';
+import { MesasCocina } from './components/cocina/mesas';
+import { ConfiguracionCocina } from './components/cocina/configuracion';
+import { InsumosCocina } from './components/cocina/insumos';
+import { ConfigCaja } from './components/caja/config';
+import { MesasCaja } from './components/caja/mesas';
+import { Orden } from './components/cocina/orden';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
       <Routes>
-        <Route path="/" Component={MesasC} />
-        <Route path='/MesasC' Component={MesasC} />
-        <Route path='/Configuracion' Component={Configuracion} />
-        <Route path='/Insumos' Component={InsumosC} />
-        <Route path='/Login' Component={Login} />
-        <Route path='/Index' Component={Index} />
-        <Route path='/ConfigCaja' Component={ConfigCaja} />
-        <Route path='/Mesas' Component={Mesas} />
-        <Route path='/Configuracionadm' Component={Configuracionadm} />
-      </Routes>
+        <Route path='/' Component={Login}/>
+        <Route path='/MesasAdm' Component={MesasAdmin}/>
+        <Route path='/ConfigAdm' Component={ConfiguracionAdmin}/>
+        <Route path='/InsumosAdm' Component={InsumosAdmin}/>
+        <Route path='/MesasCocina' Component={MesasCocina}/>
+        <Route path='/ConfigCocina' Component={ConfiguracionCocina}/>
+        <Route path='/InsumosCocina' Component={InsumosCocina}/>
+        <Route path='/ConfigCaja' Component={ConfigCaja}/>
+        <Route path='/MesasCaja' Component={MesasCaja}/>
+       </Routes>
     </Router>
 )

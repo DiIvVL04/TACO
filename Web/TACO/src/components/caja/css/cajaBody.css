@@ -1,0 +1,127 @@
+/*MESAS*/
+.container_mesas-caja{
+  min-height: 450px;
+  height: auto;
+  width: 80vw;
+  background-color: rgb(212, 212, 212);
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.container_pedido-caja{
+  height: 450px;
+  width: 400px;
+  background-color: rgb(218, 218, 218);
+  margin-left: 20px;
+  display: flex;
+}
+.mesa_container-caja{
+  height: 200px;
+  width: 200px;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+.mesa_container-caja p{
+  font-size: 24px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin: 0;
+}
+.mesa_container-caja img{
+  width: 100px;
+  height: 100px;
+}
+.mesa_container_botones-caja{
+  display: flex; 
+  flex-direction: row;
+  margin: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.cobrar-caja{
+  background-color: #F59456;
+  color: #000000;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 80px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 14px;
+}
+.container-para-mesas-caja{
+  height: auto;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+/*CONFIG*/
+body{
+  background-color: rgb(255, 255, 255);
+  height: auto;
+  overflow: scroll;
+  width: 100%;
+}
+
+.container-user-caja{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.container_imagen-caja{
+  height: 450px;
+  width: 45%;
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container_imagen-caja img{
+  width: 300px;
+  height: 300px;
+}
+.container_formulario-caja{
+  height: 450px;
+  width: 45%;
+  margin-left: 20px;
+  display: flex;
+  padding-left: 40px;
+}
+#password-caja, #usuario-caja, #email-caja{
+  font-size: 20px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  display: block;
+  background-color: #B5B5C7;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  width: 300px;
+}
+.label-caja{
+  font-size: 20px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: rgb(0, 0, 0);
+  margin-top: 20px;
+  align-self: baseline;
+  display: block;
+  margin-bottom: 10px;
+}
+.boton-caja{
+  text-align: center;
+  font-size: 20px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  position: absolute;
+  margin: 10px;
+  margin-top: 40px;
+  background-color: #80809f; 
+  border-radius: 10px;
+  height: 50px;
+  width: 200px;
+}

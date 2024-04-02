@@ -1,0 +1,107 @@
+#root {
+  width: 100%;
+  height: auto;
+}
+
+.container_navbar_caja{
+  background-color: #2A2E98;
+  height: 13vh;
+  width: 100%;
+  padding: 2%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-caja {
+  background-color: #181818;
+  border: 1px solid grey;
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  width: 94%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-caja ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.botoncito-caja {
+  background-color: #181818;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.botoncito-caja2 {
+  background-color: #1D1F3F;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+.bt-hover-caja {
+  background-color: #181818;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  width: 20%;
+  text-align: center;
+} 
+
+.botoncito-caja:hover {
+  background-color: #1D1F3F;
+  border: 1px solid rgb(101, 101, 255);
+}
+
+.logo-caja {
+  width: 100px;
+  height: 100px;
+  top: 1.6%;
+  padding: .8%;
+  margin: 0;
+  left: 47%;
+  align-items: center;
+  position: absolute;
+  background-color: #181818;
+  border-radius: 200px;
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+  border: 2px solid grey;
+}
+
+.logo-caja img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.container-caja {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+  

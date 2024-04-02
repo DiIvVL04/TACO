@@ -1,52 +1,35 @@
-import LogoTACO from "../../assets/imgs/LogoTACO.png"
-import { Login } from "../principal/login";
-import '../cocina/css/config.css'
-import { InsumosC } from "./insumosC";
-import { MesasC } from "./mesasC";
-import User from "../../assets/imgs/user.png"
-
-export const Configuracion = () => {
-
+import React from "react";
+import User from "../../../public/assets/imgs/user.png"
+import './css/cocinaNavBar.css'
+import './css/cocinaBody.css'
+import { CocinaNavBar } from "./navBar";
+export const ConfiguracionCocina=()=>{
     return (
         <>
-        <div className="bodyconf">
-        <div className="container_navbarconf">
-            <nav className="navbarconf">
-                <div className="logoconf">
-                    <img src={LogoTACO} alt="LogoTACO" />
-                </div>
-                <div className="nav-buttons">
-                    <button onClick={() => { window.location='/Mesas'}}>Mesas</button>
-                    <button onClick={() => { window.location='/Insumos'}}>Insumos</button>
-                    <button onClick={() => { window.location='/Configuracion'}}>Configuración</button>
-                    <button onClick={() => { window.location='/Login'}}>Cerrar Sesión</button>
-                </div>
-            </nav>
-        </div>
-            <div className="containerconf">
-                <div className="container_imagen">
-                    <img src={User} />
-
-                </div>
-                <div className="container_formulario">
-                    <form>
-                        <div>
-                            <label form="usuario" className="usuario">Usuario</label>
-                            <input id="usuario" name="usuario" placeholder="Usuario" />
-                        </div>
-                        <div>
-                            <label form="email" className="chi">Correo electrónico</label>
-                            <input id="email" name="email" placeholder="Correo electrónico" type="email" />
-                        </div>
-                        <div>
-                            <label form="password" className="chi">Contraseña</label>
-                            <input id="password" name="password" placeholder="Contraseña" type="password" />
-                        </div>
-                        <button type="submit" className="boton">Guardar</button>
-                    </form>
-                </div>
+        <CocinaNavBar selected={3}/>
+          <div className="container-user-coc">
+            <div className="container_imagen-coc">
+              <img src={User} alt="User" />
             </div>
+            <div className="container_formulario-coc">
+              <form>
+                <div>
+                  <label className="label-coc">Usuario:</label>
+                  <input id="usuario-coc" name="usuario" placeholder="Usuario" />
+                </div>
+                <div>
+                  <label className="label-coc">Correo electrónico:</label>
+                  <input id="email-coc" name="email" placeholder="Correo electrónico" type="email" />
+                </div>
+                <div>
+                  <label className="label-coc">Contraseña:</label>
+                  <input id="password-coc" name="password" placeholder="Contraseña" type="password" />
+                </div>
+                <button type="submit" className="boton-coc">Guardar</button>
+              </form>
             </div>
-        </>
+          </div>
+          
+          </>
     )
 }
