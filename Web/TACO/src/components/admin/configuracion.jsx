@@ -56,6 +56,8 @@ export const ConfiguracionAdmin=()=>{
     const [ username, setUsername ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ nombre, setNombre ] = useState('');
+    const [ prev, setPrev ] = useState(null);
+    const [ emailStatus, setEmailStatus ] = useState(false);
 
     useEffect(() => {
         getPersonal();
@@ -80,16 +82,9 @@ export const ConfiguracionAdmin=()=>{
             cancelButtonText:"Cancelar",
             confirmButtonText: "Agregar"
           }).then((result) => {
-            if (result.isConfirmed) {
-              Swal.fire({
-                title: "Empleado creado",
-                text: "Se ha añadido un nuevo empleado",
-                icon: "success"
-              }).then(() => {
-                validar(metodo);
-                window.location.reload();
-              });
-            }
+            console.log(result)
+            validar(metodo);
+            
           });
     }
 
@@ -106,40 +101,52 @@ export const ConfiguracionAdmin=()=>{
             confirmButtonText: "Actualizar"
           }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Empleado actualizado",
-                text: "Se ha actualizado el empleado",
-                icon: "success"
-              });
               validar(metodo);
             }
           });
     }
 
     const validar = (metodo) => {
+        console.log("entra validar")
         let url = '';
         metodo == 'POST' ? url='guardar' : url='actualizar'
 
         console.log("IdUsuario: "+idPersonal);
-        let parametros = {
-        idPersonal: idPersonal,
-        nombre: nombre,
-        apellido_pat: apellidoPat,
-        apellido_mat: apellidoMat,
-        email: email,
-        rol: rol,
-        username: username,
-        password: password,
+        if (nombre == '' || nombre == undefined){
+            Swal.fire("Nombre vacío","El campo de nombre se encuentra vacío","warning")
+        } else if(apellidoPat == '' || apellidoPat == undefined){
+            Swal.fire("Apellido paterno vacío","El campo de apellido paterno se encuentra vacío","warning")
+        } else if(apellidoMat == '' || apellidoMat == undefined){
+            Swal.fire("Apellido materno vacío","El campo de apellido materno se encuentra vacío","warning")
+        } else if(rol == '' || rol == undefined){
+            Swal.fire("Rol vacío","El campo de rol se encuentra vacío","warning")
+        } else if(username == '' || username == undefined){
+            Swal.fire("Nobre de usuario vacío","El campo de username se encuentra vacío","warning")
+        } else if(password == '' || password == undefined){
+            Swal.fire("Contraseña vacía","El campo de contraseña se encuentra vacío","warning")
+        } else {
+            let parametros = {
+                idPersonal: idPersonal,
+                nombre: nombre,
+                apellido_pat: apellidoPat,
+                apellido_mat: apellidoMat,
+                email: email,
+                rol: rol,
+                username: username,
+                password: password,
+                }
+        
+                enviar(metodo, parametros, url);
         }
-
-        enviar(metodo, parametros, url);
+        
+        console.log("sale validar")
     }
 
 
     const alertDeleteUser=()=> {
         Swal.fire({
           title: "Eliminar empleado",
-          text: "¿Está seguro de eliminar a este empleado?",
+          text: "Esta es una decisión irreversible",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#C20000",
@@ -166,40 +173,58 @@ export const ConfiguracionAdmin=()=>{
     }
 
     const enviar = async (metodo, parametros, url) => {
-        await axios({
-        method: metodo,
-        url: urlPersonal+url,
-        data: parametros
-        }).then(function (respuesta) {
-        //Si quieren añadir acciones después de enviar peticion
-        console.log("Solicitud envida");
-        console.log(respuesta);
-        })
-        .catch(function (error) {
-        console.log(error);
-        }).finally ( function () {
-            getPersonal();
-            againNull();
-        });
+        console.log("entra enviar")
+        if(prev != null){
+            let buttonPrev = document.getElementById(prev);
+            buttonPrev.className = 'listaUser';
+            setPrev(null);
+        }        
+
+        console.log("VALIDAR "+emailStatus)
+        if(emailStatus){
+            console.log("entra if")
+            await axios({
+                method: metodo,
+                url: urlPersonal+url,
+                data: parametros
+                }).then(function (respuesta) {
+                    if (respuesta.status==200 && metodo=='POST') {
+                        Swal.fire({
+                          title: "Empleado creado",
+                          text: "Se ha añadido un nuevo empleado",
+                          icon: "success"
+                        });
+                        closeModal();
+                      } else if (respuesta.status==200 && metodo=='PUT'){
+                        Swal.fire({
+                            title: "Empleado actualizado",
+                            text: "Se ha actualizado el empleado",
+                            icon: "success"
+                          });
+                      }
+                })
+                .catch(function (error) {
+                console.log(error);
+                }).finally ( function () {
+                    getPersonal();
+                    limpiarCampos();
+                });
+        } else {
+            Swal.fire(
+                "Correo no valido",
+                "Correo no es valido",
+                "error"
+            )
+        }
+        console.log("sale enviar")
     }
 
     let subtitle;
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
-        againNull();
+        limpiarCampos();
         setIsOpen(true);
-    }
-
-    const againNull = () => {
-        setIdPersonal(null);
-        setRol('');
-        setApellidoMat('');
-        setApellidoPat('');
-        setPassword('');
-        setUsername('');
-        setEmail('');
-        setNombre('');
     }
 
     function afterOpenModal() {
@@ -210,8 +235,16 @@ export const ConfiguracionAdmin=()=>{
         setIsOpen(false);
     }
 
-    const verEmpleado = (usuario) => {
-        console.log(usuario.rol);
+    const verEmpleado = (usuario, id) => {
+        let button = document.getElementById(id);
+        button.className = 'listaHover';
+        
+        if(prev != null && id!=prev){
+            let buttonPrev = document.getElementById(prev);
+            buttonPrev.className = 'listaUser';
+        }
+        setPrev(id);
+
         setPersonalSelec(true);
         setNombre(usuario.nombre);
         setIdPersonal(usuario.idPersonal);
@@ -221,6 +254,7 @@ export const ConfiguracionAdmin=()=>{
         setPassword(usuario.password);
         setUsername(usuario.username);
         setEmail(usuario.email);
+        validarPrevEmail(usuario.email);
     };
 
     const limpiarCampos = () => {
@@ -234,6 +268,30 @@ export const ConfiguracionAdmin=()=>{
         setEmail('');
         setNombre('');
     };
+
+    const validarEmail = (e) => {
+        let campo = e;
+            
+        let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        
+        if (emailRegex.test(campo.value)) {  
+            console.log("SI")
+          setEmailStatus(true);
+        } else {
+            console.log("NO")
+          setEmailStatus(false);
+        }
+    }
+
+    const validarPrevEmail = (correo) => {
+        let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        
+        if(emailRegex.test(correo)) {
+          setEmailStatus(true);
+        }else {
+          setEmailStatus(false);
+        }
+      }
 
     return(
         <>
@@ -271,7 +329,9 @@ export const ConfiguracionAdmin=()=>{
                         <div className='input-form-2'>
                             <div>
                                 <label className="label-adm">Correo electrónico:</label>
-                                <input id="email-adm" name="email" value={email} placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required disabled={!personalSelec}/>
+                                <input id="email-adm" name="email" value={email}  onInput={
+                                (e) => { validarEmail(e.target); }
+                                } placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required disabled={!personalSelec}/>
                             </div>
                             <div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Contraseña:</label>
@@ -285,7 +345,7 @@ export const ConfiguracionAdmin=()=>{
                         
                         <select id='rol-adm' style={{width:"100%", height:'50px'}} onChange={(e) => setRol(e.target.value)} required disabled={!personalSelec}>
                             {rol=="Mesero" ? (<option value="Mesero" selected>Mesero</option>) : (<option value="Mesero">Mesero</option>)}
-                            {rol=="Cajero" ? (<option value="Cajero" selected>Cajero</option>) : (<option value="Caja">Cajero</option>)}
+                            {rol=="Caja" ? (<option value="Caja" selected>Cajero</option>) : (<option value="Caja">Cajero</option>)}
                             {rol=="Cocina" ? (<option value="Cocina" selected>Cocinero</option>) : (<option value="Cocina">Cocinero</option>)}                               
                             
                         </select></span> 
@@ -305,7 +365,7 @@ export const ConfiguracionAdmin=()=>{
                 </div>
                 <div className='container-users'>
                     {personal.map((personal, i) => (
-                    <div className='listaUser' key={i} onClick={()=>verEmpleado(personal) } >                        
+                    <div className='listaUser' key={i} id={i} onClick={()=>verEmpleado(personal, i) } >                        
                         <span className="info-user-list"> 
                             {personal.nombre} {personal.apellido_pat} <b>{personal.rol}</b>
                             <img src={usuario} style={{width: '7%', height: 'auto'}} /> 
@@ -343,12 +403,16 @@ export const ConfiguracionAdmin=()=>{
             <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={rol} onChange={(e) => setRol(e.target.value)} required>
                 <option disabled value="">Seleccionar Rol</option>
                 <option value="Mesero">Mesero</option>
-                <option value="Cajero">Cajero</option>
+                <option value="Caja">Cajero</option>
                 <option value="Cocinero">Cocinero</option>
             </select>
         </span>
         <span className='inputs-modal'>Username: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Username' onChange={(e) => setUsername(e.target.value)} /></span>
-        <span className='inputs-modal'>Correo electrónico: <input style={{ ...inputStyles, width: "100%" }} required type='email' placeholder='Correo electrónico' onChange={(e) => setEmail(e.target.value)} /></span>
+        <span className='inputs-modal'>Correo electrónico: 
+        <input style={{ ...inputStyles, width: "100%" }} required type='email' onInput={
+                                (e) => { validarEmail(e.target); }
+                                } placeholder='Correo electrónico' onChange={(e) => setEmail(e.target.value)} />
+        </span>
         <span className='inputs-modal'>Contraseña: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Contraseña' onChange={(e) => setPassword(e.target.value)} /></span>
         <div className='container-botones-modal' style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <button type="submit" className='boton-aceptar'>Agregar Empleado</button>
