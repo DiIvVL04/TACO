@@ -55,6 +55,7 @@ export const InsumosAdmin = () => {
   const [stock, setStock] = useState(0);
   const [tipo, setTipo] = useState('');
   const [precio, setPrecio] = useState(0);
+  const [ stockStatus, setStockStatus ] = useState(false);
 
   useEffect(() => {
     getPlatillos();
@@ -195,6 +196,7 @@ export const InsumosAdmin = () => {
       } else {
         throw new Error("Error en la solicitud");
       }
+      
     } catch (error) {
       console.log(error);
     }
@@ -232,12 +234,35 @@ export const InsumosAdmin = () => {
     setNombre(nombre);
     setDescripcion(descripcion);
     setStock(stock);
+    validarPrevStock(stock);
     setTipo(tipo);
     setPrecio(precio);
   }
 
   function closeModalEdit() {
     setOpenEdit(false);
+  }
+
+  const validarStock = (e) => {
+    let campo = e;
+        
+    let telRegex = /^[0-9]{10}$/;
+    
+    if (telRegex.test(campo.value)) {  
+      setStockStatus(true);
+    } else {
+      setStockStatus(false);
+    }
+  }
+
+  const validarPrevStock = (tel) => {
+    let telRegex = /^[0-9]{10}$/;
+    
+    if(telRegex.test(tel)) {
+      setStockStatus(true);
+    }else {
+      setStockStatus(false);
+    }
   }
   
   return (
@@ -331,7 +356,8 @@ export const InsumosAdmin = () => {
         <form onSubmit={(e) => alertCreatePlatillo(e, 'POST', 'crear')} style={{ width: '90%', maxWidth: '400px' }}>
           <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
           <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' onChange={(e) => setDescripcion(e.target.value)} /></span>
-          <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
+          <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' onInput={
+                  (e) => { validarStock(e.target); } } placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
           <span className='inputs-modal'>Tipo de platillo:
             <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
               <option disabled value="">Sin clasificación</option>
@@ -377,7 +403,8 @@ export const InsumosAdmin = () => {
         <form onSubmit={(e) => alertUpdatePlatillo(e, 'PUT', 'editar')} style={{ width: '90%', maxWidth: '400px' }}>
           <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' value={nombre} onChange={(e) => setNombre(e.target.value)} /></span>
           <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} /></span>
-          <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
+          <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' onInput={
+                  (e) => { validarStock(e.target); } } placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
           <span className='inputs-modal'>Tipo de platillo:
             <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
               <option disabled value="">Seleccionar tipo</option>
