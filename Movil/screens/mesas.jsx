@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { Button, Card, Avatar, ListItem, Image } from '@rneui/themed';
+import { Button, Card, ListItem, Image } from '@rneui/themed';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Mesas = () => {
     const navigation = useNavigation();
@@ -10,15 +11,31 @@ const Mesas = () => {
     const [mesas, setMesas] = useState([]);
     const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
     const [menu, setMenu] = useState([]);
+    const [nombre, setNombre] = useState('');
 
     useEffect(() => {
         fetchMesas();
         fetchPlatillos();
+        fetchNombreUsuario();
     }, []);
+
+    const fetchNombreUsuario = async () => {
+        try {
+            const nombre = await AsyncStorage.getItem('nombre');
+            const apellidoPat = await AsyncStorage.getItem('apellido_pat'); 
+            
+            if (nombre && apellidoPat) {
+                const nombreCompleto = `${nombre} ${apellidoPat}`;
+                setNombre(nombreCompleto); 
+            }
+        } catch (error) {
+            console.log("Error al obtener el nombre y apellido del usuario:", error);
+        }
+    };
 
     const fetchPlatillos = async () => {
         try {
-            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/platillo/obtener');
+            const response = await fetch('http://192.168.100.23:8081/api/Proyecto_Integrador/platillo/obtener');
             const data = await response.json();
             if (data.status === "OK") {
                 let gruposPorTipo = {};
@@ -71,7 +88,7 @@ const Mesas = () => {
         };
 
         try {
-            const respuesta = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/orden/guardar', {
+            const respuesta = await fetch('http://192.168.100.23:8081/api/Proyecto_Integrador/orden/guardar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +98,7 @@ const Mesas = () => {
 
             if (respuesta.ok) {
                 console.log('Pedido enviado con éxito');
-                cerrarYResetear(); 
+                cerrarYResetear();
             } else {
                 const errorData = await respuesta.json();
                 console.error('Error al enviar el pedido:', errorData.message);
@@ -97,7 +114,7 @@ const Mesas = () => {
 
     const fetchMesas = async () => {
         try {
-            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/mesa/obtener');
+            const response = await fetch('http://192.168.100.23:8081/api/Proyecto_Integrador/mesa/obtener');
             const data = await response.json();
             if (!data.error) {
                 setMesas(data.data);
@@ -138,7 +155,6 @@ const Mesas = () => {
         setMenu(nuevoMenu);
     };
 
-    const nombre = 'Angelo Daniel';
     const ocupacion = 'Mesero';
 
     const irPerfil = () => {
@@ -148,21 +164,15 @@ const Mesas = () => {
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', height: '10%', backgroundColor: '#F59456', flexDirection: 'row', alignItems: 'center' }}>
-                <Avatar
-                    size={50}
-                    rounded
-                    margin={10}
-                    source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-                />
                 <ListItem.Content>
                     <ListItem.Title
                         onPress={irPerfil}
-                        style={{ color: "black", fontWeight: "bold" }}>
+                        style={{ color: "black", fontSize: 20, fontWeight: "bold", marginLeft: 10 }}>
                         {nombre}
                     </ListItem.Title>
                     <ListItem.Subtitle
                         onPress={irPerfil}
-                        style={{ color: "black" }}>
+                        style={{ color: "black", fontSize: 16, marginLeft: 10 }}>
                         {ocupacion}
                     </ListItem.Subtitle>
                 </ListItem.Content>
@@ -177,7 +187,7 @@ const Mesas = () => {
                         <View>
                             <View style={styles.imgName}>
                                 <Image source={require('../assets/mesa.png')} style={styles.imageStyle} />
-                                <Text marginLeft={20} style={styles.mesaText}>MESA {mesa.numero}</Text>
+                                <Text marginLeft={20} style={styles.mesaText}>MESA {mesa.id_mesas}</Text>
                             </View>
                             {mesa.estado && (
                                 <Button
@@ -201,7 +211,7 @@ const Mesas = () => {
 
 
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -300,25 +310,25 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
     },
+
     modalView: {
-        width: '90%',
-        maxHeight: '80%',
-        padding: 20,
-        margin: 80,
+        margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 50,
+        padding: 35,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 2
         },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-        elevation: 10,
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: '90%',
+        maxHeight: '80%',
     },
 
     tipoContainer: {
@@ -337,7 +347,7 @@ const styles = StyleSheet.create({
     },
     menuText: {
         fontSize: 16,
-        marginRight: 10,
+        marginRight: 25,
     },
     counterView: {
         flexDirection: 'row',
