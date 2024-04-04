@@ -6,6 +6,7 @@ import mx.edu.utez.Proyecto_Intregrador.model.personal.PersonalBean;
 import mx.edu.utez.Proyecto_Intregrador.model.personal.PersonalRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PersonalService {
     private final PersonalRepository repository;
+    private final PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
     public ResponseEntity<ApiResponse> getAll(){
@@ -29,6 +31,7 @@ public class PersonalService {
         Optional<PersonalBean> founPersonal = repository.findByNombre(personal.getNombre());
         if(founPersonal.isPresent())
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Regsitro de Personal Duplicado"), HttpStatus.BAD_REQUEST);
+        personal.setPassword(encoder.encode(personal.getPassword()));
         return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(personal), HttpStatus.OK, "Personal Registrado Correctamente"), HttpStatus.OK);
     }
 
@@ -72,6 +75,11 @@ public class PersonalService {
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Personal No Encontrado"), HttpStatus.BAD_REQUEST);
 
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<PersonalBean> findUserByUsername(String username){
+        return repository.findFirstByUsername(username);
     }
 
 }
