@@ -9,6 +9,7 @@ export const Login=()=>{
   const [password, setPassword] = useState('');
   const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/';
 
+  //codigo del casillero de Carlos: 023
   const iniciarSesion = async () => {
     if (!email || !password) {
       Swal.fire('Error', 'Por favor, ingresa un correo electrónico y contraseña', 'error');
