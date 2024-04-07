@@ -15,13 +15,14 @@ export const CocinaNavBar=({selected})=>{
       mensaje = '¿Seguro de cerrar la sesión actual?';
       confirm = 'Cerrar Sesión';
 
-      const MySawl = withReactContent(Swal);
+      const MySawl = withReactContent(Swal); 
       MySawl.fire({ 
         title: tittle,
         icon: 'question', text: mensaje,
         showCancelButton: true, confirmButtonText: confirm, cancelButtonText: 'Cancelar'
       }).then((result) => {
         if(result.isConfirmed){
+          localStorage.clear();
           window.location = '/';
         } 
       });

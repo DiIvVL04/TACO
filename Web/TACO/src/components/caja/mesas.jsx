@@ -15,10 +15,15 @@ export const MesasCaja=()=>{
   const [ numero, setNumero ] = useState('');
   const [ personal, setPersonal ] = useState([]);
   const [ mesa, setMesa ] = useState([]);
-  const [ status, setStatus ] = useState(false);
-  
+  const [ status, setStatus ] = useState(false);  
   const [ count, setCount ] = useState(0);
   const [ i, setI ] = useState(0);
+  let token = localStorage.getItem("token");
+  let rol = localStorage.getItem("rol");
+
+  if(token == null || rol!='Caja'){
+    window.location = '/error';
+  } 
 
   useEffect(() => {
     getMesas();
@@ -37,7 +42,13 @@ export const MesasCaja=()=>{
   });*/
 
   const getMesas = async () => {
-    const respuesta = await axios.get(urlMesas);
+    const respuesta = await axios({
+      method: 'GET',
+      url: urlMesas,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     let mesaArray = [];
     for (let i = 0; i < respuesta.data.data.length; i++) {
       const element = respuesta.data.data[i];
@@ -50,7 +61,13 @@ export const MesasCaja=()=>{
   }
 
   const cobrarPedido = async (mesa, x) => {
-    const peticion = await axios.get(urlPedido);
+    const peticion = await axios({
+      method: 'GET',
+      url: urlPedido,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     const respuesta = peticion.data.data;
     //console.log("Peticion");
     //console.log(peticion.data.data);

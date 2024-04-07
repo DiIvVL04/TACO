@@ -7,7 +7,7 @@ const Menu = () => {
 
     const fetchCategoriasConPlatos = async () => {
         try {
-            const response = await axios.get('http://192.168.100.23:8081/api/Proyecto_Integrador/platillo/obtener');
+            const response = await axios.get('http://10.0.2.2:8080/api/Proyecto_Integrador/platillo/obtener');
             const platosAgrupados = agruparPlatosPorCategoria(response.data.data);
             setCategorias(platosAgrupados);
         } catch (error) {

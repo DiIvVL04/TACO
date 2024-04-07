@@ -45,7 +45,6 @@ const inputStyles = {
   outline: 'none',
 };
 
-
 export const InsumosAdmin = () => {
   const urlPlatillos = 'http://localhost:8081/api/Proyecto_Integrador/platillo/';
   const [platillos, setPlatillos] = useState([]);
@@ -55,14 +54,26 @@ export const InsumosAdmin = () => {
   const [stock, setStock] = useState(0);
   const [tipo, setTipo] = useState('');
   const [precio, setPrecio] = useState(0);
-  const [stockStatus, setStockStatus] = useState(false);
+  const [ stockStatus, setStockStatus ] = useState(false);
+  let token = localStorage.getItem("token");
+  let rol = localStorage.getItem("rol");
+
+  if(token == null || rol!='Admin'){
+    window.location = '/error';
+  }
 
   useEffect(() => {
     getPlatillos();
   }, []);
 
   const getPlatillos = async () => {
-    const respuesta = await axios.get(urlPlatillos + 'obtener');
+    const respuesta = await axios({
+      method: 'GET',
+      url: urlPlatillos + 'obtener',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     setPlatillos(respuesta.data.data);
     console.log(respuesta.data.data);
   }
@@ -125,10 +136,10 @@ export const InsumosAdmin = () => {
 
   const alertCreatePlatillo = (event, metodo, accion) => {
     event.preventDefault();
-    if (stock < 0 || precio < 0) {
+    if (stock < 0) {
       Swal.fire({
         title: "Error",
-        text: "El stock o precio no puede ser negativo",
+        text: "El stock no puede ser negativo",
         icon: "error"
       });
       return;
@@ -157,15 +168,8 @@ export const InsumosAdmin = () => {
   }
 
   const alertUpdatePlatillo = (event, metodo, accion) => {
-    event.preventDefault();
-    if (stock < 0 || precio < 0) {
-      Swal.fire({
-        title: "Error",
-        text: "El stock o precio no puede ser negativo",
-        icon: "error"
-      });
-      return;
-    }    Swal.fire({
+    event.preventDefault()
+    Swal.fire({
       title: "Actualizar platillo",
       text: "¿Está seguro de actualizar el platillo actual?",
       icon: "warning",
@@ -194,7 +198,10 @@ export const InsumosAdmin = () => {
       const respuesta = await axios({
         method: metodo,
         url: urlPlatillos + url,
-        data: parametros
+        data: parametros,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       if (respuesta.status === 200) {
@@ -203,7 +210,7 @@ export const InsumosAdmin = () => {
       } else {
         throw new Error("Error en la solicitud");
       }
-
+      
     } catch (error) {
       console.log(error);
     }
@@ -252,10 +259,10 @@ export const InsumosAdmin = () => {
 
   const validarStock = (e) => {
     let campo = e;
-
+        
     let telRegex = /^[0-9]{10}$/;
-
-    if (telRegex.test(campo.value)) {
+    
+    if (telRegex.test(campo.value)) {  
       setStockStatus(true);
     } else {
       setStockStatus(false);
@@ -264,14 +271,14 @@ export const InsumosAdmin = () => {
 
   const validarPrevStock = (tel) => {
     let telRegex = /^[0-9]{10}$/;
-
-    if (telRegex.test(tel)) {
+    
+    if(telRegex.test(tel)) {
       setStockStatus(true);
-    } else {
+    }else {
       setStockStatus(false);
     }
   }
-
+  
   return (
     <>
       <div className="main-adm">
@@ -364,7 +371,7 @@ export const InsumosAdmin = () => {
           <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' onChange={(e) => setNombre(e.target.value)} /></span>
           <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' onChange={(e) => setDescripcion(e.target.value)} /></span>
           <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' onInput={
-            (e) => { validarStock(e.target); }} placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
+                  (e) => { validarStock(e.target); } } placeholder='Stock' onChange={(e) => setStock(e.target.value)} /></span>
           <span className='inputs-modal'>Tipo de platillo:
             <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
               <option disabled value="">Sin clasificación</option>
@@ -411,7 +418,7 @@ export const InsumosAdmin = () => {
           <span className='inputs-modal'>Nombre: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Nombre' value={nombre} onChange={(e) => setNombre(e.target.value)} /></span>
           <span className='inputs-modal'>Descripción: <input style={{ ...inputStyles, width: "100%" }} required type='text' placeholder='Descripción' value={descripcion} onChange={(e) => setDescripcion(e.target.value)} /></span>
           <span className='inputs-modal'>Stock: <input style={{ ...inputStyles, width: "100%" }} required type='number' onInput={
-            (e) => { validarStock(e.target); }} placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
+                  (e) => { validarStock(e.target); } } placeholder='Stock' value={stock} onChange={(e) => setStock(e.target.value)} /></span>
           <span className='inputs-modal'>Tipo de platillo:
             <select style={{ ...inputStyles, width: "100%", maxWidth: '100%' }} value={tipo} onChange={(e) => setTipo(e.target.value)} required>
               <option disabled value="">Seleccionar tipo</option>

@@ -32,7 +32,7 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
                     }
                 }
               }).then(function (respuesta) {
-                console.log(status);
+                console.log(respuesta);
                 if(status == false){
                     setOrdenes(respuesta.data.data);
                     //console.log("Ordenes");
@@ -93,7 +93,14 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
           }).then(function (respuesta) {
             console.log(respuesta);
             console.log(respuesta.status);
-            window.location.reload();
+            Swal.fire({
+                title: "Pedido cobrado",
+                text: "Se ha cobrado el pedido",
+                icon: "success"
+              }).then((result) => {
+                window.location.reload();
+              });
+              
           })
           .catch(function (error) {
             console.log(error);

@@ -10,7 +10,7 @@ import { ConfiguracionCocina } from './components/cocina/configuracion';
 import { InsumosCocina } from './components/cocina/insumos';
 import { ConfigCaja } from './components/caja/config';
 import { MesasCaja } from './components/caja/mesas';
-import { Orden } from './components/cocina/orden';
+import { Error } from './components/principal/error';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
@@ -24,6 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/InsumosCocina' Component={InsumosCocina}/>
         <Route path='/ConfigCaja' Component={ConfigCaja}/>
         <Route path='/MesasCaja' Component={MesasCaja}/>
+        <Route path='/*' Component={Error} />
        </Routes>
     </Router>
 )

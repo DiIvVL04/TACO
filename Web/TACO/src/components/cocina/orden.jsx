@@ -48,7 +48,7 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
             <div  className="container-pedido">
                 <div className="num-orden">
                     <span>Orden </span>
-                    <p>Mesa {numMesa}</p>
+                    <p>Mesa {(numMesa!=0) ? numMesa : ''}</p>
                 </div>
                 {ordenes != undefined ? 
                     ordenes.map((orden, i) => (

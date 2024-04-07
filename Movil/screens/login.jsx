@@ -1,169 +1,76 @@
 import React, { useState } from "react";
-import {
-    StyleSheet,
-    TextInput,
-    View,
-    Modal,
-    Text,
-    TouchableOpacity,
-    StatusBar,
-    ImageBackground,
-} from "react-native";
+import { StyleSheet, TextInput, View, Alert, TouchableOpacity, StatusBar, ImageBackground } from "react-native";
 import { Button, Card, Image } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
-const CustomAlert = ({ visible, title, message, onDismiss }) => (
-    <Modal visible={visible} animationType="slide" transparent={true}>
-        <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>{title}</Text>
-                <Text style={styles.modalText}>{message}</Text>
-                <TouchableOpacity style={styles.button} onPress={onDismiss}>
-                    <Text style={styles.textStyle}>OK</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </Modal>
-);
 
 export default function Login() {
     let [userName, setUserName] = useState("");
     let [password, setPassword] = useState("");
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const navigation = useNavigation();
-    let [tries, setTries] = useState(0);
-    const [alertInfo, setAlertInfo] = useState({ visible: false, title: "", message: "" });
-    const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
-    const [countdown, setCountdown] = useState(0);
-    const [showCountdown, setShowCountdown] = useState(false);
 
-    const showAlert = (title, message) => {
-        setAlertInfo({ visible: true, title, message });
+    const user = {
+        userName: "Mesero",
+        password: "12345",
     };
+    
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-    const validateUser = async () => {
-        if (tries >= 3) {
-            setCountdown(40);
-            setShowCountdown(true);
-            setIsLoginButtonDisabled(true);
-            let interval = setInterval(() => {
-                setCountdown((currentCountdown) => {
-                    if (currentCountdown <= 1) {
-                        clearInterval(interval);
-                        setIsLoginButtonDisabled(false);
-                        setShowCountdown(false);
-                        setTries(0);
-                        return 0;
-                    }
-                    return currentCountdown - 1;
-                });
-            }, 1000);
-            return;
-        }
+    const navigation = useNavigation();
 
-        try {
-            const response = await axios.get(
-                "http://192.168.100.23:8081/api/Proyecto_Integrador/personal/obtener"
-            );
-            console.log(response);
+    let tries = 0;
 
-            const meseros = response.data.data.filter(
-                (personal) => personal.rol === "Mesero"
-            );
-            const meseroValido = meseros.find(
-                (mesero) => mesero.username === userName && mesero.password === password
-            );
-
-            if (meseroValido) {
-                await AsyncStorage.setItem('nombre', meseroValido.nombre);
-                await AsyncStorage.setItem('apellido_pat', meseroValido.apellido_pat);
-                await AsyncStorage.setItem('apellido_mat', meseroValido.apellido_mat);
-                await AsyncStorage.setItem('username', meseroValido.username);
-                await AsyncStorage.setItem('email', meseroValido.email);
-                await AsyncStorage.setItem('password', meseroValido.password);
+    const validateUser = () => {
+        if (tries <= 3) {
+            if (userName === user.userName && password === user.password) {
                 navigation.replace("Tab");
             } else {
-                setTries(tries + 1);
-                showAlert(
-                    "Acceso Denegado",
-                    `Usuario y/o Contraseña Incorrectos,
-o no cuentas permisos de MESERO.
-Intentos restantes: ${3 - tries - 1}`
-                );
+                Alert.alert("Contraseña o Usuarios Incorrectos", `Te quedan ${3 - tries} intentos`, [
+                    { text: "Intentar de Nuevo", onPress: () => tries++ },
+                ]);
             }
-        } catch (error) {
-            console.error(error);
-            if (!error.response) {
-                showAlert("Error de Conexión", "No se pudo conectar con el servidor.");
-            } else {
-                showAlert("Error", "Ocurrió un error inesperado.");
-            }
+        } else {
+            Alert.alert("Demasiados Intentos", "Ingresa el Usuario/Contraseña Correcta", [
+                {
+                    text: "OK",
+                },
+            ]);
         }
     };
-
-
 
     return (
         <View style={styles.container}>
             <StatusBar hidden={true} />
             <ImageBackground
-                source={require("../assets/fondopho.gif")}
-                style={styles.backgroundGIF}
-            >
-                <Card containerStyle={styles.card}>
-                    <Image
-                        style={styles.image}
-                        source={require("../assets/LogoTACO.png")}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        value={userName}
-                        onChangeText={setUserName}
-                        placeholder=" Ingresa tu Usuario"
-                    />
+            source={require("../assets/fondopho.gif")}
+            style={styles.backgroundGIF} 
+        >
+            <Card containerStyle={styles.card}>
+                <Image style={styles.image} source={require("../assets/LogoTACO.png")} />
+                <TextInput
+                    style={styles.input}
+                    value={userName}
+                    onChangeText={setUserName}
+                    placeholder=" Ingresa tu Usuario"
+                />
 
-                    <TextInput
-                        style={styles.input}
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder=" Ingresa tu Contraseña"
-                        secureTextEntry={!isPasswordVisible}
-                    />
-                    <TouchableOpacity
-                        onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                        style={styles.eye}
-                    >
-                        <Ionicons
-                            name={isPasswordVisible ? "eye-off" : "eye"}
-                            size={24}
-                            color="grey"
-                        />
-                    </TouchableOpacity>
+                <TextInput
+                    style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder=" Ingresa tu Contraseña"
+                    secureTextEntry={!isPasswordVisible}
+                />
+                <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} style={styles.eye}>
+                    <Ionicons name={isPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
+                </TouchableOpacity>
 
-                    <Button
-                        buttonStyle={{ borderRadius: 10, marginTop: 10 }}
-                        color={"orange"}
-                        title="Iniciar Sesión"
-                        onPress={validateUser}
-                        disabled={isLoginButtonDisabled}
-
-                    />
-                    {showCountdown && (
-                        <Text style={{ color: 'red', marginTop: 10 }}>
-                            Demasiados intentos. Espera {countdown} segundos.
-                        </Text>
-                    )}
-                    <CustomAlert
-                        visible={alertInfo.visible}
-                        title={alertInfo.title}
-                        message={alertInfo.message}
-                        onDismiss={() => setAlertInfo({ ...alertInfo, visible: false })}
-                    />
-                </Card>
+                <Button
+                    buttonStyle={{ borderRadius: 10, marginTop: 10 }}
+                    color={"orange"}
+                    title="Iniciar Sesión"
+                    onPress={validateUser}
+                />
+            </Card>
             </ImageBackground>
         </View>
     );
@@ -189,8 +96,8 @@ const styles = StyleSheet.create({
     input: {
         height: 40,
         width: 250,
-        margin: 15,
-        marginLeft: 20,
+        margin:15,
+        marginLeft:20,
         borderRadius: 10,
         backgroundColor: "white",
         paddingHorizontal: 10,
@@ -203,52 +110,10 @@ const styles = StyleSheet.create({
     },
     backgroundGIF: {
         flex: 1,
-        width: '100%',
-        height: '100%',
+        width: '100%', 
+        height: '100%', 
         justifyContent: "center",
         alignItems: "center",
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    modalTitle: {
-        marginBottom: 15,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 18,
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
     },
 
 });
