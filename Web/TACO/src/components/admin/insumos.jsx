@@ -45,7 +45,6 @@ const inputStyles = {
   outline: 'none',
 };
 
-
 export const InsumosAdmin = () => {
   const urlPlatillos = 'http://localhost:8081/api/Proyecto_Integrador/platillo/';
   const [platillos, setPlatillos] = useState([]);
@@ -56,13 +55,25 @@ export const InsumosAdmin = () => {
   const [tipo, setTipo] = useState('');
   const [precio, setPrecio] = useState(0);
   const [ stockStatus, setStockStatus ] = useState(false);
+  let token = localStorage.getItem("token");
+  let rol = localStorage.getItem("rol");
+
+  if(token == null || rol!='Admin'){
+    window.location = '/error';
+  }
 
   useEffect(() => {
     getPlatillos();
   }, []);
 
   const getPlatillos = async () => {
-    const respuesta = await axios.get(urlPlatillos + 'obtener');
+    const respuesta = await axios({
+      method: 'GET',
+      url: urlPlatillos + 'obtener',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     setPlatillos(respuesta.data.data);
     console.log(respuesta.data.data);
   }
@@ -187,7 +198,10 @@ export const InsumosAdmin = () => {
       const respuesta = await axios({
         method: metodo,
         url: urlPlatillos + url,
-        data: parametros
+        data: parametros,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       if (respuesta.status === 200) {

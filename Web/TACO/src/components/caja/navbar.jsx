@@ -22,6 +22,7 @@ export const NavBarCaja=({selected})=>{
           showCancelButton: true, confirmButtonText: confirm, cancelButtonText: 'Cancelar'
         }).then((result) => {
           if(result.isConfirmed){
+            localStorage.clear();
             window.location = '/';
           } 
         });

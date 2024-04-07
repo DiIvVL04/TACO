@@ -58,13 +58,25 @@ export const ConfiguracionAdmin=()=>{
     const [ nombre, setNombre ] = useState('');
     const [ prev, setPrev ] = useState(null);
     const [ emailStatus, setEmailStatus ] = useState(false);
+    let token = localStorage.getItem("token");
+    let rol2 = localStorage.getItem("rol");
+
+    if(token == null || rol2!='Admin'){
+        window.location = '/error';
+    }
 
     useEffect(() => {
         getPersonal();
     }, []);
 
     const getPersonal = async () => {
-        const respuesta = await axios.get(urlPersonal+'obtener');
+        const respuesta = await axios({
+            method: 'GET',
+            url: urlPersonal+'obtener',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         setPersonal(respuesta.data.data);
         console.log(respuesta.data.data);
     }
@@ -186,6 +198,9 @@ export const ConfiguracionAdmin=()=>{
             await axios({
                 method: metodo,
                 url: urlPersonal+url,
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
                 data: parametros
                 }).then(function (respuesta) {
                     if (respuesta.status==200 && metodo=='POST') {
