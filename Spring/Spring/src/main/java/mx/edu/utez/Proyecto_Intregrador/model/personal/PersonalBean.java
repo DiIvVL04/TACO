@@ -33,8 +33,10 @@ public class PersonalBean {
     private String rol;
     @Column(nullable = false, length = 45)
     private String username;
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false)
     private String password;
+    private String token;
+
 
 
     @JsonIgnore
