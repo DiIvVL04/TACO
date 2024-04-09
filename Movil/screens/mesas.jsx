@@ -1,105 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, StyleSheet, View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback } from 'react-native';
-import { Button, Card, Avatar, ListItem, Image } from '@rneui/themed';
-import { Octicons } from '@expo/vector-icons';
+import {
+    Modal,
+    StyleSheet,
+    View,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    Image,
+    TextInput
+} from 'react-native';
+import { Button, Card, ListItem } from '@rneui/themed';
+import Octicons from 'react-native-vector-icons/Octicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//////////SOLO CAMBIEN SU IP/////////////
+const IP = '192.168.100.23'
+/////////////////////////////////////////
 
 const Mesas = () => {
     const navigation = useNavigation();
-    const [modalVisible, setModalVisible] = useState(false);
+    const [nombre, setNombre] = useState('');
     const [mesas, setMesas] = useState([]);
-    const [mesaSeleccionada, setMesaSeleccionada] = useState(null);
-    const [menu, setMenu] = useState([]);
+
+    const [crearPedidoModalVisible, setCrearPedidoModalVisible] = useState(false);
+    const [idMesas, setIdMesas] = useState("");
+    const ocupacion = 'Mesero';
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [mesaSeleccionada, setMesaSeleccionada] = useState('');
+
 
     useEffect(() => {
         fetchMesas();
-        fetchPlatillos();
+        fetchNombreUsuario();
     }, []);
 
-    const fetchPlatillos = async () => {
+
+
+    const fetchNombreUsuario = async () => {
         try {
-            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/platillo/obtener');
-            const data = await response.json();
-            if (data.status === "OK") {
-                let gruposPorTipo = {};
-                data.data.forEach(platillo => {
-                    const tipo = platillo.tipo;
-                    if (!gruposPorTipo[tipo]) {
-                        gruposPorTipo[tipo] = [];
-                    }
-                    gruposPorTipo[tipo].push({
-                        id: platillo.idPlatillos,
-                        nombre: platillo.nombre,
-                        precio: platillo.precio,
-                        cantidad: 0,
-                    });
-                });
-                setMenu(gruposPorTipo);
-            } else {
-                console.log('Error fetching platillos:', data.mensaje);
-            }
+            const values = await AsyncStorage.multiGet(['nombre', 'apellido_pat', 'apellido_mat']);
+            const [[, nombre], [, apellidoPat], [, apellidoMat],] = values;
+            const nombreCompleto = `${nombre} ${apellidoPat} ${apellidoMat}`.trim();
+            setNombre(nombreCompleto);
         } catch (error) {
-            console.error('Error fetching platillos:', error);
+            console.log('Error al obtener datos del usuario:', error);
         }
     };
-
-    const cerrarYResetear = () => {
-        const menuReset = { ...menu };
-        Object.keys(menuReset).forEach(tipo => {
-            menuReset[tipo] = menuReset[tipo].map(item => {
-                return { ...item, cantidad: 0 };
-            });
-        });
-        setMenu(menuReset);
-        setModalVisible(false);
-    };
-
-
-    //  POR PROBAR ////////////////////////////////////////////
-    const enviarPedido = async () => {
-        const idMesa = mesaSeleccionada?.idMesas;
-        const pedido = Object.keys(menu).flatMap(tipo =>
-            menu[tipo].filter(item => item.cantidad > 0).map(item => ({
-                idPlatillo: item.id,
-                cantidad: item.cantidad,
-            }))
-        );
-
-        const dataParaEnviar = {
-            idMesa,
-            platillos: pedido,
-        };
-
-        try {
-            const respuesta = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/orden/guardar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataParaEnviar),
-            });
-
-            if (respuesta.ok) {
-                console.log('Pedido enviado con éxito');
-                cerrarYResetear(); 
-            } else {
-                const errorData = await respuesta.json();
-                console.error('Error al enviar el pedido:', errorData.message);
-            }
-        } catch (error) {
-            console.error('Error al enviar el pedido', error);
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////////////////
-
-
 
     const fetchMesas = async () => {
         try {
-            const response = await fetch('http://192.168.110.248:8080/api/Proyecto_Integrador/mesa/obtener');
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(`http://${IP}:8081/api/Proyecto_Integrador/mesa/obtener`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
             const data = await response.json();
-            if (!data.error) {
+            if (!data.error && data.data) {
                 setMesas(data.data);
             } else {
                 console.log('Error fetching mesas:', data.mensaje);
@@ -110,95 +74,183 @@ const Mesas = () => {
     };
 
 
-    const aumentarCantidad = (idPlatillo) => {
-        setMenu(prevMenu => {
-            return Object.keys(prevMenu).reduce((acc, tipo) => {
-                acc[tipo] = prevMenu[tipo].map(item => {
-                    if (item.id === idPlatillo) {
-                        return { ...item, cantidad: item.cantidad + 1 };
-                    }
-                    return item;
-                });
-                return acc;
-            }, {});
-        });
-    };
+    const crearPedido = async () => {
+        const idPersonalStr = await AsyncStorage.getItem('id_personal');
+        const idPersonal = parseInt(idPersonalStr);
 
-    const disminuirCantidad = (id) => {
-        const nuevoMenu = Object.entries(menu).reduce((acc, [tipo, platillos]) => {
-            acc[tipo] = platillos.map(platillo => {
-                if (platillo.id === id && platillo.cantidad > 0) {
-                    return { ...platillo, cantidad: platillo.cantidad - 1 };
-                }
-                return platillo;
+        if (!idMesas) {
+            alert("Por favor, seleccione una mesa.");
+            return;
+        }
+
+        const pedido = {
+            idPedidos: 0,
+            mesaBean: {
+                id_mesas: idMesas,
+            },
+            personalBean: {
+                idPersonal: idPersonal,
+            },
+            status: false,
+        };
+
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await fetch(`http://${IP}:8081/api/Proyecto_Integrador/pedido/guardar`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pedido)
             });
-            return acc;
-        }, {});
 
-        setMenu(nuevoMenu);
+            if (response.ok) {
+                const responseData = await response.json();
+                console.log('Pedido creado exitosamente', responseData);
+                alert('Pedido creado con éxito');
+            } else {
+                const errorData = await response.text();
+                console.error('Error al crear el pedido:', errorData);
+                alert('Error al crear el pedido. Por favor, intente nuevamente.');
+            }
+        } catch (error) {
+            console.error('Ocurrió un error al crear el pedido:', error);
+            alert('Ocurrió un error al crear el pedido. Por favor, verifique su conexión y intente nuevamente.');
+        }
     };
 
-    const nombre = 'Angelo Daniel';
-    const ocupacion = 'Mesero';
 
-    const irPerfil = () => {
-        navigation.navigate('perfil');
+
+    const crearOrden = async () => {
+        const pedido = {
+            idOrdenes: 0,
+            pedidoBean: {},
+            platilloBean: platillos.filter(p => p.cantidad > 0),
+            status: false,
+        };
+
+        try {
+            const respuesta = await fetch(`https://${IP}.23:8081/api/Proyecto_Integrador/orden/guardar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pedido),
+            });
+
+            if (respuesta.ok) {
+                console.log('Orden creada con éxito');
+                setIsModalVisible(false);
+            } else {
+                throw new Error('Error al crear la orden');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
+
+
+
 
     return (
         <View style={styles.container}>
             <View style={{ width: '100%', height: '10%', backgroundColor: '#F59456', flexDirection: 'row', alignItems: 'center' }}>
-                <Avatar
-                    size={50}
-                    rounded
-                    margin={10}
-                    source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
-                />
                 <ListItem.Content>
                     <ListItem.Title
-                        onPress={irPerfil}
-                        style={{ color: "black", fontWeight: "bold" }}>
+                        style={{ color: "black", fontSize: 20, fontWeight: "bold", marginLeft: 10 }}>
                         {nombre}
                     </ListItem.Title>
                     <ListItem.Subtitle
-                        onPress={irPerfil}
-                        style={{ color: "black" }}>
+                        style={{ color: "black", fontSize: 16, marginLeft: 10 }}>
                         {ocupacion}
                     </ListItem.Subtitle>
                 </ListItem.Content>
             </View>
 
             <ScrollView style={styles.mesasContainer}>
+                <Button
+                    buttonStyle={{ backgroundColor: '#2A2E98', borderRadius: 20 }}
+                    containerStyle={styles.buttonContainer}
+                    onPress={() => setCrearPedidoModalVisible(true)}
+                    icon={<Octicons name="plus-circle" size={20} color="white" style={{ marginRight: 5 }} />}
+                    title="Crear Pedido"
+                    titleStyle={{ fontSize: 14 }}
+                />
                 {mesas.map((mesa) => (
-                    <Card
+                    <TouchableOpacity
                         key={mesa.idMesas}
-                        containerStyle={mesa.estado ? styles.mesacard : styles.mesacardDisabled}
-                    >
-                        <View>
-                            <View style={styles.imgName}>
-                                <Image source={require('../assets/mesa.png')} style={styles.imageStyle} />
-                                <Text marginLeft={20} style={styles.mesaText}>MESA {mesa.numero}</Text>
-                            </View>
-                            {mesa.estado && (
-                                <Button
-                                    color={'orange'}
-                                    onPress={() => {
-                                        setMesaSeleccionada(mesa);
-                                        setModalVisible(true);
-                                    }}
-                                    containerStyle={styles.buttonContainer}
-                                >
-                                    ORDEN
-                                    <Octicons name="list-unordered" size={15} color="black" />
-                                </Button>
-                            )}
-                        </View>
-                    </Card>
-                ))}
+                        style={[styles.mesaCard, mesa.estado === 0 ? { opacity: 0.5 } : {}]}
+                        onPress={() => {
 
+                            if (mesa.estado == 1) {
+                                setMesaSeleccionada(mesa.idMesas);
+                                setModalVisible(true);
+                            } return;
+                        }}
+                    >
+                        <Card containerStyle={mesa.estado ? styles.mesacard : styles.mesacardDisabled}>
+                            <View>
+                                <View style={styles.imgName}>
+                                    <Image source={require('../assets/mesa.png')} style={styles.imageStyle} />
+                                    <Text style={[styles.mesaText, { marginLeft: 20 }]}>MESA {mesa.id_mesas}</Text>
+                                </View>
+                            </View>
+                        </Card>
+                    </TouchableOpacity>
+                ))}
             </ScrollView>
 
 
+
+            {/* Modal Crear Pedido */}
+            {crearPedidoModalVisible && (
+                <View style={styles.modalBackground} />
+
+            )}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={crearPedidoModalVisible}
+                onRequestClose={() => {
+                    setCrearPedidoModalVisible(!crearPedidoModalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView1}>
+                        <Text style={styles.modalText}>Pedido para Mesa: </Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={setIdMesas}
+                            value={idMesas}
+                            placeholder="Número de la Mesa"
+                            keyboardType="numeric"
+                        />
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity
+                                style={[styles.buttonClose, styles.buttonStyle]}
+                                onPress={() => setCrearPedidoModalVisible(false)}
+                            >
+                                <Text style={styles.textStyle}>Cerrar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.buttonClose, styles.buttonStyle]}
+                                onPress={crearPedido}
+                            >
+                                <Text style={styles.textStyle}>Crear</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+
+
+
+            {/* Modal Seleccionar Mesa */}
+            {modalVisible && (
+                <View style={styles.modalBackground} />
+            )}
 
             <Modal
                 animationType="slide"
@@ -208,36 +260,46 @@ const Mesas = () => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <ScrollView>
-                            {Object.keys(menu).map((tipo) => (
-                                <View key={tipo}>
-                                    <Text style={styles.tipoText}>{tipo}</Text>
-                                    {menu[tipo].map((item) => (
-                                        <View key={item.id} style={styles.menuItem}>
-                                            <Text style={styles.menuText}>{item.nombre} - ${item.precio}</Text>
-                                            <View style={styles.counterView}>
-                                                <TouchableOpacity onPress={() => disminuirCantidad(item.id)} style={styles.counterButton}>
-                                                    <Text style={styles.counterButtonText}>-</Text>
-                                                </TouchableOpacity>
-                                                <Text style={styles.counterText}>{item.cantidad}</Text>
-                                                <TouchableOpacity onPress={() => aumentarCantidad(item.id)} style={styles.counterButton}>
-                                                    <Text style={styles.counterButtonText}>+</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    ))}
-                                </View>
-                            ))}
-                        </ScrollView>
-                        <View style={styles.buttonModal}>
-                            <Button title="Cerrar" color={'red'} onPress={cerrarYResetear} />
-                            <Button title="Ordenar" color={'orange'} onPress={enviarPedido} />
+                <View style={styles.centeredView1}>
+                    <View style={styles.modalView1}>
+                        <View style={styles.buttonCard}>
+                            <Button
+                                buttonStyle={{ backgroundColor: 'orange', borderRadius: 20 }}
+                                containerStyle={styles.buttonContainer}
+                                onPress={() => {
+                                    setIsModalVisibleOrden(true); // Esto abrirá el modal
+                                }}
+                                icon={<Ionicons name="create" size={20} color="white" style={{ marginRight: 5 }} />}
+                                title="Crear Orden"
+                                titleStyle={{ fontSize: 14 }}
+                            />
+                            <Button
+                                buttonStyle={{ backgroundColor: '#D32F87', borderRadius: 20 }}
+                                containerStyle={styles.buttonContainer}
+                                onPress={() => {
+                                }}
+                                icon={<MaterialCommunityIcons name="file-eye-outline" size={20} color="white" style={{ marginRight: 5 }} />}
+                                title="Ver Pedidos"
+                                titleStyle={{ fontSize: 14 }}
+                            />
                         </View>
+
+                        <View>
+
+
+                        </View>
+
+                        <TouchableOpacity
+                            style={[styles.buttonClose]}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+                            <Text style={styles.textStyle}>Cerrar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
+
+
         </View >
     )
 }
@@ -272,6 +334,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 15,
         marginBottom: 10,
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        borderWidth: 1,
+        borderColor: '#f0f0f0',
     },
     imgName: {
         flexDirection: 'row',
@@ -284,7 +351,12 @@ const styles = StyleSheet.create({
     mesaText: {
         marginLeft: 20,
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 23,
+    },
+    stockText: {
+        fontSize: 12,
+        color: '#666',
+        marginBottom: 8,
     },
     mesacardDisabled: {
         backgroundColor: '#D3D3D3',
@@ -296,31 +368,40 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: 'orange',
     },
-    centeredView: {
+    centeredView1: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         marginTop: 22,
     },
-    modalView: {
-        width: '90%',
-        maxHeight: '80%',
-        padding: 20,
-        margin: 80,
+    modalView1: {
+        margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 50,
+        padding: 20,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-        elevation: 10,
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: '90%',
+        maxHeight: '80%',
     },
-
+    cardSpace: {
+        flex: 1,
+        flexDirection: "column",
+    },
+    stockText: {
+        fontSize: 12,
+        color: '#666',
+    },
+    platoDeshabilitado: {
+        backgroundColor: '#FCA5A5',
+    },
     tipoContainer: {
         marginBottom: 20,
     },
@@ -337,7 +418,7 @@ const styles = StyleSheet.create({
     },
     menuText: {
         fontSize: 16,
-        marginRight: 10,
+        marginRight: 25,
     },
     counterView: {
         flexDirection: 'row',
@@ -359,9 +440,68 @@ const styles = StyleSheet.create({
     buttonModal: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 20,
+        marginTop: 10,
         width: '100%',
     },
+    buttonCard: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginBottom: 20,
+    },
+    buttonContainer: {
+        flex: 1,
+        marginHorizontal: 5,
+    },
+    buttonClose: {
+        marginTop: 20,
+        backgroundColor: "#2196F3",
+        padding: 10,
+        elevation: 2,
+        borderRadius: 10,
+        width: '40%',
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+    },
+    modalBackground: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+        width: '100%',
+    },
+
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+    buttonStyle: {
+        backgroundColor: "#2196F3",
+        padding: 10,
+        margin: 10,
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+    },
+
+
 });
 
 
