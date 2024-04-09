@@ -179,14 +179,15 @@ export const InsumosAdmin = () => {
       cancelButtonText: "Cancelar",
       confirmButtonText: "Actualizar"
     }).then((result) => {
+      validar(metodo, accion);
       if (result.isConfirmed) {
         Swal.fire({
           title: "Platillo actualizado",
           text: "Se ha actualizado el platillo",
           icon: "success"
         }).then(() => {
-          validar(metodo, accion);
-          window.location.reload();
+          closeModalEdit();
+          getPlatillos();
         });
       }
     });
@@ -285,7 +286,7 @@ export const InsumosAdmin = () => {
         <NavBarAdmin selected={2} />
         <div className="container-table-admin-adm">
           <div className="titulo-adm">
-            <span> Platillos disponibles</span>
+          <span style={{marginRight:850}}> Platillos disponibles</span>
             <div className="botones-adm2">
               <button className="agregar-adm2" onClick={openModal}>
                 Agregar

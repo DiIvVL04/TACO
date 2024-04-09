@@ -41,7 +41,7 @@ export const NavBarAdmin=({selected})=>{
                   <img src={LogoTACO} alt="Logo" />
                 </div>
               </button>
-              <button className={ selectedItem == 3 ? 'botoncito-adm2': 'botoncito-adm'} style={ selectedItem == 3 ? {border: '1px solid red'} : {}} onClick={() => { window.location='/ConfigAdm'}}>Configuración</button>
+              <button className={ selectedItem == 3 ? 'botoncito-adm2': 'botoncito-adm'} style={ selectedItem == 3 ? {border: '1px solid red'} : {}} onClick={() => { window.location='/ConfigAdm'}}>Personal</button>
               <button className={ selectedItem == 4 ? 'botoncito-adm2': 'botoncito-adm'} style={ selectedItem == 4 ? {border: '1px solid red'} : {}} onClick={() => cerrarSesion()}>Cerrar Sesión</button>
           </ul>
           </nav>

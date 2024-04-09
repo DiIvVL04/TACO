@@ -50,8 +50,19 @@ export const MesasCocina=()=>{
       headers: {
         Authorization: `Bearer ${token}`
       }
+    }).then(function (res) {
+      let mesasAll = [] ;
+
+      for (let i = 0; i < res.data.data.length; i++) {
+        const element = res.data.data[i];
+        console.log(element);
+        if(element.estado){
+          mesasAll.push(element);
+        }
+      }
+      
+      setMesas(mesasAll);
     });
-    setMesas(respuesta.data.data);
   }
 
   const asignarPedido = async (mesa, x) => {
@@ -63,15 +74,15 @@ export const MesasCocina=()=>{
       }
     });
     const respuesta = peticion.data.data;
-    //console.log("Peticion");
-    //console.log(peticion.data.data);
+    console.log("Peticion");
+    console.log(peticion.data.data);
 
     for (let i = 0; i < respuesta.length; i++) {
       const element = respuesta[i];
       //console.log("ELEMENT"); 
       //console.log(element);
       
-      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){
+      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){        
         //console.log(element);
         setIdPedido(element.idPedidos);
         setPersonal(element.personalBean);
@@ -89,7 +100,6 @@ export const MesasCocina=()=>{
       }
       
     }
-    console.log("idpedido: "+idPedido)
   }
 
   const alertEntregarPedido=(mesa,x)=> {
@@ -178,8 +188,8 @@ export const MesasCocina=()=>{
         <div className="container-para-mesas-coc">
           <div className="container_mesas-coc">
           {mesas.map((mesa, i) => (
-              <div key={mesa.id_mesas} className="mesa_container-caja">
-                <p> Mesa {(i+1)} </p>
+              <div key={mesa.id_mesas} className="mesa_container-cocina">
+                <p> Mesa {mesa.numero} </p>
                 <img src={Mesa} alt="Mesa" />
                 <div className="mesa_container_botones-caja">
                   <button className="orden-coc" onClick={() => {asignarPedido(mesa, mesa.id_mesas);} }>Orden</button>

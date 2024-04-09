@@ -1,144 +1,91 @@
 /*MESAS*/
-
-.container_mesas-coc{
+.container_mesas-caja{
   min-height: 450px;
   height: auto;
-  width: 74.5%;
+  width: 80vw;
   background-color: rgb(212, 212, 212);
   margin-left: 30px;
   display: flex;
   flex-wrap: wrap;
 }
-.container_pedido-coc{
+.container_pedido-caja{
   height: 450px;
   width: 400px;
   background-color: rgb(218, 218, 218);
   margin-left: 20px;
   display: flex;
 }
-.mesa_container-coc{
-  height: 200px;
+.mesa_container-caja {
   width: 200px;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
+  height: 200px;
+  background-color: #f3f3f3;
   margin: 15px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  transform-origin: center center; /* Punto de transformación centrado */
 }
-.mesa_container-coc p{
+.mesa_container-caja:hover {
+  transform: translateY(-5px); /* Movimiento hacia arriba */
+  box-shadow: 0 7px 15px rgba(71, 100, 231, 0.91); /* Sombras más pronunciadas */
+}
+.mesa_container-caja p{
   font-size: 24px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 0;
 }
-.mesa_container-coc img{
+.mesa_container-caja img{
   width: 100px;
   height: 100px;
 }
-.mesa_container_botones-coc{
+.mesa_container_botones-caja{
   display: flex; 
   flex-direction: row;
   margin: 20px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-.orden-coc{
+.cobrar-caja{
   background-color: #F59456;
-  color: #000000;
-  border: none;
-  padding: 5px;
-  border-radius: 20px;
-  cursor: pointer;
-  width: 80px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 14px;
+  color: white; /* Color del texto */
+  border: none; /* Quitamos el borde */
+  padding: 7px 15px; /* Espaciado interno aumentado */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Transición suave al cambiar de color */
+  font-family: Arial, sans-serif; /* Tipo de letra */
+  font-weight: bold; /* Añadimos negrita para mayor énfasis */
+  padding-top: 4.5%;
 }
-.entrega-coc{
-  background-color: #D32F87;
-  color: #000000;
-  border: none;
-  padding: 5px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-left: 20px;
-  width: 80px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
-  font-size: 14px;
+
+.cobrar-caja:hover{
+  background-color: #f7650b;
 }
-.container-para-mesas-coc{
+.container-para-mesas-caja{
   height: auto;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
-}
-
-/*INSUMOS*/
-.main-coc {
-  width: 100%;
-}
-
-.container-table-cocina-coc {
-  display: flex;
-  background-color: #DE74A5;
-  border-radius: 20px;
-  margin: 20px auto;
-  display: flex;
-  height: auto;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 87vw;
-  align-self: center;
-}
-
-.container-coc p {
-  color: #000000;
-  font-size: 30px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-weight: bold;
-}
-
-.tabla-cocina-coc {
-  width: 95%;
-  border-collapse: collapse;
-  background-color: #ff4fa1;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.th-coc, .td-coc {
-  border: 1px solid white;
-  padding: 8px;
-  text-align: center;
-  color: #fff;
-}
-
-.th-coc:first-child {
-  font-weight: bolder;
-}
-
-.td-coc img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-}
-
-.titulo-coc {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 /*CONFIG*/
+body {
+  background-color: rgb(255, 255, 255);
+  height: auto;
+  overflow: scroll;
+  width: 100%;
+}
 
-
-.container-user-coc{
+.container-user-caja {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
 }
 
-.container_imagen-coc{
+.container_imagen-caja {
   height: 450px;
   width: 45%;
   margin-left: 30px;
@@ -146,47 +93,79 @@
   justify-content: center;
   align-items: center;
 }
-.container_imagen-coc img{
+
+.container_imagen-caja img {
   width: 300px;
-  height: 300px;  
+  height: 300px;
 }
-.container_formulario-coc{
+
+.container_formulario-caja {
   height: 450px;
   width: 45%;
   margin-left: 20px;
   display: flex;
   padding-left: 40px;
+  transition: all 0.3s ease; /* Transición suave para cambios */
 }
-#usuario-coc,#email-coc,#password-coc{
+
+#password-caja,
+#usuario-caja,
+#email-caja {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
   display: block;
-  background-color: #FEA5D3;
+  background-color: #b5b5c7;
   border-radius: 10px;
   border: none;
   padding: 10px;
   width: 300px;
+  transition: background-color 0.3s ease; /* Transición de color de fondo suave */
 }
-.label-coc{
+
+#password-caja:focus,
+#usuario-caja:focus,
+#email-caja:focus {
+  background-color: #d1d1d1; /* Cambio de color de fondo al enfocar */
+}
+
+.label-caja {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: rgb(0, 0, 0);
   margin-top: 20px;
   align-self: baseline;
   display: block;
   margin-bottom: 10px;
 }
-.boton-coc{
+
+.boton-caja {
   text-align: center;
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
   position: absolute;
   margin: 10px;
   margin-top: 40px;
-  background-color: #FEA5D3;
+  background-color: #80809f;
   border-radius: 10px;
   height: 50px;
   width: 200px;
+  transition: all 0.3s ease; /* Transición suave para cambios */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  border: none;
+  outline: none; /* Elimina el contorno predeterminado al enfocar */
 }
+
+.boton-caja:hover {
+  background-color: rgb(62, 62, 144); /* Cambio de color de fondo al pasar el mouse */
+  color: white; /* Cambio de color de texto al pasar el mouse */
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el mouse */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Efecto de sombra al pasar el mouse */
+}
+
+.boton-caja:active {
+  transform: scale(0.95); /* Reducir ligeramente el tamaño al hacer clic */
+  background-color: #5a5a7a; /* Cambiar el color de fondo al hacer clic */
+}
+

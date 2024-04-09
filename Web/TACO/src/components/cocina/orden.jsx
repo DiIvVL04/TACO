@@ -9,9 +9,10 @@ import withReactContent from 'sweetalert2-react-content';
 export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
     const urlOrdenes = 'http://localhost:8081/api/Proyecto_Integrador/orden/pedidos';
     const [ ordenes, setOrdenes ] = useState([]);
+    let token = localStorage.getItem("token");
 
     useEffect(() => { 
-        getOrdenes(); 
+        getOrdenes();
     }, [idPedido, numMesa]);
     
     const getOrdenes= async ()=>{
@@ -23,7 +24,10 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
                     "pedidoBean": {
                         "idPedidos": idPedido
                     }
-                }
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                  }
               }).then(function (respuesta) {
                 console.log(status);
                 if(status == false){

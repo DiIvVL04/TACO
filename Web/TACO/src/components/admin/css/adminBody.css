@@ -1,36 +1,102 @@
 /*MESAS*/
 
+/* Codigo con 3 mesas sobre una linea un poco mas pegadas (Propuesta 2) */
+.mesa_container-adm {
+  height: 200px;
+  width: calc(33.33% - 30px); 
+  background-color: rgb(238, 238, 238);
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+}
+
 .container_mesas-adm {
-  min-height: 450px;
+  min-height: 15px;
   height: auto;
   width: 93%;
-  background-color: rgb(212, 212, 212);
-  border: 1px solid black;
+  background-color: #c5c4c4;
   margin-left: 30px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
+/* .container_mesas-adm {
+  min-height: 15px;
+  height: auto;
+  width: 93%;
+  background-color: #c5c4c4; 
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+}
 .mesa_container-adm {
   height: 200px;
   width: 200px;
-  background-color: white;
+  background-color: rgb(238, 238, 238);
   justify-content: center;
   align-items: center;
   margin: 15px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); 
   display: flex;
   flex-direction: column;
+  border-radius: 25px; 
+  transition: transform 0.3s ease; 
+  margin-right: 10%;
+  margin-left: 10%;
+
+  Codigo con 2 mesas sobre una linea pero suficiente sepracion (Propuesta)
+} */
+
+.mesa_container-adm:hover {
+  transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+  box-shadow: 4px 7px 9px rgba(232, 60, 60, 0.83);
+}
+.mesa_container-adm2 {
+  height: 200px;
+  width: calc(33.33% - 30px); 
+  background-color: rgb(238, 238, 238);
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
 }
 
+
+
+.mesa_container-adm2:hover{
+  transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+  box-shadow: 4px 7px 9px rgba(136, 239, 98, 0.83);
+}
+
+
 .mesa_container-adm p {
-  font-size: 24px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  margin: 0;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px 0 0; /* Ajusta el margen superior para centrar verticalmente el texto */
+}
+.mesa_container-adm2 p {
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px 0 0; /* Ajusta el margen superior para centrar verticalmente el texto */
 }
 
 .mesa_container-adm img {
-  width: 100px;
+  width: 80px;
+  height: 100px;
+}
+.mesa_container-adm2 img {
+  width: 80px;
   height: 100px;
 }
 
@@ -38,39 +104,31 @@
   display: flex;
   flex-direction: row;
   margin: 20px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
+}
+.mesa_container_botones-adm2 {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
 }
 
 .administrar-adm {
-  background-color: #ff7b00;
-  color: #000000;
+  background-color: #e51c1c; 
+  color: #ffffff; /* Texto blanco */
   border: none;
-  padding: 4px;
+  padding: 8px 16px; /* Mayor relleno */
   border-radius: 20px;
   cursor: pointer;
-  width: 80px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  width: 100px; /* Mayor ancho */
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
   font-size: 14px;
-  border: 1px solid black;
-}
-
-.administrar-adm2 {
-  background-color: #00ac56;
-  color: #000000;
-  border: none;
-  padding: 4px;
-  border-radius: 20px;
-  cursor: pointer;
-  width: 80px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 14px;
-  border: 1px solid black;
 }
 
 .container_pedido-adm{
   height: 450px;
   width: 400px;
-  background-color: rgb(218, 218, 218);
+  background-color: #e5e5e5; /* Color de fondo más claro */
   margin-left: 20px;
   display: flex;
 }
@@ -91,10 +149,9 @@
 
 .container-table-admin-adm {
   display: flex;
-  background-color: #ff9282;
+  background-color: #eca2a2; /* Azul más oscuro */
   border-radius: 20px;
-  margin: 15px auto;
-  display: flex;
+  margin: 2% auto;
   height: auto;
   flex-direction: column;
   justify-content: center;
@@ -104,36 +161,45 @@
 }
 
 .container-adm p {
-  color: #000000;
+  color: #f02626; /* Texto blanco */
   font-size: 30px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
   font-weight: bold;
 }
 
+/* Improved styling for the table */
 .tabla-admin-adm {
   width: 95%;
   border-collapse: collapse;
-  background-color: #FA7971;
+  background-color: #f2f2f2; /* Color de fondo más claro */
   border-radius: 20px;
   overflow: hidden;
+  margin-top: 20px; /* Add margin to separate from the title */
 }
 
 .th-adm, .td-adm {
-  border: 1px solid white;
-  padding: 8px;
+  border: 2px solid #c03333; /* Borde más claro */
   text-align: center;
-  color: #fff;
+  color: #333333; /* Texto más oscuro */
+  background-color: #eec8c8;
 }
 
 .th-adm:first-child {
-  font-weight: bolder;
+  font-weight: bold;
 }
 
+/* Add hover effect to rows */
+.tr-adm:hover {
+  background-color: #e5e5e5; /* Cambia el color de fondo al pasar el cursor */
+}
+
+/* Style for status icons */
 .td-adm img {
-  width: 50px;
-  height: 50px;
+  width: 24px; /* Adjust image size */
+  height: 24px;
   object-fit: contain;
 }
+
 
 .titulo-adm {
   display: flex;
@@ -142,7 +208,7 @@
   justify-content: space-between;
   font-weight: bold;
   font-size: 20px;
-  color: white;
+  color: #333333; /* Texto más oscuro */
 }
 
 .botones-adm {
@@ -152,25 +218,25 @@
 }
 
 .agregar-adm {
-  background-color: #18C875;
-  color: #fff;
+  background-color: #28a745; /* Verde más oscuro */
+  color: #ffffff; /* Texto blanco */
   border: none;
-  padding: 5px;
+  padding: 8px 16px; /* Mayor relleno */
   margin: 10px;
   border-radius: 20px;
   justify-content: center;
   align-self: flex-end;
   display: flex;
   cursor: pointer;
-  font-size: 16px;
-  width: 80px;
+  font-size: 14px;
+  width: 100px; /* Mayor ancho */
 }
 
 .modificar-adm {
-  background-color: #446A7C;
-  color: #fff;
+  background-color: #6c757d; /* Gris más oscuro */
+  color: #ffffff; /* Texto blanco */
   border: none;
-  padding: 5px;
+  padding: 8px 16px; /* Mayor relleno */
   border-radius: 20px;
   cursor: pointer;
 }
@@ -188,16 +254,16 @@
 }
 
 .agregar-adm2 {
-  background-color: #18C875;
-  color: #fff;
-  padding: 10px 15px; 
-  margin: 10px;
+  background-color: #43c167; /* Verde más oscuro */
+  color: #ffffff; /* Texto blanco */
+  padding: .5% 10%; 
+  margin: 5%;
   border-radius: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 950px;
+  margin-left: 390%;
 }
 
 .agregar-adm2 img {
@@ -207,15 +273,15 @@
 
 .botones-adm2 :hover{
   color:#000000;
-  background-color: #fff;
+  background-color: #ffffff; /* Cambia el color de fondo al pasar el cursor */
 }
 
 
 .eliminar-adm {
-  background-color: #E21B1B;
-  color: #fff;
+  background-color: #dc3545; /* Rojo más oscuro */
+  color: #ffffff; /* Texto blanco */
   border: none;
-  padding: 5px;
+  padding: 8px 16px; /* Mayor relleno */
   border-radius: 20px;
   cursor: pointer;
 }
@@ -239,7 +305,7 @@
 }*/
 
 .container-users {
-  background-color: rgb(252, 157, 157);
+  background-color: #f8d7da; /* Rojo más claro */
   border-radius: 30px;
   margin-top: 20px;
   margin-right: 1%;
@@ -252,8 +318,8 @@
 }
 
 .listaUser {
-  background-color: white;
-  border: 2px solid black;
+  background-color: #ffffff; /* Fondo blanco */
+  border: 2px solid #000000; /* Borde más oscuro */
   border-radius: 10px;
   padding: 1%;
   width: 70%;
@@ -262,13 +328,13 @@
 }
 
 .listaUser:hover {
-  border: 2px solid red;
-  background-color: #F5B8AA;
+  border: 2px solid #dc3545; /* Borde rojo más oscuro */
+  background-color: #f5c6cb; /* Rojo más claro */
 }
 
 .listaHover {
-  border: 2px solid red;
-  background-color: #F5B8AA;
+  border: 2px solid #dc3545; /* Borde rojo más oscuro */
+  background-color: #f5c6cb; /* Rojo más claro */
   border-radius: 10px;
   padding: 1%;
   width: 70%;
@@ -308,10 +374,10 @@
 
 #password-adm, #usuario-adm, #email-adm,#paterno-adm,#materno-adm,#rol-adm,#nombre-adm {
   font-size: 20px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: black;
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
+  color: #000000; /* Texto negro */
   display: block;
-  background-color: #F5B8AA;
+  background-color: #f8d7da; /* Rojo más claro */
   border-radius: 10px;
   border: none;
   padding: 10px;
@@ -320,25 +386,26 @@
 
 .label-adm {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: rgb(0, 0, 0);
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
+  color: #000000; /* Texto negro */
   margin-top: 20px;
   align-self: baseline;
   display: block;
   margin-bottom: 10px;
 }
-.boton-adm{
+.boton-adm {
   text-align: center;
-  font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: black;
+  font-size: 18px; /* Reducido el tamaño de la fuente */
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
+  color: #ffffff; /* Texto blanco */
   margin: 10px;
   margin-top: 40px;
-  background-color: #ff9f89; 
+  background-color: #f33131; /* Azul más oscuro */
   border-radius: 10px;
-  height: 50px;
-  width: 200px;
+  height: 40px; /* Ajustado la altura del botón */
+  width: 150px; /* Ajustado el ancho del botón */
 }
+
 .container-general-config{
   display: flex;
   flex-direction: row;
@@ -355,13 +422,13 @@
 }
 
 .boton-aceptar {
-  background-color: #18C875;
+  background-color: #28a745; /* Verde más oscuro */
   color: white;
   margin-right: 40px;
 }
 
 .boton-cancelar {
-  background-color: #E21B1B;
+  background-color: #dc3545; /* Rojo más oscuro */
   color: white;
 }
 
@@ -386,21 +453,22 @@
   font-size: 18px;
   font-weight: bold;
   color: #000000;
-  background-color: #ecc61c;
+  background-color: #f9d877; /* Amarillo más oscuro */
   border-radius: 25px 23px 25px 25px;
   transition: all 0.3s;
   border-radius: 15px;
-  margin-top: 25px;
-  margin-right: -15%;
-  padding: 10px;
+  margin-top: 25%;
+  padding: 10%;
+  margin-left: 10%;
+
 
 }
 
 
 .edit-button:hover{
   color:#000000;
-  background-color: #fff;
-  box-shadow: 13.8px -6.9px 10.4px 0px #ecc61c;
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 13.8px -6.9px 10.4px 0px #ffcd39; /* Sombra más clara */
 }
 
 .edit-button img {
@@ -412,6 +480,14 @@
   width: 120px; 
   display: flex;
   justify-content: space-around;
+  margin-bottom: 7%;
+}
+
+.edit-button-wrapper {
+  width: 120px; 
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 7%;
 }
 
 
@@ -423,12 +499,12 @@
   font-size: 18px;
   font-weight: bold;
   color: #fefefe;
-  background-color: #ec311c;
+  background-color: #d64c5a; /* Rojo más oscuro */
   border-radius: 25px 23px 25px 25px;
   transition: all 0.3s;
   border-radius: 15px;
-  margin-top: 25px;
-  margin-left: 38px;
+  margin-top: 25%;
+  margin-left: 65%;
   
 }
 
@@ -441,6 +517,73 @@
 
 .delete-button:hover{
   color:#000000;
-  background-color: #fff;
-  box-shadow: 13.8px -6.9px 10.4px 0px #ec311c;
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 13.8px -6.9px 10.4px 0px #d06671; /* Sombra más oscura */
+}
+/* adminBody.css */
+
+
+.add-btn {
+  background-color: #17a2b8; /* Azul más oscuro */
+  color: #ffffff; /* Texto blanco */
+  border: none; /* Quita el borde */
+  padding: 15px 25px; /* Añade espacio alrededor del texto */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color de fondo */
+}
+
+.add-btn:hover {
+  background-color: #FF3636; /* Cambia el color de fondo al pasar el cursor */
+}
+
+.delete-btn {
+  background-color: #dc3545; /* Rojo más oscuro para el botón de eliminar */
+  color: #ffffff; /* Texto blanco */
+  border: none; /* Quita el borde */
+  padding: 10px 20px; /* Añade espacio alrededor del texto */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  border-radius: 5px; /* Agrega bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color de fondo */
+}
+
+.delete-btn:hover {
+  background-color: #c82333; /* Cambia el color de fondo al pasar el cursor */
+}
+
+.avatar {
+  width: 50px; /* Ajusta el ancho del avatar */
+  height: 50px; /* Ajusta la altura del avatar */
+  border-radius: 50%; /* Hace que el avatar sea circular */
+  margin-right: 10px; /* Agrega un margen a la derecha */
+}
+
+.administrar-adm3{
+  background-color: #4CAF50; /* Color de fondo verde */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto blanco */
+  padding: 15px 32px; /* Espacio alrededor del texto */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin decoración de texto */
+  display: inline-block; /* Mostrar como elemento en línea */
+  font-size: 16px; /* Tamaño del texto */
+  margin: 4px 2px; /* Margen superior e inferior de 4px, margen izquierdo y derecho de 2px */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  border-radius: 8px; /* Radio de borde para dar forma al botón */
+}
+
+.administrar-adm4{
+  background-color: #c82333; /* Color de fondo verde */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto blanco */
+  padding: 15px 32px; /* Espacio alrededor del texto */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin decoración de texto */
+  display: inline-block; /* Mostrar como elemento en línea */
+  font-size: 16px; /* Tamaño del texto */
+  margin: 4px 2px; /* Margen superior e inferior de 4px, margen izquierdo y derecho de 2px */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  border-radius: 8px; /* Radio de borde para dar forma al botón */
 }
