@@ -1,35 +1,102 @@
 /*MESAS*/
 
+/* Codigo con 3 mesas sobre una linea un poco mas pegadas (Propuesta 2) */
+.mesa_container-adm {
+  height: 200px;
+  width: calc(33.33% - 30px); 
+  background-color: rgb(238, 238, 238);
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
+}
+
 .container_mesas-adm {
-  min-height: 450px;
+  min-height: 15px;
   height: auto;
   width: 93%;
-  background-color: #c5c4c4; /* Color de fondo más claro */
+  background-color: #c5c4c4;
   margin-left: 30px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
+/* .container_mesas-adm {
+  min-height: 15px;
+  height: auto;
+  width: 93%;
+  background-color: #c5c4c4; 
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+}
 .mesa_container-adm {
   height: 200px;
   width: 200px;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: rgb(238, 238, 238);
   justify-content: center;
   align-items: center;
   margin: 15px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); 
   display: flex;
   flex-direction: column;
+  border-radius: 25px; 
+  transition: transform 0.3s ease; 
+  margin-right: 10%;
+  margin-left: 10%;
+
+  Codigo con 2 mesas sobre una linea pero suficiente sepracion (Propuesta)
+} */
+
+.mesa_container-adm:hover {
+  transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+  box-shadow: 4px 7px 9px rgba(232, 60, 60, 0.83);
+}
+.mesa_container-adm2 {
+  height: 200px;
+  width: calc(33.33% - 30px); 
+  background-color: rgb(238, 238, 238);
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  transition: transform 0.3s ease;
 }
 
+
+
+.mesa_container-adm2:hover{
+  transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+  box-shadow: 4px 7px 9px rgba(136, 239, 98, 0.83);
+}
+
+
 .mesa_container-adm p {
-  font-size: 24px;
-  font-family: Arial, sans-serif; /* Fuente sans-serif para un aspecto más limpio */
-  margin: 0;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px 0 0; /* Ajusta el margen superior para centrar verticalmente el texto */
+}
+.mesa_container-adm2 p {
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px 0 0; /* Ajusta el margen superior para centrar verticalmente el texto */
 }
 
 .mesa_container-adm img {
-  width: 100px;
+  width: 80px;
+  height: 100px;
+}
+.mesa_container-adm2 img {
+  width: 80px;
   height: 100px;
 }
 
@@ -39,9 +106,15 @@
   margin: 20px;
   font-family: Arial, sans-serif; /* Fuente sans-serif */
 }
+.mesa_container_botones-adm2 {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  font-family: Arial, sans-serif; /* Fuente sans-serif */
+}
 
 .administrar-adm {
-  background-color: #e51c1c; /* Azul más oscuro */
+  background-color: #e51c1c; 
   color: #ffffff; /* Texto blanco */
   border: none;
   padding: 8px 16px; /* Mayor relleno */
@@ -78,7 +151,7 @@
   display: flex;
   background-color: #eca2a2; /* Azul más oscuro */
   border-radius: 20px;
-  margin: 15px auto;
+  margin: 2% auto;
   height: auto;
   flex-direction: column;
   justify-content: center;
@@ -106,7 +179,6 @@
 
 .th-adm, .td-adm {
   border: 2px solid #c03333; /* Borde más claro */
-  padding: 12px; /* Increase padding for better spacing */
   text-align: center;
   color: #333333; /* Texto más oscuro */
   background-color: #eec8c8;
@@ -184,14 +256,14 @@
 .agregar-adm2 {
   background-color: #43c167; /* Verde más oscuro */
   color: #ffffff; /* Texto blanco */
-  padding: 10px 15px; 
-  margin: 10px;
+  padding: .5% 10%; 
+  margin: 5%;
   border-radius: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 1100px;
+  margin-left: 390%;
 }
 
 .agregar-adm2 img {
@@ -263,16 +335,6 @@
 .listaHover {
   border: 2px solid #dc3545; /* Borde rojo más oscuro */
   background-color: #f5c6cb; /* Rojo más claro */
-  border-radius: 10px;
-  padding: 1%;
-  width: 70%;
-  margin-top: 1%;
-  align-self: center;
-}
-
-.listaHover {
-  border: 2px solid red;
-  background-color: #F5B8AA;
   border-radius: 10px;
   padding: 1%;
   width: 70%;
@@ -395,10 +457,9 @@
   border-radius: 25px 23px 25px 25px;
   transition: all 0.3s;
   border-radius: 15px;
-  margin-top: 25px;
-  margin-right: -15%;
-  padding: 10px;
-  margin-left: 40px;
+  margin-top: 25%;
+  padding: 10%;
+  margin-left: 10%;
 
 
 }
@@ -407,7 +468,7 @@
 .edit-button:hover{
   color:#000000;
   background-color: #ffffff; /* Fondo blanco */
-  box-shadow: 13.8px -6.9px 10.4px 0px #ffc107; /* Sombra más clara */
+  box-shadow: 13.8px -6.9px 10.4px 0px #ffcd39; /* Sombra más clara */
 }
 
 .edit-button img {
@@ -419,6 +480,14 @@
   width: 120px; 
   display: flex;
   justify-content: space-around;
+  margin-bottom: 7%;
+}
+
+.edit-button-wrapper {
+  width: 120px; 
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 7%;
 }
 
 
@@ -434,8 +503,8 @@
   border-radius: 25px 23px 25px 25px;
   transition: all 0.3s;
   border-radius: 15px;
-  margin-top: 25px;
-  margin-left: 90px;
+  margin-top: 25%;
+  margin-left: 65%;
   
 }
 
@@ -449,7 +518,7 @@
 .delete-button:hover{
   color:#000000;
   background-color: #ffffff; /* Fondo blanco */
-  box-shadow: 13.8px -6.9px 10.4px 0px #d64c5a; /* Sombra más oscura */
+  box-shadow: 13.8px -6.9px 10.4px 0px #d06671; /* Sombra más oscura */
 }
 /* adminBody.css */
 
@@ -489,4 +558,32 @@
   height: 50px; /* Ajusta la altura del avatar */
   border-radius: 50%; /* Hace que el avatar sea circular */
   margin-right: 10px; /* Agrega un margen a la derecha */
+}
+
+.administrar-adm3{
+  background-color: #4CAF50; /* Color de fondo verde */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto blanco */
+  padding: 15px 32px; /* Espacio alrededor del texto */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin decoración de texto */
+  display: inline-block; /* Mostrar como elemento en línea */
+  font-size: 16px; /* Tamaño del texto */
+  margin: 4px 2px; /* Margen superior e inferior de 4px, margen izquierdo y derecho de 2px */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  border-radius: 8px; /* Radio de borde para dar forma al botón */
+}
+
+.administrar-adm4{
+  background-color: #c82333; /* Color de fondo verde */
+  border: none; /* Sin borde */
+  color: white; /* Color del texto blanco */
+  padding: 15px 32px; /* Espacio alrededor del texto */
+  text-align: center; /* Alineación del texto */
+  text-decoration: none; /* Sin decoración de texto */
+  display: inline-block; /* Mostrar como elemento en línea */
+  font-size: 16px; /* Tamaño del texto */
+  margin: 4px 2px; /* Margen superior e inferior de 4px, margen izquierdo y derecho de 2px */
+  cursor: pointer; /* Cursor al pasar sobre el botón */
+  border-radius: 8px; /* Radio de borde para dar forma al botón */
 }

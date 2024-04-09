@@ -1,21 +1,22 @@
 /*MESAS*/
-.container_mesas-caja{
+
+.container_mesas-coc{
   min-height: 450px;
   height: auto;
-  width: 80vw;
+  width: 74.5%;
   background-color: rgb(212, 212, 212);
   margin-left: 30px;
   display: flex;
   flex-wrap: wrap;
 }
-.container_pedido-caja{
+.container_pedido-coc{
   height: 450px;
   width: 400px;
   background-color: rgb(218, 218, 218);
   margin-left: 20px;
   display: flex;
 }
-.mesa_container-caja{
+.mesa_container-coc{
   height: 200px;
   width: 200px;
   background-color: white;
@@ -26,22 +27,22 @@
   display: flex;
   flex-direction: column;
 }
-.mesa_container-caja p{
+.mesa_container-coc p{
   font-size: 24px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   margin: 0;
 }
-.mesa_container-caja img{
+.mesa_container-coc img{
   width: 100px;
   height: 100px;
 }
-.mesa_container_botones-caja{
+.mesa_container_botones-coc{
   display: flex; 
   flex-direction: row;
   margin: 20px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-.cobrar-caja{
+.orden-coc{
   background-color: #F59456;
   color: #000000;
   border: none;
@@ -52,28 +53,149 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 14px;
 }
-.container-para-mesas-caja{
+.entrega-coc{
+  background-color: #D32F87;
+  color: #000000;
+  border: none;
+  padding: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: 20px;
+  width: 80px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+  font-size: 14px;
+}
+.container-para-mesas-coc{
   height: auto;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
 }
+.mesa_container-cocina {
+  width: 200px;
+  height: 200px;
+  background-color: #f3f3f3;
+  margin: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  transform-origin: center center; /* Punto de transformación centrado */
+}
+.mesa_container-cocina:hover {
+  transform: translateY(-5px); /* Movimiento hacia arriba */
+  box-shadow: 0 7px 15px #f35e90; /* Sombras más pronunciadas */
+}
+.mesa_container-cocina p{
+  font-size: 24px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin: 0;
+}
+.mesa_container-cocina img{
+  width: 100px;
+  height: 100px;
+}
+.mesa_container_botones-cocina{
+  display: flex; 
+  flex-direction: row;
+  margin: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
-/*CONFIG*/
-body{
-  background-color: rgb(255, 255, 255);
-  height: auto;
-  overflow: scroll;
+/*INSUMOS*/
+.main-coc {
   width: 100%;
 }
 
-.container-user-caja{
+.container-table-cocina-coc {
+  background-color: #F06292; /* Rosa más claro */
+  border-radius: 20px; /* Bordes redondeados */
+  margin: 15px auto;
+  padding: 20px;
+  width: 95vw;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.container-coc p {
+  color: #fff; /* Texto blanco */
+  font-size: 24px; /* Tamaño de fuente */
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin-bottom: 10px; /* Añadido margen inferior */
+}
+
+.tabla-cocina-coc {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th-coc, .td-coc {
+  border: 2px solid #ff4fa1; /* Borde rosa */
+  padding: 14px; /* Aumentado el espacio interno */
+  text-align: center;
+  color: #333333; /* Texto más oscuro */
+  background-color: #FCE4EC; /* Fondo rosa claro */
+}
+
+.td-coc img {
+  width: 36px; /* Ajustado tamaño de imagen */
+  height: 36px;
+  object-fit: contain;
+}
+
+.titulo-coc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px; /* Aumento de margen inferior */
+}
+
+.titulo-coc span {
+  font-size: 28px; /* Tamaño de fuente del título */
+  font-weight: bold; /* Negrita */
+  color: #fff; /* Texto blanco */
+  text-transform: uppercase; /* Convertir a mayúsculas */
+  background-color: #ff2e8f; /* Fondo rosa */
+  padding: 10px 20px; /* Añadir espacio interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3); /* Sombra suave */
+}
+/* 
+.titulo-coc span {
+  font-size: 28px; 
+  font-weight: bold; 
+  text-transform: uppercase; 
+  padding: 10px 20px; 
+  border-radius: 10px; 
+  animation: changeColor 5s infinite; 
+  Animacion X2
+} 
+
+ @keyframes changeColor {
+  0% { color: #c7b8bf; }
+  25% { color: #dca5b8; } 
+  50% { color: #72ff07; } 
+  75% { color: #00ffb3; } 
+  100% { color: #f11d1d; } 
+}
+Cambio de color 
+*/
+ 
+
+
+/*CONFIG*/
+
+
+.container-user-coc{
   margin-top: 20px;
   display: flex;
   flex-direction: row;
 }
 
-.container_imagen-caja{
+.container_imagen-coc{
   height: 450px;
   width: 45%;
   margin-left: 30px;
@@ -81,47 +203,65 @@ body{
   justify-content: center;
   align-items: center;
 }
-.container_imagen-caja img{
+.container_imagen-coc img {
   width: 300px;
   height: 300px;
+  border-radius: 50%; /* Borde redondeado */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
-.container_formulario-caja{
+
+.container_formulario-coc {
   height: 450px;
   width: 45%;
   margin-left: 20px;
   display: flex;
+  flex-direction: column; /* Organizar en columna */
+  justify-content: center; /* Centrar verticalmente */
   padding-left: 40px;
+  background-color: #f9f9f9; /* Fondo del formulario */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
-#password-caja, #usuario-caja, #email-caja{
+
+#usuario-coc, #email-coc, #password-coc {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
   display: block;
-  background-color: #B5B5C7;
+  background-color: #FEA5D3;
   border-radius: 10px;
   border: none;
   padding: 10px;
   width: 300px;
+  margin-bottom: 20px; /* Espacio entre campos */
+  transition: background-color 0.3s ease; /* Transición suave */
 }
-.label-caja{
+
+#usuario-coc:hover, #email-coc:hover, #password-coc:hover {
+  background-color: #FEBBD1; /* Cambiar color al pasar el cursor */
+}
+
+.label-coc {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: rgb(0, 0, 0);
-  margin-top: 20px;
-  align-self: baseline;
-  display: block;
-  margin-bottom: 10px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: black;
+  margin-bottom: 5px; /* Espacio inferior */
 }
-.boton-caja{
+
+.boton-coc {
   text-align: center;
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: black;
-  position: absolute;
-  margin: 10px;
-  margin-top: 40px;
-  background-color: #80809f; 
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: white;
+  margin-top: 20px; /* Espacio superior */
+  background-color: #FF4081;
   border-radius: 10px;
-  height: 50px;
-  width: 200px;
+  border: none;
+  padding: 15px 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.boton-coc:hover {
+  background-color: #D81B60; /* Cambiar color al pasar el cursor */
 }

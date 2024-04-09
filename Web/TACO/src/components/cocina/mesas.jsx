@@ -18,6 +18,12 @@ export const MesasCocina=()=>{
   const [ personal, setPersonal ] = useState([]);
   const [ mesa, setMesa ] = useState([]);
   const [ status, setStatus ] = useState(false);
+  let token = localStorage.getItem("token");
+  let rol = localStorage.getItem("rol");
+
+  if(token == null || rol!='Cocina'){
+    window.location = '/error';
+  }
   
   const [count, setCount] = useState(0);
 
@@ -38,22 +44,45 @@ export const MesasCocina=()=>{
   });*/
 
   const getMesas = async () => {
-    const respuesta = await axios.get(urlMesas);
-    setMesas(respuesta.data.data);
+    const respuesta = await axios({
+      method: 'GET',
+      url: urlMesas,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(function (res) {
+      let mesasAll = [] ;
+
+      for (let i = 0; i < res.data.data.length; i++) {
+        const element = res.data.data[i];
+        console.log(element);
+        if(element.estado){
+          mesasAll.push(element);
+        }
+      }
+      
+      setMesas(mesasAll);
+    });
   }
 
   const asignarPedido = async (mesa, x) => {
-    const peticion = await axios.get(urlPedido);
+    const peticion = await axios({
+      method: 'GET',
+      url: urlPedido,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     const respuesta = peticion.data.data;
-    //console.log("Peticion");
-    //console.log(peticion.data.data);
+    console.log("Peticion");
+    console.log(peticion.data.data);
 
     for (let i = 0; i < respuesta.length; i++) {
       const element = respuesta[i];
       //console.log("ELEMENT"); 
       //console.log(element);
       
-      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){
+      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){        
         //console.log(element);
         setIdPedido(element.idPedidos);
         setPersonal(element.personalBean);
@@ -71,7 +100,6 @@ export const MesasCocina=()=>{
       }
       
     }
-    console.log("idpedido: "+idPedido)
   }
 
   const alertEntregarPedido=(mesa,x)=> {
@@ -85,26 +113,25 @@ export const MesasCocina=()=>{
       cancelButtonText:"Cancelar",
       confirmButtonText: "Entregar"
     }).then((result) => {
-      if (result.isConfirmed) {
-
-        Swal.fire({
-          title: "Pedido entregado",
-          text: "Se ha entregado el pedido",
-          icon: "success"
-        });
+      if (result.isConfirmed) {        
         entregarPedido(mesa,x);
-        window.location.reload();
       }
     });
   }
 
   const entregarPedido = async (mesa,x) => {
-    const peticion = await axios.get(urlPedido);
+    const peticion = await axios({
+      method: 'GET',
+      url: urlPedido,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     const respuesta = peticion.data.data;
 
     for (let i = 0; i < respuesta.length; i++) {
       const element = respuesta[i];
-      console.log("entra al for")
+      console.log(element);
       if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){
         console.log("Pedido asignado a la mesa:", mesa.id_mesas, "ID de pedido:", element.idPedidos);
         setIdPedido(element.idPedidos);
@@ -123,11 +150,19 @@ export const MesasCocina=()=>{
             'personalBean': element.personalBean,
             'mesaBean': element.mesaBean,
             'status': true
+          },
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         });
         if (actualizar.status === 200) {
-          console.log("Solicitud enviada");
-          console.log(actualizar);
+          Swal.fire({
+            title: "Pedido entregado",
+            text: "Se ha entregado el pedido",
+            icon: "success"
+          });
+          getMesas();
+          againNull();
         } else {
           throw new Error("Error en la solicitud");
         }
@@ -137,6 +172,14 @@ export const MesasCocina=()=>{
     }
     console.log("idpedido: "+idPedido)
   };
+
+  const againNull = async () => {
+    setIdPedido(0);
+    setNumero(0);
+    setMesa([]);
+    setPersonal([]);
+    setStatus(false);
+  }
   
   
   return (
@@ -145,12 +188,12 @@ export const MesasCocina=()=>{
         <div className="container-para-mesas-coc">
           <div className="container_mesas-coc">
           {mesas.map((mesa, i) => (
-              <div key={mesa.id_mesas} className="mesa_container-caja">
-                <p> Mesa {(i+1)} </p>
+              <div key={mesa.id_mesas} className="mesa_container-cocina">
+                <p> Mesa {mesa.numero} </p>
                 <img src={Mesa} alt="Mesa" />
                 <div className="mesa_container_botones-caja">
                   <button className="orden-coc" onClick={() => {asignarPedido(mesa, mesa.id_mesas);} }>Orden</button>
-                  <button className="entrega-coc" onClick={()=>{entregarPedido(mesa, mesa.id_mesas)}}>Entrega</button>
+                  <button className="entrega-coc" onClick={()=>{alertEntregarPedido(mesa, mesa.id_mesas)}}>Entrega</button>
                 </div>
               </div>
             ))}

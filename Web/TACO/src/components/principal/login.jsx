@@ -1,13 +1,17 @@
-import '../principal/css/cssPrincipal.css'
-import fondo from "../../../public/assets/vids/fondo.mp4"
-import LogoTACO from "../../../public/assets/imgs/LogoTACO.png"
-import Swal from 'sweetalert2'
-import axios from 'axios'
-import { useState } from 'react'
+import '../principal/css/cssPrincipal.css';
+import fondo from "../../../public/assets/vids/fondo.mp4";
+import LogoTACO from "../../../public/assets/imgs/LogoTACO.png";
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 export const Login=()=>{
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/';
+  const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/obtener';
+  const urlSignin = 'http://localhost:8081/api/Proyecto_Integrador/auth/signin';
 
   //codigo del casillero de Carlos: 023
   const iniciarSesion = async () => {
@@ -17,35 +21,54 @@ export const Login=()=>{
     }
     
     try {
-      const respuesta = await axios.get(urlPersonal + 'obtener');
+      const respuesta = await axios.get(urlPersonal);
       const usuarios = respuesta.data.data;
       
       if (usuarios.length > 0) {
-        const usuarioValido = usuarios.find(user =>user.email === email  && user.password === password);
+        const usuarioValido = usuarios.find(user =>user.email === email);
         
         if (usuarioValido) {
           const rol = usuarioValido.rol;
           const nombre = usuarioValido.nombre;
           console.log(`${rol} de ${nombre}`);
+          console.log(usuarioValido);
+
+          await axios({
+            method: 'POST',
+            url: urlSignin,
+            data: {
+              "username": usuarioValido.username,
+              "password": password
+            }
+          }).then(function(res) {
+            console.log(res);
+            if(res.data.status == 'OK'){
+              localStorage.setItem('token', res.data.data);
+              localStorage.setItem('usuario', usuarioValido.idPersonal);
+              localStorage.setItem('rol', usuarioValido.rol);
+
+              switch (rol) {
+                case 'Admin':
+                  navigate('/MesasAdm');
+                  break;
+                case 'Caja':
+                  navigate('/MesasCaja');
+                  break;
+                case 'Cocina':
+                  navigate('/MesasCocina');
+                  break;
+                default:
+                  Swal.fire({
+                    iconHtml: `<img src="${LogoTACO}" style="width: 250px; height: auto;">`, 
+                    title: 'Error',
+                    text: 'El mesero no puede acceder a la interfaz web'
+                  });
+                  break;
+              }
+            }
+          });
           
-          switch (rol) {
-            case 'Admin':
-              window.location.href = '/MesasAdm';
-              break;
-            case 'Caja':
-              window.location.href = '/MesasCaja';
-              break;
-            case 'Cocina':
-              window.location.href = '/MesasCocina';
-              break;
-            default:
-              Swal.fire({
-                iconHtml: `<img src="${LogoTACO}" style="width: 250px; height: auto;">`, 
-                title: 'Error',
-                text: 'El mesero no puede acceder a la interfaz web'
-              });
-              break;
-          }
+          
         } else {
           Swal.fire('Error', 'Correo y/o contraseña incorrectos', 'error');
         }

@@ -5,15 +5,29 @@ import Check from "../../../public/assets/imgs/check.png";
 import Cross from "../../../public/assets/imgs/cross.png";
 import { CocinaNavBar } from "./navBar";
 import axios from 'axios';
+
 export const InsumosCocina=()=>{
   const urlPlatillos = 'http://localhost:8081/api/Proyecto_Integrador/platillo/';
   const [ platillos, setPlatillos ] = useState([]);
+  let token = localStorage.getItem("token");
+  let rol = localStorage.getItem("rol");
+
+  if(token == null || rol!='Cocina'){
+    window.location = '/error';
+  }
+
   useEffect(() => {
     getPlatillos();
   }, []);
 
   const getPlatillos = async () => {
-    const respuesta = await axios.get(urlPlatillos+'obtener');
+    const respuesta = await axios({
+      method: 'GET',
+      url: urlPlatillos+'obtener',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     setPlatillos(respuesta.data.data);
     console.log(respuesta.data.data);
   }
