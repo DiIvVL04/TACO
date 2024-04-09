@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+
+
+//////////SOLO CAMBIEN SU IP/////////////
+const IP = '192.168.100.23'
+/////////////////////////////////////////
 
 export default function Perfil({ navigation }) {
+
     const [nombre, setNombre] = useState('');
     const [apellidoPat, setApellidoPat] = useState('');
     const [apellidoMat, setApellidoMat] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
@@ -36,44 +40,65 @@ export default function Perfil({ navigation }) {
     }, []);
 
     const updateProfile = async () => {
-        if (newPassword !== confirmNewPassword) {
+        if (newPassword && newPassword !== confirmNewPassword) {
             alert('Las contraseñas nuevas no coinciden.');
             return;
         }
-
-        // Comprobar que la contraseña actual coincida con la almacenada
-        const storedPassword = await AsyncStorage.getItem('password');
-        if (currentPassword !== storedPassword) {
-            alert('La contraseña actual no es correcta.');
-            return;
-        }
-
         try {
-            const response = await axios.post('http://192.168.100.23:8081/api/Proyecto_Integrador/personal/actualizar', {
+            const token = await AsyncStorage.getItem('token');
+            const idPersonal = await AsyncStorage.getItem('id_personal');
+            if (!idPersonal) {
+                console.error("No se encontró el ID del personal en el almacenamiento local.");
+                alert("Error al actualizar el perfil: No se encontró el ID del usuario.");
+                return;
+            }
+            const updatePayload = {
+                id_personal: idPersonal,
                 nombre,
                 apellido_pat: apellidoPat,
                 apellido_mat: apellidoMat,
-                username,
                 email,
-                currentPassword,
-                newPassword,
-            });
+                rol: "Mesero",
+                username,
+                password: newPassword
+            };
 
-            console.log(response.data);
-            alert('Perfil actualizado correctamente.');
-
-            await AsyncStorage.setItem('email', email);
-            await AsyncStorage.setItem('nombre', nombre);
-            await AsyncStorage.setItem('username', username);
-            await AsyncStorage.setItem('apellido_pat', apellidoPat);
-            await AsyncStorage.setItem('apellido_mat', apellidoMat);
             if (newPassword) {
-                await AsyncStorage.setItem('password', newPassword);
+                updatePayload.password = newPassword;
             }
 
+            const response = await fetch(`http://${IP}:8081/api/Proyecto_Integrador/personal/actualizar`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatePayload)
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok && responseData.status === 'OK') {
+                console.log('Perfil actualizado correctamente.');
+                alert('Perfil actualizado correctamente.');
+                await AsyncStorage.multiSet([
+                    ['token', token]
+                    ['id_personal', idPersonal]
+                    ['nombre', nombre],
+                    ['apellido_pat', apellidoPat],
+                    ['apellido_mat', apellidoMat],
+                    ['email', email],
+                    ['username', username],
+                ]);
+
+                navigation.replace('tab');
+            } else {
+                console.error('Error al actualizar el perfil: ', responseData.message);
+                alert('Error al actualizar el perfil: ' + responseData.message);
+            }
         } catch (error) {
             console.error(error);
-            alert('Error al actualizar el perfil.');
+            alert('Error al actualizar el perfil. Por favor, intente de nuevo.');
         }
     };
 
@@ -97,6 +122,7 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={nombre}
                     onChangeText={setNombre}
+                    autoCapitalize="words"
                 />
                 <TextInput
                     style={styles.input}
@@ -104,6 +130,7 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={apellidoPat}
                     onChangeText={setApellidoPat}
+                    autoCapitalize="words"
                 />
                 <TextInput
                     style={styles.input}
@@ -111,6 +138,7 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={apellidoMat}
                     onChangeText={setApellidoMat}
+                    autoCapitalize="words"
                 />
                 <TextInput
                     style={styles.input}
@@ -118,6 +146,7 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={username}
                     onChangeText={setUsername}
+                    autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.input}
@@ -125,14 +154,8 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={email}
                     onChangeText={setEmail}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Contraseña Actual"
-                    placeholderTextColor="#666"
-                    value={currentPassword}
-                    onChangeText={setCurrentPassword}
-                    secureTextEntry={true}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.input}
@@ -148,7 +171,7 @@ export default function Perfil({ navigation }) {
                     placeholderTextColor="#666"
                     value={confirmNewPassword}
                     onChangeText={setConfirmNewPassword}
-                    secureTextEntry={true}
+                    secureTextEntry={true} 
                 />
             </View>
             <View style={styles.buttonGroup}>
@@ -170,12 +193,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: '#F1EFDB', // Fondo general
+        backgroundColor: '#F1EFDB',
     },
     header: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#F59456', // Color de encabezado
+        color: '#F59456',
         marginBottom: 20,
     },
     inputContainer: {
@@ -187,13 +210,13 @@ const styles = StyleSheet.create({
         width: '100%',
         marginBottom: 15,
         borderWidth: 1,
-        borderColor: '#F59456', // Borde del input
+        borderColor: '#F59456',
         padding: 10,
         borderRadius: 10,
         fontSize: 16,
-        backgroundColor: 'white', // Fondo del input
-        color: '#000', // Color del texto
-        shadowColor: '#F59456', // Sombra del input
+        backgroundColor: 'white',
+        color: '#000',
+        shadowColor: '#F59456',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -208,17 +231,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     button: {
-        backgroundColor: '#F59456', // Botón principal
+        backgroundColor: '#F59456',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 10,
     },
     buttonLogout: {
-        backgroundColor: '#d9534f', // Botón de cerrar sesión
+        backgroundColor: '#d9534f',
     },
     buttonText: {
-        color: 'white', // Texto de los botones
+        color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
     },

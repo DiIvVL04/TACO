@@ -15,6 +15,9 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//////////SOLO CAMBIEN SU IP/////////////
+const IP = '192.168.100.23'
+/////////////////////////////////////////
 
 const CustomAlert = ({ visible, title, message, onDismiss }) => (
     <Modal visible={visible} animationType="slide" transparent={true}>
@@ -31,11 +34,14 @@ const CustomAlert = ({ visible, title, message, onDismiss }) => (
 );
 
 export default function Login() {
-    let [userName, setUserName] = useState("");
-    let [password, setPassword] = useState("");
+    const urlPersonal = `http://${IP}:8081/api/Proyecto_Integrador/personal/obtener`;
+    const urlSignin =  `http://${IP}:8081/api/Proyecto_Integrador/auth/signin`;
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const navigation = useNavigation();
-    let [tries, setTries] = useState(0);
+    const [tries, setTries] = useState(0);
     const [alertInfo, setAlertInfo] = useState({ visible: false, title: "", message: "" });
     const [isLoginButtonDisabled, setIsLoginButtonDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
@@ -46,7 +52,7 @@ export default function Login() {
     };
 
     const validateUser = async () => {
-        if (tries >= 3) {
+        if (tries >= 2) {
             setCountdown(40);
             setShowCountdown(true);
             setIsLoginButtonDisabled(true);
@@ -65,115 +71,116 @@ export default function Login() {
             return;
         }
 
-        try {
-            const response = await axios.get(
-                "http://192.168.100.23:8081/api/Proyecto_Integrador/personal/obtener"
-            );
-            console.log(response);
-
-            const meseros = response.data.data.filter(
-                (personal) => personal.rol === "Mesero"
-            );
-            const meseroValido = meseros.find(
-                (mesero) => mesero.username === userName && mesero.password === password
-            );
-
-            if (meseroValido) {
-                await AsyncStorage.setItem('nombre', meseroValido.nombre);
-                await AsyncStorage.setItem('apellido_pat', meseroValido.apellido_pat);
-                await AsyncStorage.setItem('apellido_mat', meseroValido.apellido_mat);
-                await AsyncStorage.setItem('username', meseroValido.username);
-                await AsyncStorage.setItem('email', meseroValido.email);
-                await AsyncStorage.setItem('password', meseroValido.password);
-                navigation.replace("Tab");
-            } else {
-                setTries(tries + 1);
-                showAlert(
-                    "Acceso Denegado",
-                    `Usuario y/o Contraseña Incorrectos,
-o no cuentas permisos de MESERO.
-Intentos restantes: ${3 - tries - 1}`
-                );
-            }
-        } catch (error) {
-            console.error(error);
-            if (!error.response) {
-                showAlert("Error de Conexión", "No se pudo conectar con el servidor.");
-            } else {
-                showAlert("Error", "Ocurrió un error inesperado.");
-            }
+        if (!userName || !password) {
+            showAlert('Error', 'Por favor, ingresa un username y contraseña', 'error');
+            return;
         }
-    };
+
+        try {
+            const response = await axios.get(urlPersonal);
+            const usuarios = response.data.data;
+
+            if (usuarios && usuarios.length > 0) {
+                const usuarioValido = usuarios.find(user => user.username === userName);
+
+                if (usuarioValido) {
+                    console.log(`Rol: ${usuarioValido.rol} de ${usuarioValido.nombre}`);
+                    console.log(usuarioValido);
+
+                    const loginResponse = await axios.post(urlSignin, {
+                        "username": usuarioValido.username,
+                        "password": password
+                    });
+
+                    if (loginResponse.data.status === 'OK') {
+                        await AsyncStorage.setItem('token', loginResponse.data.data);
+                        await AsyncStorage.setItem('nombre', usuarioValido.nombre);
+                        await AsyncStorage.setItem('apellido_pat', usuarioValido.apellido_pat);
+                        await AsyncStorage.setItem('apellido_mat', usuarioValido.apellido_mat || '');
+                        await AsyncStorage.setItem('email', usuarioValido.email)
+                        await AsyncStorage.setItem('username', usuarioValido.username)
+                        await AsyncStorage.setItem('password', usuarioValido.password)
+                        await AsyncStorage.setItem('id_personal', String(usuarioValido.id_personal));
+                        console.log("Guardando id_personal:", usuarioValido.id_personal);
+
+                    navigation.replace("Tab");
+                } else {
+                    showAlert('Error', 'No fue posible iniciar sesión con los datos proporcionados', 'error');
+                }
+            } else {
+                showAlert('Error', 'Username y/o contraseña incorrectos', 'error');
+            }
+        } else {
+            showAlert('Error', 'No se encontraron usuarios', 'error');
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        showAlert('Error', 'Ocurrió un error inesperado durante el proceso de inicio de sesión', 'error');
+    } finally {
+        setIsLoginButtonDisabled(false);
+    }
+};
 
 
-
-    return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-            <ImageBackground
-                source={require("../assets/fondopho.gif")}
-                style={styles.backgroundGIF}
-            >
-                <Card containerStyle={styles.card}>
-                    <Image
-                        style={styles.image}
-                        source={require("../assets/LogoTACO.png")}
-                    />
+return (
+    <View style={styles.container}>
+        <StatusBar hidden={true} />
+        <ImageBackground source={require("../assets/fondopho.gif")} style={styles.backgroundGIF}>
+            <Card containerStyle={styles.card}>
+                <Image style={styles.image} source={require("../assets/LogoTACO.png")} />
+                <TextInput
+                    style={styles.input}
+                    value={userName}
+                    onChangeText={setUserName}
+                    placeholder="Ingresa tu Usuario"
+                />
+                <View style={styles.passwordContainer}>
                     <TextInput
-                        style={styles.input}
-                        value={userName}
-                        onChangeText={setUserName}
-                        placeholder=" Ingresa tu Usuario"
-                    />
-
-                    <TextInput
-                        style={styles.input}
+                        style={[styles.input, { flex: 1 }]}
                         value={password}
                         onChangeText={setPassword}
-                        placeholder=" Ingresa tu Contraseña"
+                        placeholder="Ingresa tu Contraseña"
                         secureTextEntry={!isPasswordVisible}
                     />
-                    <TouchableOpacity
-                        onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                        style={styles.eye}
-                    >
-                        <Ionicons
-                            name={isPasswordVisible ? "eye-off" : "eye"}
-                            size={24}
-                            color="grey"
-                        />
+                    <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} style={styles.eye}>
+                        <Ionicons name={isPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
                     </TouchableOpacity>
-
-                    <Button
-                        buttonStyle={{ borderRadius: 10, marginTop: 10 }}
-                        color={"orange"}
-                        title="Iniciar Sesión"
-                        onPress={validateUser}
-                        disabled={isLoginButtonDisabled}
-
-                    />
-                    {showCountdown && (
-                        <Text style={{ color: 'red', marginTop: 10 }}>
-                            Demasiados intentos. Espera {countdown} segundos.
-                        </Text>
-                    )}
-                    <CustomAlert
-                        visible={alertInfo.visible}
-                        title={alertInfo.title}
-                        message={alertInfo.message}
-                        onDismiss={() => setAlertInfo({ ...alertInfo, visible: false })}
-                    />
-                </Card>
-            </ImageBackground>
-        </View>
-    );
+                </View>
+                <Button
+                    buttonStyle={{ borderRadius: 10, marginTop: 10 }}
+                    color={"orange"}
+                    title="Iniciar Sesión"
+                    onPress={validateUser}
+                    disabled={isLoginButtonDisabled}
+                />
+                {showCountdown && (
+                    <Text style={{ color: 'red', marginTop: 10 }}>
+                        Demasiados intentos. Espera {countdown} segundos.
+                    </Text>
+                )}
+                <CustomAlert
+                    visible={alertInfo.visible}
+                    title={alertInfo.title}
+                    message={alertInfo.message}
+                    onDismiss={() => setAlertInfo({ ...alertInfo, visible: false })}
+                />
+            </Card>
+        </ImageBackground>
+    </View>
+);
 }
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+    },
+    passwordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
     },
     card: {
         backgroundColor: "rgba(0,0,0,0.5)",
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
     eye: {
         position: "absolute",
         right: 30,
-        top: 242,
+        top: 22,
     },
     backgroundGIF: {
         flex: 1,
