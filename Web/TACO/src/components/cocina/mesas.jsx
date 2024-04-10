@@ -5,26 +5,26 @@ import Mesa from "../../../public/assets/imgs/mesa.png"
 import { CocinaNavBar } from "./navBar";
 import { Orden } from "./orden";
 
-import axios from 'axios'; 
+import axios from 'axios';
 import Swal from "sweetalert2";
 
-export const MesasCocina=()=>{
+export const MesasCocina = () => {
   const urlMesas = 'http://localhost:8081/api/Proyecto_Integrador/mesa/obtener';
   const urlPedido = 'http://localhost:8081/api/Proyecto_Integrador/pedido/obtener';
-  const urlPedidoActualiz='http://localhost:8081/api/Proyecto_Integrador/pedido/actualizar';
-  const [ mesas, setMesas ] = useState([]);
-  const [ idPedido, setIdPedido ] = useState(0);
-  const [ numero, setNumero ] = useState('');
-  const [ personal, setPersonal ] = useState([]);
-  const [ mesa, setMesa ] = useState([]);
-  const [ status, setStatus ] = useState(false);
+  const urlPedidoActualiz = 'http://localhost:8081/api/Proyecto_Integrador/pedido/actualizar';
+  const [mesas, setMesas] = useState([]);
+  const [idPedido, setIdPedido] = useState(0);
+  const [numero, setNumero] = useState('');
+  const [personal, setPersonal] = useState([]);
+  const [mesa, setMesa] = useState([]);
+  const [status, setStatus] = useState(false);
   let token = localStorage.getItem("token");
   let rol = localStorage.getItem("rol");
 
-  if(token == null || rol!='Cocina'){
+  if (token == null || rol != 'Cocina') {
     window.location = '/error';
   }
-  
+
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -51,16 +51,16 @@ export const MesasCocina=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (res) {
-      let mesasAll = [] ;
+      let mesasAll = [];
 
       for (let i = 0; i < res.data.data.length; i++) {
         const element = res.data.data[i];
         console.log(element);
-        if(element.estado){
+        if (element.estado) {
           mesasAll.push(element);
         }
       }
-      
+
       setMesas(mesasAll);
     });
   }
@@ -81,8 +81,8 @@ export const MesasCocina=()=>{
       const element = respuesta[i];
       //console.log("ELEMENT"); 
       //console.log(element);
-      
-      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){        
+
+      if (element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false) {
         //console.log(element);
         setIdPedido(element.idPedidos);
         setPersonal(element.personalBean);
@@ -90,19 +90,19 @@ export const MesasCocina=()=>{
         setNumero(x);
         setStatus(false);
         break;
-        
-      } else if(element.statusP == true) {
+
+      } else if (element.statusP == true) {
         setIdPedido(0);
         setPersonal([]);
         setMesa([]);
         setNumero(x);
         setStatus(true);
       }
-      
+
     }
   }
 
-  const alertEntregarPedido=(mesa,x)=> {
+  const alertEntregarPedido = (mesa, x) => {
     Swal.fire({
       title: "Entregar pedido",
       text: "Revise que la orden esté correcta antes de entregar.",
@@ -110,16 +110,16 @@ export const MesasCocina=()=>{
       showCancelButton: true,
       confirmButtonColor: "#00FF51",
       cancelButtonColor: "#9B9B9B",
-      cancelButtonText:"Cancelar",
+      cancelButtonText: "Cancelar",
       confirmButtonText: "Entregar"
     }).then((result) => {
-      if (result.isConfirmed) {        
-        entregarPedido(mesa,x);
+      if (result.isConfirmed) {
+        entregarPedido(mesa, x);
       }
     });
   }
 
-  const entregarPedido = async (mesa,x) => {
+  const entregarPedido = async (mesa, x) => {
     const peticion = await axios({
       method: 'GET',
       url: urlPedido,
@@ -132,7 +132,7 @@ export const MesasCocina=()=>{
     for (let i = 0; i < respuesta.length; i++) {
       const element = respuesta[i];
       console.log(element);
-      if(element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false){
+      if (element.mesaBean.id_mesas == mesa.id_mesas && element.statusP == false) {
         console.log("Pedido asignado a la mesa:", mesa.id_mesas, "ID de pedido:", element.idPedidos);
         setIdPedido(element.idPedidos);
         setPersonal(element.personalBean);
@@ -140,12 +140,12 @@ export const MesasCocina=()=>{
         setNumero(x);
         setStatus(false);
         console.log("parametros antes de actualizar:")
-        console.log(element)  
-      
+        console.log(element)
+
         const actualizar = await axios({
           method: 'PUT',
           url: urlPedidoActualiz,
-          data:{
+          data: {
             'idPedidos': element.idPedidos,
             'personalBean': element.personalBean,
             'mesaBean': element.mesaBean,
@@ -167,10 +167,10 @@ export const MesasCocina=()=>{
           throw new Error("Error en la solicitud");
         }
         break;
-        
+
       }
     }
-    console.log("idpedido: "+idPedido)
+    console.log("idpedido: " + idPedido)
   };
 
   const againNull = async () => {
@@ -180,29 +180,42 @@ export const MesasCocina=()=>{
     setPersonal([]);
     setStatus(false);
   }
-  
-  
-  return (
-      <>
-        <CocinaNavBar selected={1}/>
-        <div className="container-para-mesas-coc">
-          <div className="container_mesas-coc">
-          {mesas.map((mesa, i) => (
-              <div key={mesa.id_mesas} className="mesa_container-cocina">
-                <p> Mesa {mesa.numero} </p>
-                <img src={Mesa} alt="Mesa" />
-                <div className="mesa_container_botones-caja">
-                  <button className="orden-coc" onClick={() => {asignarPedido(mesa, mesa.id_mesas);} }>Orden</button>
-                  <button className="entrega-coc" onClick={()=>{alertEntregarPedido(mesa, mesa.id_mesas)}}>Entrega</button>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          <div className="container_pedido-coc">
-          <Orden idPedido={idPedido} numMesa={numero} mesa={mesa} personal={personal} status={status} />
-          </div>
+
+  return (
+    <>
+      <CocinaNavBar selected={1} />
+      <div className="container-para-mesas-coc">
+        <div className="container_mesas-coc">
+          {mesas.map((mesa, i) => (
+            <div key={mesa.id_mesas} className="mesa_container-cocina">
+              <p> Mesa {mesa.numero} </p>
+              <img src={Mesa} alt="Mesa" />
+              <div className="mesa_container_botones-caja">
+                <button className="orden-coc" onClick={() => { asignarPedido(mesa, mesa.id_mesas); }}>Orden</button>
+                <button className="entrega-coc" onClick={() => { alertEntregarPedido(mesa, mesa.id_mesas) }}>Entrega</button>
+              </div>
+            </div>
+          ))}
         </div>
-      </>
-    );
+
+        <div className="container_pedido-coc">
+          {idPedido !== 0 && (
+            <div className="orden-card">
+              <h3>Orden #{idPedido}</h3>
+              <div className="info-container">
+                <p>Mesa: {numero}</p>
+                <p>Estado: {status ? "Entregado" : "Pendiente"}</p>
+              </div>
+              <div className="info-container">
+                <p>Mesero: {personal.nombre} {personal.apellido}</p>
+              </div>
+              <hr />
+              <Orden idPedido={idPedido} status={status} />
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
 }

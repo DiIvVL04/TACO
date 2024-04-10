@@ -51,8 +51,7 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
         <>
             <div  className="container-pedido">
                 <div className="num-orden">
-                    <span>Orden </span>
-                    <p>Mesa {(numMesa!=0) ? numMesa : ''}</p>
+                    <p>Detalles del Pedido </p>
                 </div>
                 {ordenes != undefined ? 
                     ordenes.map((orden, i) => (

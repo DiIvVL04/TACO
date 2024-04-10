@@ -3,10 +3,12 @@
     background-color: white;
     min-height: 350px;
     width: 250px;
-    height: auto;
+    height: 40px;
     display: flex;
     flex-direction: column;
     padding: 20px;
+    overflow-y: auto; 
+    max-height: 80vh; 
 }
 
 .platillos{
@@ -25,6 +27,7 @@
     font-weight: bold;
     font-size: 20px;
     margin-top: 0;
+    
 }
 
 .precio{
