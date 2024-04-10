@@ -3,19 +3,69 @@
 .container_mesas-coc{
   min-height: 450px;
   height: auto;
-  width: 74.5%;
-  background-color: rgb(212, 212, 212);
+  width: 57%;
+  background-color: rgba(185, 185, 185, 0.79);
   margin-left: 30px;
   display: flex;
   flex-wrap: wrap;
 }
 .container_pedido-coc{
   height: 450px;
-  width: 400px;
-  background-color: rgb(218, 218, 218);
-  margin-left: 20px;
+  width: 18%;
+  margin-left: 3%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  padding: 20px;
 }
+
+.orden-card {
+  background-color: rgba(185, 185, 185, 0.79); 
+  border-radius: 15px;
+  box-shadow: 0 6px 10px rgba(185, 185, 185, 0.79); 
+  padding: 10%;
+  margin-top: 38%;
+  margin-left: 75%;
+ 
+}
+
+.orden-card p {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #000000; 
+}
+
+.orden-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px; 
+  color: #000000; 
+}
+
+.orden-card .info-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1%;
+}
+
+
+/* Estilos para el botón de completar orden */
+.completar-orden-btn {
+  background-color: #00FF51;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.completar-orden-btn:hover {
+  background-color: #00cc47;
+}
+
 .mesa_container-coc{
   height: 200px;
   width: 200px;
