@@ -36,7 +36,7 @@ export const NavBarAdmin=({selected})=>{
           <ul>
               <button className={ selectedItem == 1 ? 'botoncito-adm2': 'botoncito-adm'} style={ selectedItem == 1 ? {border: '1px solid red'} : {}} onClick={() => { window.location='/MesasAdm'}}>Mesas</button>
               <button className={ selectedItem == 2 ? 'botoncito-adm2': 'botoncito-adm'} style={ selectedItem == 2 ? {border: '1px solid red'} : {}} onClick={() => { window.location='/InsumosAdm'}}>Platillos</button>
-              <button className="bt-hover-adm" >
+              <button className="bt-hover-adm" disabled>
                 <div className="logo-adm">
                   <img src={LogoTACO} alt="Logo" />
                 </div>

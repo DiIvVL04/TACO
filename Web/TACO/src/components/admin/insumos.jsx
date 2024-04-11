@@ -75,7 +75,6 @@ export const InsumosAdmin = () => {
       }
     });
     setPlatillos(respuesta.data.data);
-    console.log(respuesta.data.data);
   }
 
   const validar = async (metodo, accion) => {
@@ -125,7 +124,6 @@ export const InsumosAdmin = () => {
   }
 
   const deletePlatillo = async (idPlatillo) => {
-    console.log(idPlatillo);
 
     let parametros = {
       idPlatillos: idPlatillo
@@ -194,7 +192,6 @@ export const InsumosAdmin = () => {
   }
 
   const enviar = async (metodo, parametros, url) => {
-    console.log("Entro con " + metodo + " y " + url);
     try {
       const respuesta = await axios({
         method: metodo,
@@ -206,14 +203,12 @@ export const InsumosAdmin = () => {
       });
 
       if (respuesta.status === 200) {
-        console.log("Solicitud enviada");
-        console.log(respuesta);
       } else {
         throw new Error("Error en la solicitud");
       }
       
     } catch (error) {
-      console.log(error);
+      console.log('');
     }
 
     getPlatillos();

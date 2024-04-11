@@ -94,12 +94,9 @@ export const ConfiguracionCocina=()=>{
       }
     }).then(function (res) {
       if(res.data.status == 'OK'){
-        //alerta de que salió bien
       }
     }).catch(function (error) {
-      //posible alerta por si algo sale mal
-      console.log("Error en la solicitud");
-      console.log(error);
+      console.log('');
     })
   }
 

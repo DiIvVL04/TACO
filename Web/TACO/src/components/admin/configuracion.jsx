@@ -1,4 +1,4 @@
-import './css/adminNavBar.css'
+/*import './css/adminNavBar.css'
 import './css/adminBody.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -438,9 +438,9 @@ export const ConfiguracionAdmin=()=>{
 
     </>
     )
-}
+}*/
 
-/*import './css/adminNavBar.css'
+import './css/adminNavBar.css'
 import './css/adminBody.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -460,9 +460,8 @@ Modal.setAppElement('#root');
 const customStyles = {
     content: {
       width: '45%',
-      minHeight: '80vh', // Establece una altura mínima del 80% del alto de la ventana
-      maxHeight: '90vh', // Establece una altura máxima del 90% del alto de la ventana
-      top: '50%',
+      minHeight: '80vh', 
+      maxHeight: '90vh', 
       left: '50%',
       right: 'auto',
       bottom: 'auto',
@@ -500,7 +499,8 @@ export const ConfiguracionAdmin=()=>{
     const [ nombre, setNombre ] = useState('');
     const [ prev, setPrev ] = useState(null);
     const [ emailStatus, setEmailStatus ] = useState(false);
-    const [confirmPassword, setConfirmPassword]= useState(false)
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword]= useState('');
     let token = localStorage.getItem("token");
     let rol2 = localStorage.getItem("rol");
 
@@ -577,9 +577,14 @@ export const ConfiguracionAdmin=()=>{
             Swal.fire("Rol vacío","El campo de rol se encuentra vacío","warning")
         } else if(username == '' || username == undefined){
             Swal.fire("Nobre de usuario vacío","El campo de username se encuentra vacío","warning")
-        } else if (password !== confirmPassword) {
-            Swal.fire("Contraseñas no coinciden","La contraseña y su confirmación no coinciden","warning")
+        } else if ((newPassword !== '' && confirmPassword !== '') && newPassword !== confirmPassword) {
+            console.log(`${newPassword} y ${confirmPassword}`)
+            Swal.fire("Contraseñas no coinciden","Las contraseñas no coinciden","warning")
         }  else {
+            let password = '';
+             if (newPassword === confirmPassword && (newPassword !== '' && confirmPassword !== '')){
+                password=newPassword;
+             } else{}
             let parametros = {
                 idPersonal: idPersonal,
                 nombre: nombre,
@@ -609,14 +614,14 @@ export const ConfiguracionAdmin=()=>{
           cancelButtonText:"Cancelar",
           confirmButtonText: "Eliminar"
         }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Empleado eliminado",
-              text: "Se ha eliminado al empleado",
-              icon: "success"
-            });
             deleteUser();
-          }
+            if (result.isConfirmed) {
+                Swal.fire({
+                title: "Empleado eliminado",
+                text: "Se ha eliminado al empleado",
+                icon: "success"
+                });
+            }
         });
       }
     const deleteUser = async () => {
@@ -711,6 +716,8 @@ export const ConfiguracionAdmin=()=>{
         setPassword(usuario.password);
         setUsername(usuario.username);
         setEmail(usuario.email);
+        setNewPassword('');
+        setConfirmPassword('');
         validarPrevEmail(usuario.email);
     };
 
@@ -724,6 +731,7 @@ export const ConfiguracionAdmin=()=>{
         setUsername('');
         setEmail('');
         setNombre('');
+        setNewPassword('');
         setConfirmPassword('');
     };
 
@@ -793,14 +801,19 @@ export const ConfiguracionAdmin=()=>{
                             </div>
                             <div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Cambiar contraseña:</label>
-                                <input id="password-adm" name="password"  placeholder="Nueva Contraseña" onChange={(e) => setPassword(e.target.value)} type="text" disabled={!personalSelec}/>
+                                <input id="password-adm" name="password" value={newPassword}  
+                                placeholder="Nueva Contraseña" onChange={(e) => setNewPassword(e.target.value)} 
+                                type="text" disabled={!personalSelec}/>
                             </div>
                             
                         </div>
                         <div className='input-form-2'>
                             <div>
                                 <label className="label-adm">Confirmar contraseña:</label>
-                                <input id="password-adm" name="password-conf" placeholder="Confirmar Contraseña" onChange={(e) => setConfirmPassword(e.target.value)} type="text"  disabled={!personalSelec}/>
+                                <input id="password-conf-adm" name="password-conf" 
+                                value={confirmPassword} placeholder="Confirmar Contraseña" 
+                                onChange={(e) => setConfirmPassword(e.target.value)} type="text"  
+                                disabled={!personalSelec}/>
                             </div>
 
                             {rol=="Admin" ? (<></>): (
@@ -888,4 +901,4 @@ export const ConfiguracionAdmin=()=>{
 
     </>
     )
-}*/
+}

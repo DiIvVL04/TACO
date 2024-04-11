@@ -7,7 +7,7 @@
   background-color: rgb(238, 238, 238);
   justify-content: center;
   align-items: center;
-  margin: 2%;
+  margin: 1.5%;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@
   background-color: rgb(238, 238, 238);
   justify-content: center;
   align-items: center;
-  margin: 1%;
+  margin: 1.5%;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -150,7 +150,7 @@
   display: flex;
   background-color: #eca2a2; /* Azul más oscuro */
   border-radius: 20px;
-  margin: 2% auto;
+  margin: 1% auto;
   height: auto;
   flex-direction: column;
   justify-content: center;
@@ -178,9 +178,10 @@
 
 .th-adm, .td-adm {
   border: 2px solid #c03333; /* Borde más claro */
+  font-size: 20px;
   text-align: center;
   color: #333333; /* Texto más oscuro */
-  background-color: #eec8c8;
+  background-color: #f7cccc;
 }
 
 .th-adm:first-child {
@@ -199,15 +200,22 @@
   object-fit: contain;
 }
 
-
 .titulo-adm {
   display: flex;
   align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  font-weight: bold;
-  font-size: 20px;
-  color: #333333; /* Texto más oscuro */
+  margin-top: 1%;
+  margin-bottom: 10px; /* Aumento de margen inferior */
+}
+
+.titulo-adm span {
+  font-size: 28px; /* Tamaño de fuente del título */
+  font-weight: bold; /* Negrita */
+  color: #fff; /* Texto blanco */
+  text-transform: uppercase; /* Convertir a mayúsculas */
+  background-color: #ff6c6c; /* Fondo rosa */
+  padding: 10px 20px; /* Añadir espacio interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3); /* Sombra suave */
 }
 
 .botones-adm {
@@ -371,7 +379,7 @@
   display: flex;
 }
 
-#password-adm, #usuario-adm, #email-adm,#paterno-adm,#materno-adm,#rol-adm,#nombre-adm {
+#password-adm,#password-conf-adm, #usuario-adm, #email-adm,#paterno-adm,#materno-adm,#rol-adm,#nombre-adm {
   font-size: 20px;
   font-family: Arial, sans-serif; /* Fuente sans-serif */
   color: #000000; /* Texto negro */
@@ -466,7 +474,7 @@
 
 .edit-button:hover{
   color:#000000;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #ffe8a4; /* Fondo blanco */
   box-shadow: 13.8px -6.9px 10.4px 0px #ffcd39; /* Sombra más clara */
 }
 
@@ -481,14 +489,6 @@
   justify-content: space-around;
   margin-bottom: 7%;
 }
-
-.edit-button-wrapper {
-  width: 120px; 
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 7%;
-}
-
 
 .delete-button {
   display: flex;
@@ -516,7 +516,7 @@
 
 .delete-button:hover{
   color:#000000;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #fd9aa4; /* Fondo blanco */
   box-shadow: 13.8px -6.9px 10.4px 0px #d06671; /* Sombra más oscura */
 }
 /* adminBody.css */

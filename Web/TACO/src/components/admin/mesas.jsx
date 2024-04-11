@@ -38,7 +38,6 @@ export const MesasAdmin=()=>{
     for (let i = 0; i < respuesta.data.data.length; i++) {
       const element = respuesta.data.data[i];
       
-      console.log(element);
       if(element.estado){
         mesasAll.push(element);        
       } else {
@@ -86,12 +85,10 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
       //Aquí por si quieren poner alertas de si se hizo o no
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
@@ -142,7 +139,6 @@ export const MesasAdmin=()=>{
   }
 
   const eliminarMesa = async (id, numMesa) => {
-    console.log(numMesa);
     await axios({
       method: 'PUT',
       url: urlMesas+'actualizar',
@@ -155,20 +151,16 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
       //Aquí por si quieren poner alertas de si se hizo o no
     })
     .catch(function (error) {
-      show_alerta('Error en la Solicitud', 'error');
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
   }
 
   const activarMesa = async (id, numMesa) => {
-    console.log(numMesa);
     await axios({
       method: 'PUT',
       url: urlMesas+'actualizar',
@@ -181,12 +173,9 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
     })
     .catch(function (error) {
-      show_alerta('Error en la Solicitud', 'error');
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
