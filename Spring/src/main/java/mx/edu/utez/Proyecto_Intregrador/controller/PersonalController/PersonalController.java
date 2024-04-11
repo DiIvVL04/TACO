@@ -44,5 +44,12 @@ public class PersonalController {
         return service.loginUsuario(dto.toEntity());
     }
 
+    @PutMapping("/recuperarContra")
+    public ResponseEntity<ApiResponse> recoveryPassword(@RequestBody PersonalDto dto) {
+        return service.recuperarPassword(dto.getUsername(), dto.getPassword() ,dto.getEmail());
+    }
+
+
+
 
 }
