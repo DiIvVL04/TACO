@@ -460,8 +460,9 @@ Modal.setAppElement('#root');
 const customStyles = {
     content: {
       width: '45%',
-      minHeight: '80vh', 
-      maxHeight: '90vh', 
+      minHeight: '90vh', 
+      maxHeight: '95vh', 
+      top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
@@ -476,7 +477,6 @@ const customStyles = {
   };
   
   
-
   const inputStyles = {
     border: '1px solid #ccc',
     borderRadius: '5px',
@@ -567,24 +567,19 @@ export const ConfiguracionAdmin=()=>{
         metodo == 'POST' ? url='guardar' : url='actualizar'
 
         console.log("IdUsuario: "+idPersonal);
-        if (nombre == '' || nombre == undefined){
+        if (nombre.trim() == '' || nombre == undefined){
             Swal.fire("Nombre vacío","El campo de nombre se encuentra vacío","warning")
-        } else if(apellidoPat == '' || apellidoPat == undefined){
+        } else if(apellidoPat.trim() == '' || apellidoPat == undefined){
             Swal.fire("Apellido paterno vacío","El campo de apellido paterno se encuentra vacío","warning")
-        } else if(apellidoMat == '' || apellidoMat == undefined){
+        } else if(apellidoMat.trim() == '' || apellidoMat == undefined){
             Swal.fire("Apellido materno vacío","El campo de apellido materno se encuentra vacío","warning")
-        } else if(rol == '' || rol == undefined){
+        } else if(rol.trim() == '' || rol == undefined){
             Swal.fire("Rol vacío","El campo de rol se encuentra vacío","warning")
-        } else if(username == '' || username == undefined){
-            Swal.fire("Nobre de usuario vacío","El campo de username se encuentra vacío","warning")
-        } else if ((newPassword !== '' && confirmPassword !== '') && newPassword !== confirmPassword) {
-            console.log(`${newPassword} y ${confirmPassword}`)
-            Swal.fire("Contraseñas no coinciden","Las contraseñas no coinciden","warning")
-        }  else {
-            let password = '';
-             if (newPassword === confirmPassword && (newPassword !== '' && confirmPassword !== '')){
-                password=newPassword;
-             } else{}
+        } else if(username.trim() == '' || username == undefined){
+            Swal.fire("Nombre de usuario vacío","El campo de username se encuentra vacío","warning")
+        }  else if(password.trim() == '' || password == undefined){
+            Swal.fire("Contraseña vacía","El campo de contraseña se encuentra vacío","warning")
+        }else {
             let parametros = {
                 idPersonal: idPersonal,
                 nombre: nombre,
@@ -799,23 +794,12 @@ export const ConfiguracionAdmin=()=>{
                                 (e) => { validarEmail(e.target); }
                                 } placeholder="Correo electrónico" onChange={(e) => {setEmail(e.target.value)}} type="email" required disabled={!personalSelec}/>
                             </div>
-                            <div style={{marginLeft: '15px'}}>
+                            {/*<div style={{marginLeft: '15px'}}>
                                 <label className="label-adm">Cambiar contraseña:</label>
                                 <input id="password-adm" name="password" value={newPassword}  
                                 placeholder="Nueva Contraseña" onChange={(e) => setNewPassword(e.target.value)} 
                                 type="text" disabled={!personalSelec}/>
-                            </div>
-                            
-                        </div>
-                        <div className='input-form-2'>
-                            <div>
-                                <label className="label-adm">Confirmar contraseña:</label>
-                                <input id="password-conf-adm" name="password-conf" 
-                                value={confirmPassword} placeholder="Confirmar Contraseña" 
-                                onChange={(e) => setConfirmPassword(e.target.value)} type="text"  
-                                disabled={!personalSelec}/>
-                            </div>
-
+                            </div>*/}
                             {rol=="Admin" ? (<></>): (
                             <div  style={{marginLeft: '15px'}}>
                             <div className='label-adm'>Rol: 
@@ -829,6 +813,18 @@ export const ConfiguracionAdmin=()=>{
                             </div> 
                             
                         )}
+                            
+                        </div>
+                        <div className='input-form-2'>
+                            {/*<div>
+                                <label className="label-adm">Confirmar contraseña:</label>
+                                <input id="password-conf-adm" name="password-conf" 
+                                value={confirmPassword} placeholder="Confirmar Contraseña" 
+                                onChange={(e) => setConfirmPassword(e.target.value)} type="text"  
+                                disabled={!personalSelec}/>
+                        </div>*/}
+
+                            
                         </div>
 
                         <div className='input-form-2'>

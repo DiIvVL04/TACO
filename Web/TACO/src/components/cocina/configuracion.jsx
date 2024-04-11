@@ -3,11 +3,13 @@ import User from "../../../public/assets/imgs/user.png"
 import './css/cocinaNavBar.css'
 import './css/cocinaBody.css'
 import { CocinaNavBar } from "./navBar";
+import Swal from 'sweetalert2';
 
 import axios from 'axios';
 
 export const ConfiguracionCocina=()=>{
   const urlPersonal = 'http://localhost:8081/api/Proyecto_Integrador/personal/';
+  const urlContra = 'http://localhost:8081/api/Proyecto_Integrador/personal/recuperarContra';
   const [ apellidoMat, setApellidoMat ] = useState('');
   const [ apellidoPat, setApellidoPat ] = useState('');
   const [ correo, setCorreo ] = useState('');
@@ -16,6 +18,7 @@ export const ConfiguracionCocina=()=>{
   const [ _rol, setRol ] = useState('');
   const [ usuario, setUsuario ] = useState('');
   const [ contra, setContra ] = useState('');
+  const [ contra2, setContra2 ] = useState('');
 
   let token = localStorage.getItem("token");
   let rol = localStorage.getItem("rol");
@@ -50,7 +53,6 @@ export const ConfiguracionCocina=()=>{
         setCorreo(element.email);
         setIdPersona(element.idPersonal);
         setNombre(element.nombre);
-        setContra(element.password);
         setRol(element.rol);
         setUsuario(element.username);
       }
@@ -61,11 +63,13 @@ export const ConfiguracionCocina=()=>{
     event.preventDefault();
     let parametros;
 
-    if(correo.trim() === '') {
-      //alerta de que está vacio el correo
-    } else if(contra.trim() === ''){
-      //alerta de que está vacio la contra
-    } else {
+    if(correo.trim() == '' || correo == undefined) {
+      Swal.fire("Correo vacío","El campo de correo se encuentra vacío","warning")
+  } else if(contra.trim() == '' || contra == undefined){
+      Swal.fire("Contraseña vacía","El campo de contraseña se encuentra vacío","warning")
+  } else if(contra != contra2 || contra2 == undefined){ 
+      Swal.fire("Repetir Contraseña vacío","El campo de repetir contraseña se encuentra vacío","warning")
+  } else {
       parametros = {
         apellido_mat: apellidoMat,
         apellido_pat: apellidoPat,
@@ -85,18 +89,29 @@ export const ConfiguracionCocina=()=>{
   const updatePersona = async (parametros) => {
     event.preventDefault();
 
+    console.log("ENVIAR");
+    console.log(parametros);
     await axios({
       method: 'PUT',
-      url: urlPersonal+'actualizar',
+      url: urlPersonal+'recuperarContra',
       data: parametros,
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
+      data: parametros
     }).then(function (res) {
-      if(res.data.status == 'OK'){
+      console.log(res);
+      if(res.data.data == 'OK'){
+        console.log(res.data.data); 
+        Swal.fire("Datos Actualizados","Acción Realizada Correctamente","success")
+        setContra('');
+        setContra2('');   
       }
     }).catch(function (error) {
-      console.log('');
+      console.log(error);
+    }).finally(function () {
+      setContra('');
+      setContra2('');
     })
   }
 
@@ -114,12 +129,16 @@ export const ConfiguracionCocina=()=>{
                 <input id="usuario-coc" name="usuario" disabled value={usuario} onChange={(e) => setUsuario(e.target.value)} placeholder="Usuario" />
               </div>
               <div>
-                <label className="label-coc">Correo electrónico:</label>
+                <label className="label-coc">Correo Electrónico:</label>
                 <input id="email-coc" name="email" value={correo} onChange={(e) => setCorreo(e.target.value)} placeholder="Correo electrónico" type="email" />
               </div>
               <div>
-                <label className="label-coc">Contraseña:</label>
-                <input id="password-coc" name="password" value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Contraseña" type="password" />
+                <label className="label-coc">Nueva Contraseña:</label>
+                <input id="password-coc" name="password"  value={contra} onChange={(e) => setContra(e.target.value)} placeholder="Nueva Contraseña" type="password" />
+              </div>
+              <div>
+                <label className="label-coc">Repetir Contraseña:</label>
+                <input id="password-coc" name="password"value={contra2}  onChange={(e) => setContra2(e.target.value)} placeholder="Repetir Contraseña" type="password" />
               </div>
               <button type="submit" className="boton-coc" onClick={() => validar()}>Guardar</button>
             </form>
