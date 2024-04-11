@@ -4,16 +4,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
  
-export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
+export const Orden =({idPedido, numMesa, mesa, status}) => {
     const urlOrdenes = 'http://localhost:8081/api/Proyecto_Integrador/orden/pedidos';
     const urlPedidoAct = 'http://localhost:8081/api/Proyecto_Integrador/caja/actualizar';
     const [ ordenes, setOrdenes ] = useState([]);
     const [ total, setTotal ] = useState(0);
     const [ cambio, setCambio ] = useState('');
     const [ compl, setCompl ] = useState(false);
+    let token = localStorage.getItem("token");
    
-    console.log("MESAORDENES");
-    console.log(mesa);
     var total_a = 0;
 
     useEffect(() => {
@@ -30,9 +29,12 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
                     "pedidoBean": {
                         "idPedidos": idPedido
                     }
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
               }).then(function (respuesta) {
-                console.log(respuesta);
+                console.log(status);
                 if(status == false){
                     setOrdenes(respuesta.data.data);
                     //console.log("Ordenes");
@@ -45,7 +47,7 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
               });
 
               if(ordenes != undefined || ordenes != null){
-                
+
                 for (let i = 0; i < ordenes.length; i++) {
                     const element = ordenes[i];
                     total_a = total_a + element.platilloBean.precio;
@@ -58,12 +60,12 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
             setTotal(0);
         }
     }
-
+    
     const cobrarPedido = async () => {
         if(compl) {
             confirmCobrar();
         } else {
-            Swal.fire('Error', 'El Dinero Ingresado no es suficiente.', 'error');
+            Swal.fire('Error', 'El dinero ingresado no es suficiente.', 'error');
         }
     }
 
@@ -89,10 +91,11 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
                 idCaja: mesa.idCaja,   
                 status_de_Pago: true,
                 pedidoBean: mesa.pedidoBean
-            }
+            },
+            headers: {
+                Authorization: `Bearer ${token}`
+              }
           }).then(function (respuesta) {
-            console.log(respuesta);
-            console.log(respuesta.status);
             Swal.fire({
                 title: "Pedido cobrado",
                 text: "Se ha cobrado el pedido",
@@ -127,7 +130,7 @@ export const Orden =({idPedido, numMesa, mesa, personal, status}) => {
                     </div>                   
                 </div>
                 )) : <p></p> }
-                
+
                 <p>Total: &nbsp;&nbsp;${total}</p>
 
                 <label>$&nbsp;&nbsp;

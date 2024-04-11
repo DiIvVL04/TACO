@@ -75,7 +75,6 @@ export const InsumosAdmin = () => {
       }
     });
     setPlatillos(respuesta.data.data);
-    console.log(respuesta.data.data);
   }
 
   const validar = async (metodo, accion) => {
@@ -125,7 +124,6 @@ export const InsumosAdmin = () => {
   }
 
   const deletePlatillo = async (idPlatillo) => {
-    console.log(idPlatillo);
 
     let parametros = {
       idPlatillos: idPlatillo
@@ -179,21 +177,21 @@ export const InsumosAdmin = () => {
       cancelButtonText: "Cancelar",
       confirmButtonText: "Actualizar"
     }).then((result) => {
+      validar(metodo, accion);
       if (result.isConfirmed) {
         Swal.fire({
           title: "Platillo actualizado",
           text: "Se ha actualizado el platillo",
           icon: "success"
         }).then(() => {
-          validar(metodo, accion);
-          window.location.reload();
+          closeModalEdit();
+          getPlatillos();
         });
       }
     });
   }
 
   const enviar = async (metodo, parametros, url) => {
-    console.log("Entro con " + metodo + " y " + url);
     try {
       const respuesta = await axios({
         method: metodo,
@@ -205,14 +203,12 @@ export const InsumosAdmin = () => {
       });
 
       if (respuesta.status === 200) {
-        console.log("Solicitud enviada");
-        console.log(respuesta);
       } else {
         throw new Error("Error en la solicitud");
       }
       
     } catch (error) {
-      console.log(error);
+      console.log('');
     }
 
     getPlatillos();
@@ -285,7 +281,7 @@ export const InsumosAdmin = () => {
         <NavBarAdmin selected={2} />
         <div className="container-table-admin-adm">
           <div className="titulo-adm">
-            <span> Platillos disponibles</span>
+          <span style={{marginRight:850}}> Platillos disponibles</span>
             <div className="botones-adm2">
               <button className="agregar-adm2" onClick={openModal}>
                 Agregar

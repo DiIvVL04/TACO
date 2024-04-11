@@ -38,7 +38,6 @@ export const MesasAdmin=()=>{
     for (let i = 0; i < respuesta.data.data.length; i++) {
       const element = respuesta.data.data[i];
       
-      console.log(element);
       if(element.estado){
         mesasAll.push(element);        
       } else {
@@ -74,7 +73,7 @@ export const MesasAdmin=()=>{
     });
   }
   const agregarMesa = async () => {
-    let number = mesas.length + 1;
+    let number = mesas.length + 1 + mesas2.length;
     await axios({
       method: 'POST',
       url: urlMesas+'guardar',
@@ -86,12 +85,10 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
       //Aquí por si quieren poner alertas de si se hizo o no
     })
     .catch(function (error) {
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
@@ -142,7 +139,6 @@ export const MesasAdmin=()=>{
   }
 
   const eliminarMesa = async (id, numMesa) => {
-    console.log(numMesa);
     await axios({
       method: 'PUT',
       url: urlMesas+'actualizar',
@@ -155,20 +151,16 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
       //Aquí por si quieren poner alertas de si se hizo o no
     })
     .catch(function (error) {
-      show_alerta('Error en la Solicitud', 'error');
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
   }
 
   const activarMesa = async (id, numMesa) => {
-    console.log(numMesa);
     await axios({
       method: 'PUT',
       url: urlMesas+'actualizar',
@@ -181,12 +173,9 @@ export const MesasAdmin=()=>{
         Authorization: `Bearer ${token}`
       }
     }).then(function (respuesta) {
-      console.log(respuesta);
-      console.log(respuesta.status);
     })
     .catch(function (error) {
-      show_alerta('Error en la Solicitud', 'error');
-      console.log(error);
+      console.log('');
     });
 
     getMesas();
@@ -203,24 +192,24 @@ export const MesasAdmin=()=>{
                   <p> Mesa {mesa.id_mesas} </p>
                   <img src={MesaImg} alt="Mesa" />
                   <div className="mesa_container_botones-adm">
-                  <button className="administrar-adm" onClick={() => alertEliminarMesa(mesa.id_mesas, mesa.numero)}>Desactivar</button>
+                  <button className="administrar-adm4" onClick={() => alertEliminarMesa(mesa.id_mesas, mesa.numero)}>Desactivar</button>
                   </div>
                 </div>
               ))}
                   
-              <div className="mesa_container-adm" id="agregarMesa" onClick={() => alertAgregarMesa()}>
-                <img src={Sumar} alt="Sumar" />
+              <div className="mesa_container-adm2" id="agregarMesa" onClick={() => alertAgregarMesa()}>
+                <img src={Sumar} alt="Sumar" style={{width:90, height:90}}/>
                 <p> Agregar mesa</p>
               </div>  
             </div>
 
             <div className="container_mesas-adm">
             {mesas2.map((mesa, i) => (
-              <div key={mesa.id_mesas} className="mesa_container-adm">
+              <div key={mesa.id_mesas} className="mesa_container-adm2">
                 <p> Mesa {mesa.id_mesas} </p>
                 <img src={MesaImg} alt="Mesa" />
                 <div className="mesa_container_botones-adm">
-                <button className="administrar-adm2" onClick={() => alertActivarMesa(mesa.id_mesas, mesa.numero)}>Activar</button>
+                <button className="administrar-adm3" onClick={() => alertActivarMesa(mesa.id_mesas, mesa.numero)}>Activar</button>
                 </div>
               </div>
             ))}

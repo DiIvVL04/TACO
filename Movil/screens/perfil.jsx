@@ -1,200 +1,248 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Image } from '@rneui/themed';
-import * as ImagePicker from 'expo-image-picker';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-async function updateProfile(data) {
-    try {
-        const response = await fetch('https://tuapi.com/updateProfile', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
 
-        if (!response.ok) {
-            throw new Error('Algo salió mal al actualizar el perfil');
-        }
+//////////SOLO CAMBIEN SU IP/////////////
+const IP = '192.168.100.23'
+/////////////////////////////////////////
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        throw new Error(error.message);
-    }
-}
+export default function Perfil({ navigation }) {
 
-export default function Perfil() {
-    const navigation = useNavigation();
-    const [image, setImage] = useState('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
-    const [nombre, setNombre] = useState('Kevin David Rodríguez Zúñiga');
-    const [correo, setCorreo] = useState('20223tn108@utez.edu.mx');
-    const [currentPassword, setCurrentPassword] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [apellidoPat, setApellidoPat] = useState('');
+    const [apellidoMat, setApellidoMat] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
-    const [isConfirmNewPasswordVisible, setIsConfirmNewPasswordVisible] = useState(false);
 
-    const selectImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            quality: 1,
-            allowsEditing: true,
-            aspect: [1, 1],
-        });
+    useEffect(() => {
+        const loadProfileData = async () => {
+            try {
+                const storedNombre = await AsyncStorage.getItem('nombre');
+                const storedApellidoPat = await AsyncStorage.getItem('apellido_pat');
+                const storedApellidoMat = await AsyncStorage.getItem('apellido_mat');
+                const storedUsername = await AsyncStorage.getItem('username');
+                const storedEmail = await AsyncStorage.getItem('email');
 
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
+                if (storedNombre) setNombre(storedNombre);
+                if (storedApellidoPat) setApellidoPat(storedApellidoPat);
+                if (storedApellidoMat) setApellidoMat(storedApellidoMat);
+                if (storedUsername) setUsername(storedUsername);
+                if (storedEmail) setEmail(storedEmail);
+            } catch (error) {
+                console.log("Error al cargar los datos del perfil", error);
+            }
+        };
 
-    const UpdateProfile = async () => {
-        if (newPassword !== confirmNewPassword) {
-            Alert.alert("Error", "Las nuevas contraseñas no coinciden.");
+        loadProfileData();
+    }, []);
+
+    const updateProfile = async () => {
+        if (newPassword && newPassword !== confirmNewPassword) {
+            alert('Las contraseñas nuevas no coinciden.');
             return;
         }
-
-        setIsLoading(true);
         try {
-            const result = await updateProfile({ nombre, correo, image, currentPassword, newPassword });
-            setIsLoading(false);
-            Alert.alert("Éxito", "Perfil actualizado correctamente.");
+            const token = await AsyncStorage.getItem('token');
+            const idPersonal = await AsyncStorage.getItem('id_personal');
+            if (!idPersonal) {
+                console.error("No se encontró el ID del personal en el almacenamiento local.");
+                alert("Error al actualizar el perfil: No se encontró el ID del usuario.");
+                return;
+            }
+            const updatePayload = {
+                id_personal: idPersonal,
+                nombre,
+                apellido_pat: apellidoPat,
+                apellido_mat: apellidoMat,
+                email,
+                rol: "Mesero",
+                username,
+                password: newPassword
+            };
+
+            if (newPassword) {
+                updatePayload.password = newPassword;
+            }
+
+            const response = await fetch(`http://${IP}:8081/api/Proyecto_Integrador/personal/actualizar`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatePayload)
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok && responseData.status === 'OK') {
+                console.log('Perfil actualizado correctamente.');
+                alert('Perfil actualizado correctamente.');
+                await AsyncStorage.multiSet([
+                    ['token', token]
+                    ['id_personal', idPersonal]
+                    ['nombre', nombre],
+                    ['apellido_pat', apellidoPat],
+                    ['apellido_mat', apellidoMat],
+                    ['email', email],
+                    ['username', username],
+                ]);
+
+                navigation.replace('tab');
+            } else {
+                console.error('Error al actualizar el perfil: ', responseData.message);
+                alert('Error al actualizar el perfil: ' + responseData.message);
+            }
         } catch (error) {
-            setIsLoading(false);
-            Alert.alert("Error", error.message);
+            console.error(error);
+            alert('Error al actualizar el perfil. Por favor, intente de nuevo.');
         }
     };
 
-    const closeSession = () => {
-        navigation.replace('splash');
+    const signOut = async () => {
+        try {
+            await AsyncStorage.clear();
+            navigation.replace('login');
+        } catch (error) {
+            console.error("Error al cerrar sesión", error);
+            alert('Error al cerrar sesión.');
+        }
     };
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: image }}
-                style={styles.circulito}
-                onPress={selectImage} />
-            <TextInput
-                style={styles.input}
-                onChangeText={setNombre}
-                value={nombre}
-                placeholder="Usuario"
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={setCorreo}
-                value={correo}
-                placeholder="Correo Electronico"
-                keyboardType="email-address"
-            />
-
-            <Text>CONTRASEÑA</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setCurrentPassword}
-                value={currentPassword}
-                placeholder="Contraseña Actual"
-                secureTextEntry
-            />
-            <View style={styles.passwordContainer}>
+            <Text style={styles.header}>Perfil</Text>
+            <View style={styles.inputContainer}>
                 <TextInput
-                    style={[styles.input, styles.passwordInput]}
-                    onChangeText={setNewPassword}
-                    value={newPassword}
+                    style={styles.input}
+                    placeholder="Nombre"
+                    placeholderTextColor="#666"
+                    value={nombre}
+                    onChangeText={setNombre}
+                    autoCapitalize="words"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Apellido Paterno"
+                    placeholderTextColor="#666"
+                    value={apellidoPat}
+                    onChangeText={setApellidoPat}
+                    autoCapitalize="words"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Apellido Materno"
+                    placeholderTextColor="#666"
+                    value={apellidoMat}
+                    onChangeText={setApellidoMat}
+                    autoCapitalize="words"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Username"
+                    placeholderTextColor="#666"
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    placeholderTextColor="#666"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.input}
                     placeholder="Nueva Contraseña"
-                    secureTextEntry={!isNewPasswordVisible}
+                    placeholderTextColor="#666"
+                    value={newPassword}
+                    onChangeText={setNewPassword}
+                    secureTextEntry={true}
                 />
-                <TouchableOpacity onPress={() => setIsNewPasswordVisible(!isNewPasswordVisible)} style={styles.eyeIcon}>
-                    <Ionicons name={isNewPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.passwordContainer}>
                 <TextInput
-                    style={[styles.input, styles.passwordInput]}
-                    onChangeText={setConfirmNewPassword}
+                    style={styles.input}
+                    placeholder="Confirmar Nueva Contraseña"
+                    placeholderTextColor="#666"
                     value={confirmNewPassword}
-                    placeholder="Confirmar Nueva contraseña"
-                    secureTextEntry={!isConfirmNewPasswordVisible}
+                    onChangeText={setConfirmNewPassword}
+                    secureTextEntry={true} 
                 />
-                <TouchableOpacity onPress={() => setIsConfirmNewPasswordVisible(!isConfirmNewPasswordVisible)} style={styles.eyeIcon}>
-                    <Ionicons name={isConfirmNewPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
-                </TouchableOpacity>
             </View>
-            <View style={styles.buttonsContainer}>
-                <TouchableOpacity
-                    style={[styles.button, { backgroundColor: 'orange' }]}
-                    onPress={UpdateProfile}
-                    disabled={isLoading}
-                >
-                    {isLoading ? (
-                        <ActivityIndicator color="#FFF" />
-                    ) : (
-                        <Text style={styles.buttonText}>GUARDAR</Text>
-                    )}
+            <View style={styles.buttonGroup}>
+                <TouchableOpacity style={styles.button} onPress={updateProfile}>
+                    <Text style={styles.buttonText}>Actualizar Perfil</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={[styles.button, { backgroundColor: 'red', marginTop: 10 }]}
-                    onPress={closeSession}
-                >
-                    <Text style={styles.buttonText}>CERRAR SESIÓN</Text>
+                <TouchableOpacity style={[styles.button, styles.buttonLogout]} onPress={signOut}>
+                    <Text style={styles.buttonText}>Cerrar Sesión</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
+        flexGrow: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         padding: 20,
         backgroundColor: '#F1EFDB',
     },
-    circulito: {
-        borderRadius: 100,
-        width: 150,
-        height: 150,
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#F59456',
         marginBottom: 20,
     },
+    inputContainer: {
+        width: '100%',
+        paddingHorizontal: 20,
+    },
     input: {
-        height: 40,
-        marginVertical: 12,
+        height: 50,
+        width: '100%',
+        marginBottom: 15,
         borderWidth: 1,
+        borderColor: '#F59456',
         padding: 10,
-        borderRadius: 5,
+        borderRadius: 10,
+        fontSize: 16,
+        backgroundColor: 'white',
+        color: '#000',
+        shadowColor: '#F59456',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
+    buttonGroup: {
+        marginTop: 20,
         width: '100%',
-    },
-    passwordContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
-    passwordInput: {
-        flex: 1,
-    },
-    buttonsContainer: {
-        // Puedes ajustar esto para que se alinee como desees
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: 20,
     },
     button: {
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#F59456',
+        padding: 15,
+        borderRadius: 10,
         alignItems: 'center',
-        width: '80%', // Ajusta el ancho según necesites
+        marginBottom: 10,
+    },
+    buttonLogout: {
+        backgroundColor: '#d9534f',
     },
     buttonText: {
-        color: '#FFF',
+        color: 'white',
         fontSize: 16,
-    },
-    eyeIcon: {
-        position: 'absolute',
-        right: 10,
+        fontWeight: 'bold',
     },
 });

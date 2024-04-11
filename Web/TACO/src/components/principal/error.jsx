@@ -21,7 +21,7 @@ export const Error = () => {
             <img src={LogoTACO} alt="LogoTACO 404" className='logo-error' />
             <h1 className='error404'>404</h1>
             <p className='mensaje404'>Oops! Página no encontrada.</p>
-            <p className='mensaje404'>Lo sentimos, la página que estás buscando no existe.</p>
+            <p className='mensaje404'>Lo sentimos, la página que estás buscando no existe o no puedes acceder a ella.</p>
             <button onClick={volver} className='boton404'>Volver</button>
         </div>
       </div>

@@ -15,16 +15,23 @@
   margin-left: 20px;
   display: flex;
 }
-.mesa_container-caja{
-  height: 200px;
+.mesa_container-caja {
   width: 200px;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
+  height: 200px;
+  background-color: #f3f3f3;
   margin: 15px;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  transform-origin: center center; /* Punto de transformación centrado */
+}
+.mesa_container-caja:hover {
+  transform: translateY(-5px); /* Movimiento hacia arriba */
+  box-shadow: 0 7px 15px rgba(71, 100, 231, 0.91); /* Sombras más pronunciadas */
 }
 .mesa_container-caja p{
   font-size: 24px;
@@ -43,14 +50,19 @@
 }
 .cobrar-caja{
   background-color: #F59456;
-  color: #000000;
-  border: none;
-  padding: 5px;
-  border-radius: 20px;
-  cursor: pointer;
-  width: 80px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 14px;
+  color: white; /* Color del texto */
+  border: none; /* Quitamos el borde */
+  padding: 7px 15px; /* Espaciado interno aumentado */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor al pasar por encima */
+  transition: background-color 0.3s ease; /* Transición suave al cambiar de color */
+  font-family: Arial, sans-serif; /* Tipo de letra */
+  font-weight: bold; /* Añadimos negrita para mayor énfasis */
+  padding-top: 4.5%;
+}
+
+.cobrar-caja:hover{
+  background-color: #f7650b;
 }
 .container-para-mesas-caja{
   height: auto;
@@ -60,20 +72,20 @@
 }
 
 /*CONFIG*/
-body{
+body {
   background-color: rgb(255, 255, 255);
   height: auto;
   overflow: scroll;
   width: 100%;
 }
 
-.container-user-caja{
+.container-user-caja {
   margin-top: 20px;
   display: flex;
   flex-direction: row;
 }
 
-.container_imagen-caja{
+.container_imagen-caja {
   height: 450px;
   width: 45%;
   margin-left: 30px;
@@ -81,47 +93,79 @@ body{
   justify-content: center;
   align-items: center;
 }
-.container_imagen-caja img{
+
+.container_imagen-caja img {
   width: 300px;
   height: 300px;
 }
-.container_formulario-caja{
+
+.container_formulario-caja {
   height: 450px;
   width: 45%;
   margin-left: 20px;
   display: flex;
   padding-left: 40px;
+  transition: all 0.3s ease; /* Transición suave para cambios */
 }
-#password-caja, #usuario-caja, #email-caja{
+
+#password-caja,
+#usuario-caja,
+#email-caja {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
   display: block;
-  background-color: #B5B5C7;
+  background-color: #b5b5c7;
   border-radius: 10px;
   border: none;
   padding: 10px;
   width: 300px;
+  transition: background-color 0.3s ease; /* Transición de color de fondo suave */
 }
-.label-caja{
+
+#password-caja:focus,
+#usuario-caja:focus,
+#email-caja:focus {
+  background-color: #d1d1d1; /* Cambio de color de fondo al enfocar */
+}
+
+.label-caja {
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: rgb(0, 0, 0);
   margin-top: 20px;
   align-self: baseline;
   display: block;
   margin-bottom: 10px;
 }
-.boton-caja{
+
+.boton-caja {
   text-align: center;
   font-size: 20px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color: black;
   position: absolute;
   margin: 10px;
   margin-top: 40px;
-  background-color: #80809f; 
+  background-color: #80809f;
   border-radius: 10px;
   height: 50px;
   width: 200px;
+  transition: all 0.3s ease; /* Transición suave para cambios */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  border: none;
+  outline: none; /* Elimina el contorno predeterminado al enfocar */
 }
+
+.boton-caja:hover {
+  background-color: rgb(62, 62, 144); /* Cambio de color de fondo al pasar el mouse */
+  color: white; /* Cambio de color de texto al pasar el mouse */
+  transform: scale(1.05); /* Aumentar ligeramente el tamaño al pasar el mouse */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Efecto de sombra al pasar el mouse */
+}
+
+.boton-caja:active {
+  transform: scale(0.95); /* Reducir ligeramente el tamaño al hacer clic */
+  background-color: #5a5a7a; /* Cambiar el color de fondo al hacer clic */
+}
+

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './css/cajaNavBar.css';
 import './css/cajaBody.css';
-import MesaImg from "../../../public/assets/imgs/mesa.png"
+import Mesa from "../../../public/assets/imgs/mesa.png"
 import { NavBarCaja } from "./navbar";
 
 import axios from 'axios';
@@ -29,18 +29,6 @@ export const MesasCaja=()=>{
     getMesas();
   }, []);
 
-  /*useEffect(() => {
-    setTimeout(async () => {
-      setCount(count + 1);
-
-      const respuesta = await axios.get(urlMesas);
-      if(respuesta.data.data != mesas){
-        setMesas(respuesta.data.data);
-      }
-
-    }, 5000);
-  });*/
-
   const getMesas = async () => {
     const respuesta = await axios({
       method: 'GET',
@@ -52,6 +40,8 @@ export const MesasCaja=()=>{
     let mesaArray = [];
     for (let i = 0; i < respuesta.data.data.length; i++) {
       const element = respuesta.data.data[i];
+      //console.log("id de mesa")
+      //console.log(element.pedidoBean.mesaBean.id_mesas)
       if(element.status_de_Pago == false){
         mesaArray.push(element);
       }
@@ -60,7 +50,7 @@ export const MesasCaja=()=>{
     setMesas(mesaArray);
   }
 
-  const cobrarPedido = async (mesa, x) => {
+  const cobrarPedido = async (mesa) => {
     const peticion = await axios({
       method: 'GET',
       url: urlPedido,
@@ -69,51 +59,53 @@ export const MesasCaja=()=>{
       }
     });
     const respuesta = peticion.data.data;
-    //console.log("Peticion");
-    //console.log(peticion.data.data);
-
-    for (let i = 0; i < respuesta.length; i++) {
+  
+    for (let i = 0; i <= respuesta.length; i++) {
       const element = respuesta[i];
       
-      if(element.mesaBean.id_mesas == mesa.pedidoBean.idPedidos && element.statusP == true){
-        //console.log(element);
+      if (element.mesaBean.id_mesas === mesa.pedidoBean.mesaBean.id_mesas && element.statusP === false) {
+        console.log(`elemento`)
+        console.log(element.mesaBean.id_mesas)
+        console.log("id mesa")
+        console.log(mesa.pedidoBean.mesaBean.id_mesas)
         setIdPedido(element.idPedidos);
         setPersonal(element.personalBean);
         setMesa(mesa);
-        setNumero(element.mesaBean.id_mesas);
+        setNumero(mesa.pedidoBean.mesaBean.numero);
         setStatus(false);
         break;
         
-      } else if(element.statusP == false) {
+      } else if (element.statusP === true) {
         setIdPedido(0);
         setPersonal([]);
         setMesa([]);
-        setNumero(x);
+        setNumero(mesa.pedidoBean.mesaBean.numero);
         setStatus(true);
       }
     }
   }
+  
 
-    return (  
-        <>
-          <NavBarCaja selected={1} />
-          <div className="container-para-mesas-caja">
-            <div className="container_mesas-caja">
-            {mesas.map((mesa, i) => (
-              <div key={mesa.id_mesas} className="mesa_container-caja">
-                <p> Mesa {(i+1)} </p>
-                <img src={MesaImg} alt="Mesa" />
-                <div className="mesa_container_botones-caja">
-                <button className="cobrar-caja"  onClick={() => {cobrarPedido(mesa, mesa.id_mesas);} }>Cobrar</button>
-                </div>
+  return (
+    <>
+      <NavBarCaja selected={1} />
+      <div className="container-para-mesas-caja">
+        <div className="container_mesas-caja">
+          {mesas.map((mesa) => (
+            <div key={mesa.pedidoBean.mesaBean.id_mesas} className="mesa_container-caja">
+              <p> Mesa {mesa.pedidoBean.mesaBean.id_mesas} </p>
+              <img src={Mesa} alt="Mesa" />
+              <div className="mesa_container_botones-caja">
+                <button className="cobrar-caja" onClick={() => cobrarPedido(mesa)}>Cobrar</button>
               </div>
-            ))}                      
             </div>
-            
-            <div className="container_pedido-caja">
-              <Orden idPedido={idPedido} numMesa={numero} mesa={mesa} personal={personal} status={status} />
-            </div>
-          </div>
-        </>
-    )
+          ))}
+        </div>
+
+        <div className="container_pedido-caja">
+          <Orden idPedido={idPedido} numMesa={numero} mesa={mesa} personal={personal} status={status} />
+        </div>
+      </div>
+    </>
+  )
 }

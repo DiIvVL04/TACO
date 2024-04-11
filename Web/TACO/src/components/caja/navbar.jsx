@@ -37,8 +37,8 @@ export const NavBarCaja=({selected})=>{
                 </div>
                 <ul>
                     <button className={ selectedItem == 1 ? 'botoncito-caja2': 'botoncito-caja'} style={ selectedItem == 1 ? {border: '1px solid rgb(101, 101, 255)'} : {}} onClick={() => { window.location='/MesasCaja'}}>Mesas</button>
-                    <button className="bt-hover-caja" ></button>
-                    <button className="bt-hover-caja" ></button>
+                    <button className="bt-hover-caja" disabled></button>
+                    <button className="bt-hover-caja" disabled></button>
                     <button className={ selectedItem == 2 ? 'botoncito-caja2': 'botoncito-caja'} style={ selectedItem == 2 ? {border: '1px solid rgb(101, 101, 255)'} : {}} onClick={() => { window.location='/ConfigCaja'}}>Configuración</button>
                     <button className='botoncito-caja' onClick={() => cerrarSesion()}>Cerrar Sesión</button>
                 </ul>
