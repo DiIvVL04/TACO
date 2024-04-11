@@ -35,7 +35,7 @@ const CustomAlert = ({ visible, title, message, onDismiss }) => (
 
 export default function Login() {
     const urlPersonal = `http://${IP}:8081/api/Proyecto_Integrador/personal/obtener`;
-    const urlSignin =  `http://${IP}:8081/api/Proyecto_Integrador/auth/signin`;
+    const urlSignin = `http://${IP}:8081/api/Proyecto_Integrador/auth/signin`;
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
@@ -99,75 +99,81 @@ export default function Login() {
                         await AsyncStorage.setItem('apellido_mat', usuarioValido.apellido_mat || '');
                         await AsyncStorage.setItem('email', usuarioValido.email)
                         await AsyncStorage.setItem('username', usuarioValido.username)
-                        await AsyncStorage.setItem('password', usuarioValido.password)
-                        await AsyncStorage.setItem('id_personal', String(usuarioValido.id_personal));
-                        console.log("Guardando id_personal:", usuarioValido.id_personal);
+                        await AsyncStorage.setItem('id_personal', String(usuarioValido.idPersonal));
 
-                    navigation.replace("Tab");
+                        console.log("Guardando id_personal:", (usuarioValido.idPersonal));
+
+                        navigation.replace("Tab");
+                    } else {
+                        setTries(tries + 1);
+                        showAlert(
+                            "Acceso Denegado",
+                            `Usuario y/o Contraseña Incorrectos,
+    o no cuentas permisos de MESERO.
+    Intentos restantes: ${3 - tries - 1}`
+                        );
+                    }
                 } else {
-                    showAlert('Error', 'No fue posible iniciar sesión con los datos proporcionados', 'error');
+                    showAlert('Error', 'Username y/o contraseña incorrectos', 'error');
                 }
             } else {
-                showAlert('Error', 'Username y/o contraseña incorrectos', 'error');
+                showAlert('Error', 'No se encontraron usuarios', 'error');
             }
-        } else {
-            showAlert('Error', 'No se encontraron usuarios', 'error');
+        } catch (error) {
+            console.error('Error al iniciar sesión:', error);
+            showAlert('Error', 'Ocurrió un error inesperado durante el proceso de inicio de sesión', 'error');
+        } finally {
+            setIsLoginButtonDisabled(false);
         }
-    } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        showAlert('Error', 'Ocurrió un error inesperado durante el proceso de inicio de sesión', 'error');
-    } finally {
-        setIsLoginButtonDisabled(false);
-    }
-};
+    };
 
 
-return (
-    <View style={styles.container}>
-        <StatusBar hidden={true} />
-        <ImageBackground source={require("../assets/fondopho.gif")} style={styles.backgroundGIF}>
-            <Card containerStyle={styles.card}>
-                <Image style={styles.image} source={require("../assets/LogoTACO.png")} />
-                <TextInput
-                    style={styles.input}
-                    value={userName}
-                    onChangeText={setUserName}
-                    placeholder="Ingresa tu Usuario"
-                />
-                <View style={styles.passwordContainer}>
+    return (
+        <View style={styles.container}>
+            <StatusBar hidden={true} />
+            <ImageBackground source={require("../assets/fondopho.gif")} style={styles.backgroundGIF}>
+                <Card containerStyle={styles.card}>
+                    <Image style={styles.image} source={require("../assets/LogoTACO.png")} />
                     <TextInput
-                        style={[styles.input, { flex: 1 }]}
-                        value={password}
-                        onChangeText={setPassword}
-                        placeholder="Ingresa tu Contraseña"
-                        secureTextEntry={!isPasswordVisible}
+                        style={styles.input}
+                        value={userName}
+                        onChangeText={setUserName}
+                        placeholder="Ingresa tu Usuario"
                     />
-                    <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} style={styles.eye}>
-                        <Ionicons name={isPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
-                    </TouchableOpacity>
-                </View>
-                <Button
-                    buttonStyle={{ borderRadius: 10, marginTop: 10 }}
-                    color={"orange"}
-                    title="Iniciar Sesión"
-                    onPress={validateUser}
-                    disabled={isLoginButtonDisabled}
-                />
-                {showCountdown && (
-                    <Text style={{ color: 'red', marginTop: 10 }}>
-                        Demasiados intentos. Espera {countdown} segundos.
-                    </Text>
-                )}
-                <CustomAlert
-                    visible={alertInfo.visible}
-                    title={alertInfo.title}
-                    message={alertInfo.message}
-                    onDismiss={() => setAlertInfo({ ...alertInfo, visible: false })}
-                />
-            </Card>
-        </ImageBackground>
-    </View>
-);
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            style={[styles.input, { flex: 1 }]}
+                            value={password}
+                            onChangeText={setPassword}
+                            placeholder="Ingresa tu Contraseña"
+                            secureTextEntry={!isPasswordVisible}
+                        />
+                        <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)} style={styles.eye}>
+                            <Ionicons name={isPasswordVisible ? "eye-off" : "eye"} size={24} color="grey" />
+                        </TouchableOpacity>
+                    </View>
+                    <Button
+                        buttonStyle={{ borderRadius: 10, marginTop: 10 }}
+                        color={"orange"}
+                        title="Iniciar Sesión"
+                        onPress={validateUser}
+                        disabled={isLoginButtonDisabled}
+                    />
+                    {showCountdown && (
+                        <Text style={{ color: 'red', marginTop: 10 }}>
+                            Demasiados intentos. Espera {countdown} segundos.
+                        </Text>
+                    )}
+                    <CustomAlert
+                        visible={alertInfo.visible}
+                        title={alertInfo.title}
+                        message={alertInfo.message}
+                        onDismiss={() => setAlertInfo({ ...alertInfo, visible: false })}
+                    />
+                </Card>
+            </ImageBackground>
+        </View>
+    );
 }
 
 
@@ -183,7 +189,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     card: {
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "rgba(0,0,0,1)",
         borderRadius: 10,
         padding: 20,
         alignItems: "center",

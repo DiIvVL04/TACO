@@ -40,14 +40,11 @@ export default function Perfil({ navigation }) {
     }, []);
 
     const updateProfile = async () => {
-        if (newPassword && newPassword !== confirmNewPassword) {
-            alert('Las contraseñas nuevas no coinciden.');
-            return;
-        }
         try {
             const token = await AsyncStorage.getItem('token');
-            const idPersonal = await AsyncStorage.getItem('id_personal');
-            if (!idPersonal) {
+            const idPersonalStr = await AsyncStorage.getItem('id_personal');
+            const idPersonal = parseInt(idPersonalStr);
+            if (!idPersonal || isNaN(idPersonal)) {
                 console.error("No se encontró el ID del personal en el almacenamiento local.");
                 alert("Error al actualizar el perfil: No se encontró el ID del usuario.");
                 return;
@@ -56,11 +53,10 @@ export default function Perfil({ navigation }) {
                 id_personal: idPersonal,
                 nombre,
                 apellido_pat: apellidoPat,
-                apellido_mat: apellidoMat,
+                apellido_mat: apellidoMat || "",
                 email,
                 rol: "Mesero",
                 username,
-                password: newPassword
             };
 
             if (newPassword) {
@@ -82,16 +78,16 @@ export default function Perfil({ navigation }) {
                 console.log('Perfil actualizado correctamente.');
                 alert('Perfil actualizado correctamente.');
                 await AsyncStorage.multiSet([
-                    ['token', token]
-                    ['id_personal', idPersonal]
+                    ['token', token],
+                    ['id_personal', toString(idPersonal)],
                     ['nombre', nombre],
                     ['apellido_pat', apellidoPat],
-                    ['apellido_mat', apellidoMat],
+                    ['apellido_mat', apellidoMat || ''],
                     ['email', email],
                     ['username', username],
                 ]);
 
-                navigation.replace('tab');
+                navigation.replace('Tab');
             } else {
                 console.error('Error al actualizar el perfil: ', responseData.message);
                 alert('Error al actualizar el perfil: ' + responseData.message);
@@ -102,13 +98,20 @@ export default function Perfil({ navigation }) {
         }
     };
 
+
     const signOut = async () => {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem('token');
+            await AsyncStorage.removeItem('nombre');
+            await AsyncStorage.removeItem('apellido_pat');
+            await AsyncStorage.removeItem('apellido_mat');
+            await AsyncStorage.removeItem('email')
+            await AsyncStorage.removeItem('username')
+            await AsyncStorage.removeItem('id_personal');
+
             navigation.replace('login');
         } catch (error) {
             console.error("Error al cerrar sesión", error);
-            alert('Error al cerrar sesión.');
         }
     };
 
@@ -164,14 +167,6 @@ export default function Perfil({ navigation }) {
                     value={newPassword}
                     onChangeText={setNewPassword}
                     secureTextEntry={true}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Confirmar Nueva Contraseña"
-                    placeholderTextColor="#666"
-                    value={confirmNewPassword}
-                    onChangeText={setConfirmNewPassword}
-                    secureTextEntry={true} 
                 />
             </View>
             <View style={styles.buttonGroup}>

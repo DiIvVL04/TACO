@@ -8,6 +8,7 @@ import Mesas from "./screens/mesas"
 import Menu from "./screens/menu"
 import Codigo from "./screens/codigo"
 import Perfil from "./screens/perfil"
+import Pedidos from "./screens/pedidos";
 
 
 const Stack = createNativeStackNavigator();
@@ -38,6 +39,9 @@ export default function App() {
 
         <Stack.Screen options={{ headerShown: false }}
           name='codigo' component={Codigo} />
+
+        <Stack.Screen options={{ headerShown: false }}
+          name='pedidos' component={Pedidos} />
 
       </Stack.Navigator>
     </NavigationContainer>
