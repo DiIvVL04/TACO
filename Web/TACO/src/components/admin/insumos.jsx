@@ -86,7 +86,16 @@ export const InsumosAdmin = () => {
       url = 'actualizar';
     }
 
-    let parametros = {
+    if(nombre.trim() == '' || nombre == undefined){
+      Swal.fire("Nombre Vacío", "El campo de nombre se encuentra vacío" ,"warning")
+    } else if(descripcion.trim() == '' || descripcion == undefined){
+      Swal.fire("Descripción Vacío", "El campo de descripción se encuentra vacío" ,"warning")
+    } else if(stock.trim() == '' || stock == undefined){
+      Swal.fire("Stock Vacío", "El campo de stock se encuentra vacío" ,"warning")
+    } else if(precio.trim() == '' || precio == undefined){
+      Swal.fire("Precio Vacío", "El campo de precio se encuentra vacío" ,"warning")
+    } else {
+      let parametros = {
       idPlatillos: idPlatillo,
       nombre: nombre,
       descripcion: descripcion,
@@ -95,8 +104,10 @@ export const InsumosAdmin = () => {
       precio: precio,
       status: true
     }
-
     enviar(metodo, parametros, url);
+  }
+
+    
   }
 
 
@@ -134,10 +145,10 @@ export const InsumosAdmin = () => {
 
   const alertCreatePlatillo = (event, metodo, accion) => {
     event.preventDefault();
-    if (stock < 0) {
+    if (stock < 0 || precio < 0) {
       Swal.fire({
         title: "Error",
-        text: "El stock no puede ser negativo",
+        text: "El stock o precio no puede ser negativo",
         icon: "error"
       });
       return;
@@ -153,20 +164,29 @@ export const InsumosAdmin = () => {
       confirmButtonText: "Agregar"
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
+        /*Swal.fire({
           title: "Platillo creado",
           text: "Se ha añadido un nuevo platillo",
           icon: "success"
         }).then(() => {
           validar(metodo, accion);
           window.location.reload();
-        });
+        });*/
+        validar(metodo, accion)
       }
-    });
+    })
   }
 
-  const alertUpdatePlatillo = (event, metodo, accion) => {
+const alertUpdatePlatillo = (event, metodo, accion) => {
     event.preventDefault()
+    if (stock < 0 || precio < 0) {
+      Swal.fire({
+        title: "Error",
+        text: "El stock o precio no puede ser negativo",
+        icon: "error"
+      });
+      return;
+    }   
     Swal.fire({
       title: "Actualizar platillo",
       text: "¿Está seguro de actualizar el platillo actual?",
@@ -191,6 +211,7 @@ export const InsumosAdmin = () => {
     });
   }
 
+
   const enviar = async (metodo, parametros, url) => {
     try {
       const respuesta = await axios({
@@ -202,7 +223,27 @@ export const InsumosAdmin = () => {
         }
       });
 
+      console.log(metodo);
       if (respuesta.status === 200) {
+        switch(metodo){
+          case "POST":
+            closeModal()
+            Swal.fire({
+              title: "Platillo creado",
+              text: "Se ha añadido un nuevo platillo",
+              icon: "success"
+            })
+            break;
+
+          case "PUT":
+            closeModalEdit()
+            Swal.fire({
+              title: "Platillo Actualizado",
+              text: "Se ha actualizado el platillo",
+              icon: "success"
+            })
+            break;
+        }
       } else {
         throw new Error("Error en la solicitud");
       }

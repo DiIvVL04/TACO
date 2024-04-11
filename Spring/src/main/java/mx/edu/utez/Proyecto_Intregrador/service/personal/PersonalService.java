@@ -58,7 +58,7 @@ public class PersonalService {
     @Transactional(rollbackFor = {SQLException.class})
     public ResponseEntity<ApiResponse> update(PersonalBean personal){
         Optional<PersonalBean> foundPersonal = repository.findById(personal.getIdPersonal());
-        personal.setPassword(encoder.encode(personal.getPassword()));
+        //personal.setPassword(encoder.encode(personal.getPassword()));
         if(foundPersonal.isPresent())
             return new ResponseEntity<>(new ApiResponse(repository.saveAndFlush(personal), HttpStatus.OK, "Personal Actualziado Correctamente"), HttpStatus.OK);
 
@@ -75,6 +75,23 @@ public class PersonalService {
         }else{
             return new ResponseEntity<>(new ApiResponse(HttpStatus.BAD_REQUEST, true, "Personal No Encontrado"), HttpStatus.BAD_REQUEST);
 
+        }
+    }
+
+    @Transactional(rollbackFor = {SQLException.class})
+    public ResponseEntity<ApiResponse> recuperarPassword(String nombreUsuario, String nuevaContrasenia, String correo) {
+        Optional<PersonalBean> foundPersona = repository.findFirstByUsername(nombreUsuario);
+
+        if (foundPersona.isPresent()) {
+            PersonalBean persona = foundPersona.get();
+            String encrypted = encoder.encode(nuevaContrasenia);
+            persona.setPassword(encrypted);
+            persona.setEmail(correo);
+            repository.save(persona);
+
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "Contraseña actualizada correctamente"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "Usuario no encontrado"), HttpStatus.NOT_FOUND);
         }
     }
 

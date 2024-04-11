@@ -10,9 +10,14 @@ export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const urlPersonal =
     "http://localhost:8081/api/Proyecto_Integrador/personal/obtener";
   const urlSignin = "http://localhost:8081/api/Proyecto_Integrador/auth/signin";
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   //codigo del casillero de Carlos: 023
   const iniciarSesion = async () => {
@@ -131,16 +136,25 @@ export const Login = () => {
               </div>
               <div>
                 <label className="chi-princ">Contraseña</label>
-                <input
-                  className="input-princ"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  name="password"
-                  placeholder="Contraseña"
-                  type="password"
-                  required
-                />
+                <div style={{ position: "relative" }}>
+                  <input
+                    className="input-princ"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    placeholder="Contraseña"
+                    type={showPassword ? "text" : "password"}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="eye-icon"
+                    onClick={togglePasswordVisibility}
+                    style={{position: "absolute",right: "10px",top: "50%",transform: "translateY(-50%)",background: "none",border: "none",cursor: "pointer",}}>
+                    {showPassword ? "👁️" : "👁️"}
+                  </button>
+                </div>
                 <button
                   type="submit"
                   className="boton-princ"
